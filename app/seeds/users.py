@@ -21,10 +21,10 @@ def seed_users():
         username='Sanford and Sons Pet Supplies', email='sanford@aa.io', password='password')
     miller = User(
         username='Miller Pets', email='miller@aa.io', password='password')
-    joe = User(
-        username="Joe Exotic's Tiger Supplies", email='joe@aa.io', password='password')
     cozey = User(
         username='Cozey Critters', email='cozey@aa.io', password='password')
+    joe = User(
+        username="Joe Exotic's Supplies", email='joe@aa.io', password='password')
     pitbull = User(
         username="Mr Worldwide's Pitbull Store", email='pitbull@aa.io', password='password')
     chris = User(
