@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from flask_login import login_required, current_user, login_user
+from flask_login import login_required, current_user
 from sqlalchemy.orm import joinedload
 from ..models import db, Product, Review, OrderProduct, ProductImage
 from ..forms.item_form import CreateEditProductForm
@@ -32,9 +32,21 @@ def create_item():
         db.session.add(new_product)
         db.session.commit()
 
+        # Adds item images if provided
+        if form.data['images_urls']:
+            url_lst = form.data['images_urls'].split(', ')
+            for url in url_lst:
+                new_image = ProductImage(
+                    product_id = new_product.id,
+                    url = url,
+                    preview_image = True if url_lst.index(url) == 0 else False # Makes first listed url the preview image
+                )
+                db.session.add(new_image)
+                db.session.commit()
+
         # Gets all reviews of shop then calculates avg rating
         # Uses current user id since current user will always be seller when creating item
-        reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(Review.product)).all()
+        reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         avg_rating = 0
         for review in reviews:
             avg_rating += review.rating
@@ -42,14 +54,14 @@ def create_item():
 
         # Gets all reviews of store then calculates number of sales
         # Uses current user id since current user will always be seller/store owner when creating item
-        orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(OrderProduct.product)).all()
+        orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         sales = 0
         for order in orders:
             sales += order.quantity
 
         final_product = {
             "id": new_product.id,
-            "sellerId": current_user.get_id(),
+            "sellerId": current_user.id,
             "name": new_product.name,
             "shopName": current_user.username,
             "price": new_product.price,
@@ -58,7 +70,7 @@ def create_item():
             "description": new_product.description,
             "shopReviews": len(reviews),
             "itemReviews": 0,
-            "imageURLs": []
+            "imageURLs": form.data['images_urls'].split(', ') if form.data['images_urls'] else [] # Turns urls into list if provided else it will equal an empty list
         }
 
         return final_product
@@ -92,7 +104,7 @@ def edit_product(product_id):
 
         # Gets all reviews of shop then calculates avg rating
         # Uses current user id since current user must be the seller to be able to edit item
-        shop_reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(Review.product)).all()
+        shop_reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         avg_rating = 0
         for review in shop_reviews:
             avg_rating += review.rating
@@ -100,7 +112,7 @@ def edit_product(product_id):
 
         # Gets all reviews of store then calculates number of sales
         # Uses current user id since current user must be the seller to be able to edit item
-        orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(OrderProduct.product)).all()
+        orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         sales = 0
         for order in orders:
             sales += order.quantity
