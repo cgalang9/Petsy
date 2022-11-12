@@ -152,7 +152,6 @@ def delete_product(product_id):
     return { "message": "Successfully deleted" }
 
 
-# add an image to an item by item id, and Get all reviews by id
 @item_routes.post('/<int:product_id>/images')
 @login_required
 def add_image(product_id):
@@ -182,3 +181,34 @@ def add_image(product_id):
         return { 'id': new_image.id, 'url': new_image.url, 'preview_image': new_image.preview_image}
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@item_routes.get('/<int:product_id>/reviews')
+def get_reviews_by_item(product_id):
+    """
+    Get all reviews by item Id
+    """
+    current_product = Product.query.get(product_id)
+
+    if current_product == None:
+        return {"message": "Item could not be found"}, 404
+
+    reviews = Review.query.filter(Review.product_id == product_id).options(joinedload(Review.user)).options(joinedload(Review.product)).all()
+
+    review_lst = []
+    for review in reviews:
+        user_obj = {'id': review.user.id, 'username': review.user.username}
+
+        review_data = {
+            'id': review.id,
+            'user': user_obj,
+            'sellerId': review.product.user_id,
+            'itemId': review.product.id,
+            'starRating': review.rating,
+            'text': review.text,
+            'date': review.date_created,
+        }
+        review_lst.append(review_data)
+
+
+    return { "itemReviews": review_lst }
