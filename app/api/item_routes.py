@@ -1,8 +1,9 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user, login_user
 from sqlalchemy.orm import joinedload
-from ..models import db, Product, Review, OrderProduct, User
-from ..forms.create_item_form import CreateProductForm
+from ..models import db, Product, Review, OrderProduct, ProductImage
+from ..forms.item_form import CreateEditProductForm
+from .auth_routes import validation_errors_to_error_messages
 
 item_routes = Blueprint('items', __name__)
 
@@ -18,7 +19,7 @@ def create_item():
     """
     Creates/posts a new item
     """
-    form = CreateProductForm()
+    form = CreateEditProductForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         new_product = Product(
@@ -43,7 +44,7 @@ def create_item():
         for order in orders:
             sales += order.quantity
 
-        prod = {
+        final_product = {
             "id": new_product.id,
             "sellerId": current_user.get_id(),
             "name": new_product.name,
@@ -57,11 +58,70 @@ def create_item():
             "imageURLs": []
         }
 
-        return prod
+        return final_product
     else:
-        return 'error'
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-        # return prod
-    # else:
-    #     return '<h1>Bad Data</h1>'
+@item_routes.put('/<int:product_id>')
+@login_required
+def edit_product(product_id):
+    """
+    Edit an item by item id
+    """
+    form = CreateEditProductForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        current_product = Product.query.get(product_id)
+
+        if current_product == None:
+            return {"message": "Item could not be found"}, 404
+
+        if current_product.user_id != current_user.get_id():
+            return {'errors': ['Unauthorized']}, 401
+
+
+        current_product.name = form.data['name']
+        current_product.price = form.data['price']
+        current_product.description = form.data['description']
+
+        db.session.commit()
+
+        # Gets all reviews of shop then calculates avg rating
+        # Uses current user id since only current user must be the seller to be able to edit item
+        shop_reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(Review.product)).all()
+        avg_rating = 0
+        for review in shop_reviews:
+            avg_rating += review.rating
+        avg_rating /= len(shop_reviews)
+
+        # Gets all reviews of store then calculates number of sales
+        # Uses current user id since only current user must be the seller to be able to edit item
+        orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(OrderProduct.product)).all()
+        sales = 0
+        for order in orders:
+            sales += order.quantity
+
+        # Gets all reviews of item
+        item_reviews_count = Product.query.join(Review).filter(Review.product_id == current_product.id).count()
+
+        # Gets all image URLs
+        images = ProductImage.query.filter(ProductImage.product_id == current_product.id).all()
+
+        final_product = {
+            "id": current_product.id,
+            "sellerId": current_user.get_id(),
+            "name": current_product.name,
+            "shopName": current_user.username,
+            "price": current_product.price,
+            "avgShopRating": avg_rating,
+            "shopSales": sales,
+            "description": current_product.description,
+            "shopReviews": len(shop_reviews),
+            "itemReviews": item_reviews_count,
+            "imageURLs": [image.url for image in images]
+        }
+
+        return final_product
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
