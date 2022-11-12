@@ -17,6 +17,6 @@ class Review(db.Model):
     text = db.Column(db.String(255), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.today())
 
-    user = db.relationship('User', back_populates='reviews', cascade="all, delete-orphan")
-    product = db.relationship('Product', back_populates='reviews', cascade="all, delete-orphan")
-    review_images = db.relationship('ReviewImage', back_populates='review_images')
+    user = db.relationship('User', back_populates='reviews')
+    product = db.relationship('Product', back_populates='reviews')
+    review_images = db.relationship('ReviewImage', back_populates='review', cascade="all, delete-orphan")

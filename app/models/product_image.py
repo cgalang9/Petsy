@@ -13,4 +13,4 @@ class ProductImage(db.Model):
     url = db.Column(db.String(2048), nullable=False)
     preview_image = db.Column(db.Boolean, nullable=False)
 
-    product = db.relationship('Product', back_populates='product_images', cascade="all, delete-orphan")
+    product = db.relationship('Product', back_populates='product_images')
