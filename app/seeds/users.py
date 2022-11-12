@@ -24,7 +24,7 @@ def seed_users():
     cozey = User(
         username='Cozey Critters', email='cozey@aa.io', password='password')
     joe = User(
-        username="Joe Exotic's Supplies", email='joe@aa.io', password='password')
+        username="Joe Exotic's Pet Supplies", email='joe@aa.io', password='password')
     pitbull = User(
         username="Mr Worldwide's Pitbull Store", email='pitbull@aa.io', password='password')
     chris = User(
