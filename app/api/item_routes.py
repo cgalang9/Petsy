@@ -31,14 +31,16 @@ def create_item():
         db.session.add(new_product)
         db.session.commit()
 
-        #Gets all reviews of store then calculates avg rating
+        # Gets all reviews of shop then calculates avg rating
+        # Uses current user id since current user will always be seller when creating item
         reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(Review.product)).all()
         avg_rating = 0
         for review in reviews:
             avg_rating += review.rating
         avg_rating /= len(reviews)
 
-        #Gets all reviews of store then calculates number of sales
+        # Gets all reviews of store then calculates number of sales
+        # Uses current user id since current user will always be seller/store owner when creating item
         orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(OrderProduct.product)).all()
         sales = 0
         for order in orders:
@@ -77,7 +79,7 @@ def edit_product(product_id):
         if current_product == None:
             return {"message": "Item could not be found"}, 404
 
-        if current_product.user_id != current_user.get_id():
+        if current_product.user_id != int(current_user.get_id()):
             return {'errors': ['Unauthorized']}, 401
 
 
@@ -88,7 +90,7 @@ def edit_product(product_id):
         db.session.commit()
 
         # Gets all reviews of shop then calculates avg rating
-        # Uses current user id since only current user must be the seller to be able to edit item
+        # Uses current user id since current user must be the seller to be able to edit item
         shop_reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(Review.product)).all()
         avg_rating = 0
         for review in shop_reviews:
@@ -96,7 +98,7 @@ def edit_product(product_id):
         avg_rating /= len(shop_reviews)
 
         # Gets all reviews of store then calculates number of sales
-        # Uses current user id since only current user must be the seller to be able to edit item
+        # Uses current user id since current user must be the seller to be able to edit item
         orders = OrderProduct.query.join(Product).filter(Product.user_id == current_user.get_id()).options(joinedload(OrderProduct.product)).all()
         sales = 0
         for order in orders:
@@ -125,3 +127,27 @@ def edit_product(product_id):
         return final_product
     else:
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+    # add an image to an item by item id, and Get all reviews by id
+
+@item_routes.delete('/<int:product_id>')
+@login_required
+def delete_product(product_id):
+    """
+    Delete an item by item id
+    """
+    current_product = Product.query.get(product_id)
+    print(type(current_user.get_id()))
+    print(type(current_product.user_id))
+
+    if current_product == None:
+        return {"message": "Item could not be found"}, 404
+
+    if current_product.user_id != int(current_user.get_id()):
+        return {'errors': ['Unauthorized']}, 401
+
+    db.session.delete(current_product)
+    db.session.commit()
+
+    return { "message": "Successfully deleted" }
