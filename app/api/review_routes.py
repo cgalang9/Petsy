@@ -15,13 +15,13 @@ def delete_review(id):
     """
     deletes review by review id
     """
-    delete_review = Review.query.get(id)
-    if not delete_review:
+    deleted_review = Review.query.get(id)
+    if not deleted_review:
         return {"message": "Review not found"}, 404
-    elif current_user.is_authenticated and delete_review.user_id == current_user.id:
-        db.session.delete(delete_review)
+    elif current_user.is_authenticated and deleted_review.user_id == current_user.id:
+        db.session.delete(deleted_review)
         db.session.commit()
-        return {"message": "Successfully deleted"}
+        return {"message": "Review Successfully deleted"}
     else:
         return {"message": "Forbidden"}, 403
 
