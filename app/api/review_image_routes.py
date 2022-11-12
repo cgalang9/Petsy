@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask_login import current_user
+from flask_login import current_user, login_required
 from app.models import Review, ReviewImage, db
 
 review_image_routes = Blueprint('reviewImages', __name__)
@@ -10,6 +10,7 @@ def test_route():
 
 
 @review_image_routes.delete('/<int:id>')
+@login_required
 def delete_review_image(id):
     """
     deletes review image by review image id
