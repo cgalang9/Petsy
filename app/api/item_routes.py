@@ -75,7 +75,7 @@ def create_item():
 
         return final_product
     else:
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
 @item_routes.put('/<int:product_id>')
@@ -93,7 +93,7 @@ def edit_product(product_id):
             return {"message": "Item could not be found"}, 404
 
         if current_product.user_id != int(current_user.get_id()):
-            return {'errors': ['Unauthorized']}, 401
+            return {"message": "Forbidden"}, 403
 
 
         current_product.name = form.data['name']
@@ -139,7 +139,7 @@ def edit_product(product_id):
 
         return final_product
     else:
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
 @item_routes.delete('/<int:product_id>')
@@ -156,7 +156,7 @@ def delete_product(product_id):
         return {"message": "Item could not be found"}, 404
 
     if current_product.user_id != int(current_user.get_id()):
-        return {'errors': ['Unauthorized']}, 401
+        return {"message": "Forbidden"}, 403
 
     db.session.delete(current_product)
     db.session.commit()
@@ -179,7 +179,7 @@ def add_image(product_id):
             return {"message": "Item could not be found"}, 404
 
         if current_product.user_id != int(current_user.get_id()):
-            return {'errors': ['Unauthorized']}, 401
+            return {"message": "Forbidden"}, 403
 
         new_image = ProductImage(
             product_id = product_id,
@@ -192,7 +192,7 @@ def add_image(product_id):
 
         return { 'id': new_image.id, 'url': new_image.url, 'preview_image': new_image.preview_image}
     else:
-        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
 @item_routes.get('/<int:product_id>/reviews')
