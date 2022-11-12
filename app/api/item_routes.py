@@ -3,6 +3,7 @@ from flask_login import login_required, current_user, login_user
 from sqlalchemy.orm import joinedload
 from ..models import db, Product, Review, OrderProduct, ProductImage
 from ..forms.item_form import CreateEditProductForm
+from ..forms.add_image_form import AddImageForm
 from .auth_routes import validation_errors_to_error_messages
 
 item_routes = Blueprint('items', __name__)
@@ -129,8 +130,6 @@ def edit_product(product_id):
         return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
-    # add an image to an item by item id, and Get all reviews by id
-
 @item_routes.delete('/<int:product_id>')
 @login_required
 def delete_product(product_id):
@@ -151,3 +150,35 @@ def delete_product(product_id):
     db.session.commit()
 
     return { "message": "Successfully deleted" }
+
+
+# add an image to an item by item id, and Get all reviews by id
+@item_routes.post('/<int:product_id>/images')
+@login_required
+def add_image(product_id):
+    """
+    Add image of item by item id
+    """
+    form = AddImageForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        current_product = Product.query.get(product_id)
+
+        if current_product == None:
+            return {"message": "Item could not be found"}, 404
+
+        if current_product.user_id != int(current_user.get_id()):
+            return {'errors': ['Unauthorized']}, 401
+
+        new_image = ProductImage(
+            product_id = product_id,
+            url = form.data['url'],
+            preview_image = form.data['preview_image']
+        )
+
+        db.session.add(new_image)
+        db.session.commit()
+
+        return { 'id': new_image.id, 'url': new_image.url, 'preview_image': new_image.preview_image}
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 401
