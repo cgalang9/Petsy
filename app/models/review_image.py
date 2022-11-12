@@ -12,4 +12,4 @@ class ReviewImage(db.Model):
     review_id = db.Column(db.Integer, db.ForeignKey(Review.id))
     url = db.Column(db.String(2048), nullable=False)
 
-    review = db.relationship('Review', back_populates='review_images', cascade="all, delete-orphan")
+    review = db.relationship('Review', back_populates='review_images')
