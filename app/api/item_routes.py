@@ -7,14 +7,6 @@ from ..forms.item_form import CreateEditProductForm
 from ..forms.add_image_form import AddImageForm
 from .auth_routes import validation_errors_to_error_messages
 
-item_routes = Blueprint('items', __name__)
-
-from flask import Blueprint, request
-from flask_login import login_required, current_user
-from sqlalchemy import or_, and_
-from sqlalchemy.orm import joinedload
-from ..models import db, Product, Review, OrderProduct, ProductImage, User
-from ..forms.create_item_form import CreateProductForm
 
 item_routes = Blueprint('items', __name__)
 
