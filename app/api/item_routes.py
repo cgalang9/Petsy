@@ -1,18 +1,122 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
+from sqlalchemy import or_, and_
 from sqlalchemy.orm import joinedload
-from ..models import db, Product, Review, OrderProduct, ProductImage
+from ..models import db, Product, Review, OrderProduct, ProductImage, User
 from ..forms.item_form import CreateEditProductForm
 from ..forms.add_image_form import AddImageForm
 from .auth_routes import validation_errors_to_error_messages
 
 item_routes = Blueprint('items', __name__)
 
-@item_routes.route('/test')
-def test_route():
-    return 'items'
+from flask import Blueprint, request
+from flask_login import login_required, current_user
+from sqlalchemy import or_, and_
+from sqlalchemy.orm import joinedload
+from ..models import db, Product, Review, OrderProduct, ProductImage, User
+from ..forms.create_item_form import CreateProductForm
+
+item_routes = Blueprint('items', __name__)
+
+@item_routes.get('/')
+def all_items():
+    page = 1
+    size = 20
+    min_price = -float('inf')
+    max_price = float('inf')
+    keywords = []
+    seller_id = None
+
+    if "page" in request.args:
+        page = int(request.args["page"])
+
+    if "size" in request.args:
+        size = int(request.args["size"])
+
+    if "min_price" in request.args:
+        min_price = int(request.args["min_price"])
+
+    if "max_price" in request.args:
+        max_price = int(request.args["max_price"])
+
+    if "keywords" in request.args:
+        keywords = [keyword.lower() for keyword in request.args["keywords"].split()]
+
+    if "seller_id" in request.args:
+        seller_id = request.args["seller_id"]
+    
+
+    keywords_condition = or_(*[Product.name.ilike(f"%{kw}%") for kw in keywords], *[Product.description.ilike(f"%{kw}%") for kw in keywords])
+    price_condition = and_(Product.price >= min_price, Product.price <= max_price)
+
+    queried_products = Product.query.filter(price_condition, keywords_condition).limit(size).offset((page - 1) * size)
+
+    constructed_products = []
+
+    for product in queried_products:
+        constructed_product = dict()
+        
+        shop_name = User.query.get(product.user_id).username
+        shop_reviews = Review.query.join(Review.product).filter(Product.user_id == product.user_id)
+        review_ratings = [review.rating for review in shop_reviews]
+        num_shop_reviews = len(review_ratings)
+        avg_shop_rating = round(sum(review_ratings) / (len(review_ratings) or 1), 2)
+        preview_image = ProductImage.query.filter(ProductImage.product_id == product.id)[0]
+
+        constructed_product = {
+            "id": product.id,
+            "sellerId": product.user_id,
+            "name": product.name,
+            "avgShopRating": avg_shop_rating,
+            "shopReviews": num_shop_reviews,
+            "price": product.price,
+            "shopName": shop_name,
+            "previewImageURL": preview_image.url,
+        }
+
+        constructed_products.append(constructed_product)
+        print("SHOP REVIEWSSSSSS", shop_name, shop_reviews)
+
+    return {
+        "items": [product for product in constructed_products]
+    }
+
+@item_routes.get("/<int:id>")
+def item_by_id(id):
+    product = Product.query.get(id)
+
+    if not product:
+        return {
+            "message": "Item could not be found"
+        }, 404
+
+    seller_name = User.query.get(product.user_id).username
+    shop_reviews = Review.query.join(Review.product).filter(Product.user_id == product.user_id)
+    shop_review_ratings = [review.rating for review in shop_reviews]
+    item_review_ratings = [review.rating for review in shop_reviews if review.product_id == product.id]
+    avg_rating = round(sum(shop_review_ratings) / (len(shop_review_ratings) or 1), 2)
+    shop_orders = OrderProduct.query.join(OrderProduct.product).filter(Product.user_id == product.user_id)
+    shop_sales = sum([order.quantity for order in shop_orders])
+    images = ProductImage.query.filter(ProductImage.product_id == product.id)
+    image_urls = [image.url for image in images]
+
+    
+    constructed_product = {
+        "sellerId": product.user_id,
+        "name": product.name,
+        "shopName": seller_name,
+        "avgShopRating": avg_rating,
+        "shopSales": shop_sales,
+        "description": product.description,
+        "shopReviews": len(shop_review_ratings),
+        "itemReviews": len(item_review_ratings),
+        "imageURLs": image_urls
+    }
 
 
+    return constructed_product
+
+    
 
 @item_routes.post('/')
 @login_required
