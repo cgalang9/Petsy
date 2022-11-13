@@ -243,7 +243,7 @@ def create_review(product_id):
         return {"message": "item not found"}, 404
 
 
-    # assign shorter form name and check for csrf_token
+    # assign shorter form name and get csrf_token
     form = CreateEditReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -259,10 +259,8 @@ def create_review(product_id):
         )
         db.session.add(new_review)
         db.session.commit()
-        print(new_review)
+
         # format response body
-
-
         new_review_details = {
             "id": new_review.id,
             "user": {"name": current_user.username},
