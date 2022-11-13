@@ -13,6 +13,8 @@ def get_seller_reviews(id):
 
     print(seller_id)
 
+
+
     seller_reviews = db.session.query(
                                     Review.id,
                                     Product.user_id.label("sellerId"),
@@ -21,7 +23,7 @@ def get_seller_reviews(id):
                                     Review.text,
                                     Product.id.label("itemId"),
                                     Product.name,
-                                    User.username.label("shopName")
+                                    User.username
                                     ).join(
                                     Product, Review.product_id == Product.id
                                     ).join(
@@ -32,17 +34,16 @@ def get_seller_reviews(id):
     seller_reviews = [
                 {
                     "id": row.id,
-                    "user" : { "name": row.user },
+                    "user" : { "name": row.username },
                     "sellerId": row.sellerId,
+                    "itemId": row.itemId,
                     "text": row.text,
-                    "starRating": row.rating,
-                    "date": row.date_created
-                } for row in seller_reviews if row.user_id == seller_id
-            ]
+                    "date": row.date_created,
+                    "starRating": row.rating
+                } for row in seller_reviews if row.sellerId == seller_id
+                    ]
 
     if seller_reviews:
         return jsonify({"sellerReviews": seller_reviews})
     else:
-        return {"message": "Forbidden"}, 403
-
-    return "getsellerreviews"
+        return {"message": "seller not found"}, 404
