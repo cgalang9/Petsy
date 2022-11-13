@@ -67,7 +67,6 @@ def all_items():
         }
 
         constructed_products.append(constructed_product)
-        print("SHOP REVIEWSSSSSS", shop_name, shop_reviews)
 
     return {
         "items": [product for product in constructed_products]
