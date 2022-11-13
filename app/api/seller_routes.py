@@ -9,6 +9,9 @@ def test_route():
 
 @seller_routes.get("/<int:id>/reviews")
 def get_seller_reviews(id):
+    """
+    Get all reviews by seller Id
+    """
     seller_id = id
 
     print(seller_id)

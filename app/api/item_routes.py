@@ -224,3 +224,14 @@ def get_reviews_by_item(product_id):
 
 
     return { "itemReviews": review_lst }
+
+
+@item_routes.post("<int:product_id>/reviews")
+@login_required
+def create_review(product_id):
+    """
+    Add review of item by item id
+    """
+
+    print(product_id)
+    return "create review of item by item id"
