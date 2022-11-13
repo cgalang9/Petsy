@@ -1,9 +1,11 @@
 from flask import Blueprint, request
-from flask_login import login_required, current_user
+from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
-from ..models import db, Product, Review, OrderProduct, ProductImage
-from ..forms.item_form import CreateEditProductForm
+
 from ..forms.add_image_form import AddImageForm
+from ..forms.item_form import CreateEditProductForm
+from ..forms.review_form import CreateEditReviewForm
+from ..models import OrderProduct, Product, ProductImage, Review, db
 from .auth_routes import validation_errors_to_error_messages
 
 item_routes = Blueprint('items', __name__)
@@ -233,5 +235,35 @@ def create_review(product_id):
     Add review of item by item id
     """
 
-    print(product_id)
-    return "create review of item by item id"
+    item_check = Product.query.get(product_id)
+
+    if not item_check:
+        return {"message": "item not found"}, 404
+
+    form = CreateEditReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+
+    if form.validate_on_submit():
+        new_review = Review(
+            user_id=current_user.id,
+            product_id=product_id,
+            rating=form.data["rating"],
+            text=form.data["text"],
+        )
+        db.session.add(new_review)
+        db.session.commit()
+
+        new_review_details = {
+            "id": new_review.id,
+            "user": {"name": current_user.username},
+            "sellerId": current_user.id,
+            "itemId": product_id,
+            "text": new_review.text,
+            "date": new_review.date_created,
+            "starRating": new_review.rating
+        }
+
+        return new_review_details
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
