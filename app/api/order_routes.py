@@ -24,8 +24,9 @@ def post_order():
     for checkout_item in request.json['checkoutItems']:
         # query for item
         item = Product.query.get(checkout_item["id"])
-        # return error if any item in order cannot be found
+        # return error and delete order if any item in order cannot be found
         if not item:
+            db.session.delete(order)
             return {"message": "A item in order was not found"}, 404
         # add to total price and create order product
         total+=item.price*checkout_item['quantity']

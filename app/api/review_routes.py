@@ -39,7 +39,7 @@ def add_review_image(id):
         return {"message": "Review not found"}, 404
     elif not (current_user.is_authenticated and review.user_id == current_user.id):
         return {"message": "Forbidden"}, 403
-    elif not url or '.' not in url:
+    elif not url or '.' not in url or len(url) > 2048:
         return ({"message": "validation error",
         "errors": {
             "url": "url must be valid"
