@@ -1,6 +1,9 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_required
 from app.models import Review, ReviewImage, db
+from ..forms.review_form import CreateEditReviewForm
+from .auth_routes import validation_errors_to_error_messages
+
 
 review_routes = Blueprint('reviews', __name__)
 
@@ -52,3 +55,51 @@ def add_review_image(id):
         db.session.add(new_review_image)
         db.session.commit()
         return {"message": "image successfully created"}
+
+
+@review_routes.put("/<int:review_id>")
+@login_required
+def edit_review(review_id):
+    """
+    Edit a review of item by review id
+    """
+    # check if review exists
+    review_check = Review.query.get(review_id)
+
+
+    # if it doesn't exist in database, return error
+    if not review_check:
+        return {"message": "review not found"}, 404
+
+
+    # assign shorter form name and check for csrf_token
+    form = CreateEditReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    # using wtforms validation to check validity of review data for database
+    # returns errors if they exist
+    if form.validate_on_submit():
+
+        # create new review in database
+
+        review_check.rating = form.data["rating"]
+        review_check.text = form.data["text"]
+
+        db.session.commit()
+
+
+
+        # format response body
+        new_review_details = {
+            "id": review_check.id,
+            "user": {"name": current_user.username},
+            "sellerId": current_user.id,
+            "itemId": product_id,
+            "text": new_review.text,
+            "date": new_review.date_created,
+            "starRating": new_review.rating
+        }
+
+        return new_review_details
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400

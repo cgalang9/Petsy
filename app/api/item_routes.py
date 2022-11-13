@@ -228,36 +228,45 @@ def get_reviews_by_item(product_id):
     return { "itemReviews": review_lst }
 
 
-@item_routes.post("<int:product_id>/reviews")
+@item_routes.post("/<int:product_id>/reviews")
 @login_required
 def create_review(product_id):
     """
     Add review of item by item id
     """
-
+    # check if item up for review exists
     item_check = Product.query.get(product_id)
 
+
+    # if it doesn't exist in database, return error
     if not item_check:
         return {"message": "item not found"}, 404
 
+
+    # assign shorter form name and check for csrf_token
     form = CreateEditReviewForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-
+    # using wtforms validation to check validity of review data for database
     if form.validate_on_submit():
+
+        # create new review in database
         new_review = Review(
             user_id=current_user.id,
             product_id=product_id,
             rating=form.data["rating"],
-            text=form.data["text"],
+            text=form.data["text"]
         )
         db.session.add(new_review)
         db.session.commit()
+        print(new_review)
+        # format response body
+
 
         new_review_details = {
             "id": new_review.id,
             "user": {"name": current_user.username},
-            "sellerId": current_user.id,
+            "sellerId": item_check.user_id,
             "itemId": product_id,
             "text": new_review.text,
             "date": new_review.date_created,
