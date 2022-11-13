@@ -22,13 +22,13 @@ def get_user_reviews():
     """
 
     # stand in for current_user.id
-    # test_user_id = 7
+    test_user_id = 3
 
 
     # checks if user is authenticated
     if current_user.is_authenticated:
         # combines all the data from the different tables and labels the different joined tables for all of the required review info
-        reviews = db.session.query(
+        user_reviews = db.session.query(
                                     Review.id,
                                     Review.user_id,
                                     Review.date_created,
@@ -40,15 +40,15 @@ def get_user_reviews():
                                     User.username.label("shopName")
                                     ).join(
                                     Product, Review.product_id == Product.id
-                                    ).join(
-                                    ReviewImage, Review.id == ReviewImage.review_id
+                                    ).outerjoin(
+                                    ReviewImage, ReviewImage.review_id == Review.id
                                     ).join(
                                     User, Product.user_id == User.id
                                     ).all()
 
 
-#formats, creates, and returns for the current user the list of dictionaries containing the reviews created by the user
-        reviews = [
+#formats for the current user the list of dictionaries containing the reviews created by the user
+        user_reviews = [
             {
                 "id": row.id,
                 "item" : {
@@ -60,10 +60,12 @@ def get_user_reviews():
                 "text": row.text,
                 "starRating": row.rating,
                 "date": row.date_created
-            } for row in reviews if row.user_id == current_user.id
+            } for row in user_reviews if row.user_id == test_user_id
+
         ]
 
-        return jsonify({"userReviews": reviews})
+        print(len(user_reviews))
+        return jsonify({"userReviews": user_reviews})
     else:
         return {"message": "Forbidden"}, 403
 
