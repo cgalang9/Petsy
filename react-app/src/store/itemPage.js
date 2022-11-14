@@ -1,4 +1,4 @@
-//Get item details by id
+//Get item details by item id
 const GET_ITEM = 'itemPage/GET_ITEM'
 const getItem = (item) => {
     return { type: GET_ITEM, item }

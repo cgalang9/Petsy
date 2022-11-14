@@ -1,4 +1,4 @@
-//Get item reviews by id
+//Get item reviews by item id
 const GET_REVIEWS = 'itemReviews/GET_REVIEW'
 const getItemReviews = (reviews) => {
     return { type: GET_REVIEWS, reviews }

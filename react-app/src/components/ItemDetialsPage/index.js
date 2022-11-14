@@ -3,11 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { getItemDetailsThunk } from '../../store/itemPage'
 import { getItemReviewsThunk } from '../../store/itemReviews'
-import './ItemDetialsPage.css'
 
 function ItemDetailsPage() {
     const { itemId } = useParams()
     const dispatch = useDispatch()
+    const history = useHistory()
 
     useEffect(() => {
         dispatch(getItemDetailsThunk(itemId))
@@ -17,17 +17,24 @@ function ItemDetailsPage() {
     }, [dispatch, itemId])
 
     const item = useSelector(state => state.itemPage)
-    console.log(item)
     const itemReviews = useSelector(state => state.itemReviews)
     const sessionUser = useSelector(state => state.session.user)
-
 
     return (
         <div id='items_details_page'>
             {item && (
                 <>
                     <div id='items_details_page_left'>
-
+                        {sessionUser.id === item.sellerId && (
+                            // <div className='edit_item_link'><a href={`/${itemId}/edit-item`}>Edit Item</a></div>
+                            <div className='edit_item_link'>
+                                <NavLink to={{
+                                    pathname: `/items/${itemId}/edit-item`,
+                                    state: { ...item }
+                                }}> Edit Item
+                                </NavLink>
+                            </div>
+                        )}
                         <div id='items_details_page_images_container'>
                             {item.imageURLs && (item.imageURLs.map(url => (
                                 <div key={url}>
