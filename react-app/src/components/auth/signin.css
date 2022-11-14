@@ -1,0 +1,35 @@
+.sign-up-forms-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 100px;
+    gap: 5%
+}
+
+.sign-up-forms-wrapper>form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    width: 30%;
+}
+
+.sign-up-forms-wrapper>form>div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.sign-up-forms-wrapper>form>button {
+    margin-top: 5px;
+}
+
+.sign-up-forms-wrapper>form>h1 {
+    font-size: 25px;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 500;
+}
