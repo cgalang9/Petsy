@@ -5,6 +5,9 @@ from sqlalchemy.orm import joinedload
 from ..models import db, Product, Review, OrderProduct, ProductImage, User
 from ..forms.item_form import CreateEditProductForm
 from ..forms.add_image_form import AddImageForm
+from ..forms.item_form import CreateEditProductForm
+from ..forms.review_form import CreateEditReviewForm
+from ..models import OrderProduct, Product, ProductImage, Review, db
 from .auth_routes import validation_errors_to_error_messages
 
 
@@ -36,7 +39,7 @@ def all_items():
 
     if "seller_id" in request.args:
         seller_id = request.args["seller_id"]
-    
+
 
     keywords_condition = or_(*[Product.name.ilike(f"%{kw}%") for kw in keywords], *[Product.description.ilike(f"%{kw}%") for kw in keywords])
     price_condition = and_(Product.price >= min_price, Product.price <= max_price)
@@ -47,7 +50,7 @@ def all_items():
 
     for product in queried_products:
         constructed_product = dict()
-        
+
         shop_name = User.query.get(product.user_id).username
         shop_reviews = Review.query.join(Review.product).filter(Product.user_id == product.user_id)
         review_ratings = [review.rating for review in shop_reviews]
@@ -91,7 +94,7 @@ def item_by_id(id):
     images = ProductImage.query.filter(ProductImage.product_id == product.id)
     image_urls = [image.url for image in images]
 
-    
+
     constructed_product = {
         "sellerId": product.user_id,
         "name": product.name,
@@ -107,7 +110,7 @@ def item_by_id(id):
 
     return constructed_product
 
-    
+
 
 @item_routes.post('/')
 @login_required
@@ -319,3 +322,51 @@ def get_reviews_by_item(product_id):
 
 
     return { "itemReviews": review_lst }
+
+
+@item_routes.post("/<int:product_id>/reviews")
+@login_required
+def create_review(product_id):
+    """
+    Add review of item by item id
+    """
+    # check if item up for review exists
+    item_check = Product.query.get(product_id)
+
+
+    # if it doesn't exist in database, return error
+    if not item_check:
+        return {"message": "item not found"}, 404
+
+
+    # assign shorter form name and get csrf_token
+    form = CreateEditReviewForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    # using wtforms validation to check validity of review data for database
+    if form.validate_on_submit():
+
+        # create new review in database
+        new_review = Review(
+            user_id=current_user.id,
+            product_id=product_id,
+            rating=form.data["rating"],
+            text=form.data["text"]
+        )
+        db.session.add(new_review)
+        db.session.commit()
+
+        # format response body
+        new_review_details = {
+            "id": new_review.id,
+            "user": {"name": current_user.username},
+            "sellerId": item_check.user_id,
+            "itemId": product_id,
+            "text": new_review.text,
+            "date": new_review.date_created,
+            "starRating": new_review.rating
+        }
+
+        return new_review_details
+    else:
+        return {'errors': validation_errors_to_error_messages(form.errors)}, 400
