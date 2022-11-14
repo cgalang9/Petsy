@@ -36,7 +36,7 @@ def all_items():
 
     if "seller_id" in request.args:
         seller_id = request.args["seller_id"]
-    
+
 
     keywords_condition = or_(*[Product.name.ilike(f"%{kw}%") for kw in keywords], *[Product.description.ilike(f"%{kw}%") for kw in keywords])
     price_condition = and_(Product.price >= min_price, Product.price <= max_price)
@@ -47,7 +47,7 @@ def all_items():
 
     for product in queried_products:
         constructed_product = dict()
-        
+
         shop_name = User.query.get(product.user_id).username
         shop_reviews = Review.query.join(Review.product).filter(Product.user_id == product.user_id)
         review_ratings = [review.rating for review in shop_reviews]
@@ -91,11 +91,12 @@ def item_by_id(id):
     images = ProductImage.query.filter(ProductImage.product_id == product.id)
     image_urls = [image.url for image in images]
 
-    
+
     constructed_product = {
         "sellerId": product.user_id,
         "name": product.name,
         "shopName": seller_name,
+        "price": product.price,
         "avgShopRating": avg_rating,
         "shopSales": shop_sales,
         "description": product.description,
@@ -107,7 +108,7 @@ def item_by_id(id):
 
     return constructed_product
 
-    
+
 
 @item_routes.post('/')
 @login_required

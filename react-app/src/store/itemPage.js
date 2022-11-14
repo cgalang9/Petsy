@@ -1,4 +1,3 @@
-
 //Get item details by id
 const GET_ITEM = 'spots/GET_ITEM'
 const getItem = (item) => {
