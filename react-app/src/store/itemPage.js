@@ -1,5 +1,5 @@
 //Get item details by id
-const GET_ITEM = 'spots/GET_ITEM'
+const GET_ITEM = 'itemPage/GET_ITEM'
 const getItem = (item) => {
     return { type: GET_ITEM, item }
 }

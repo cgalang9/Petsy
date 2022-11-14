@@ -1,0 +1,18 @@
+#items_details_page {
+    display: flex;
+}
+
+#items_details_page_left,
+#items_details_page_right {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#items_details_page_left {
+    width: 70%;
+}
+
+#items_details_page_right {
+    width: 30%;
+}

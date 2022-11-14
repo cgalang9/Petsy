@@ -144,9 +144,10 @@ def create_item():
         # Uses current user id since current user will always be seller when creating item
         reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         avg_rating = 0
-        for review in reviews:
-            avg_rating += review.rating
-        avg_rating /= len(reviews)
+        if reviews:
+            for review in reviews:
+                avg_rating += review.rating
+            avg_rating /= len(reviews)
 
         # Gets all reviews of store then calculates number of sales
         # Uses current user id since current user will always be seller/store owner when creating item
