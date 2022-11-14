@@ -302,7 +302,7 @@ def seed_users():
             "name": "Interactive Cat Toy",
             "price": 11.90,
             "description": "Hands Free Cat Wand, Stand Up Cat Toy, Suction Cup Cat Wand (6.8x4.5x17cm). This cat toy is designed for those busy cat owners who have a lot on there plate day-to-day, but also want to give attention to their pet. Simply suction to you desired spot and let your pet do the rest.",
-            "product_images": ["https://i.etsystatic.com/6402885/r/il/6e0f2a/1856906838/il_1140xN.1856906838_dflj.jpg", "https://i.etsystatic.com/38243747/r/il/eb03b6/4268021086/il_794xN.4268021086_h543.jpg"],
+            "product_images": ["https://i.etsystatic.com/38243747/r/il/b72026/4315418703/il_1140xN.4315418703_edaw.jpg", "https://i.etsystatic.com/38243747/r/il/eb03b6/4268021086/il_794xN.4268021086_h543.jpg"],
             "reviews": []
         },
         {
