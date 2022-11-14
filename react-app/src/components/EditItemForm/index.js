@@ -1,17 +1,48 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
+import { editItemThunk } from '../../store/itemPage'
 
 function EditItemForm() {
+    const { itemId } = useParams()
+    const dispatch = useDispatch()
+    const history = useHistory()
     const location = useLocation()
-    const {item} = location.state
 
-    const [name, setName] = useState(item.name)
-    const [price, setPrice] = useState(item.price)
-    const [description, setDescription] = useState(item.description)
+
+    const [name, setName] = useState(location.state.name)
+    const [price, setPrice] = useState(location.state.price)
+    const [description, setDescription] = useState(location.state.description)
+    const [errors, setErrors] = useState([])
+
+    useEffect(() => {}, [errors])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const updatedItem = {
+            name,
+            price,
+            description
+        }
+
+        setErrors([]);
+
+
+        const data = await dispatch(editItemThunk(updatedItem, itemId))
+        if (data.errors) {
+            await setErrors(data.errors);
+        } else {
+            history.push(`/items/${itemId}`)
+        }
+    }
 
     return (
-        // <h1>test</h1>
-        <form id='edit_item_form'>
+        <form id='edit_item_form' onSubmit={handleSubmit}>
+            <title>Edit Your Item</title>
+            <ul>
+                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+            </ul>
             <label>
                 <span>Item Name: </span>
                 <input
@@ -31,7 +62,7 @@ function EditItemForm() {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     required
-                    min={1}
+                    min={0.01}
                 />
             </label>
             <label>
@@ -44,8 +75,7 @@ function EditItemForm() {
                     maxLength={2000}
                 />
             </label>
-
-            <button type="submit">Confirm Changes</button>
+            <button>Confirm Changes</button>
         </form>
     )
 }

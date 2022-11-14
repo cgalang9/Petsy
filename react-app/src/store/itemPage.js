@@ -12,7 +12,58 @@ export const getItemDetailsThunk = (itemId) => async (dispatch) => {
         dispatch(getItem(item))
         return item
     }
+}
 
+//Edit item
+const EDIT_ITEM = 'itemPage/EDIT_ITEM'
+const editItem = (item) => {
+    return { type: EDIT_ITEM, item }
+}
+
+export const editItemThunk = (item, itemId) => async (dispatch) => {
+    const { name, price, description } = item
+    const response = await fetch(`/api/items/${itemId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            price,
+            description
+        }),
+    })
+
+    if(response.ok) {
+        const item = await response.json()
+        dispatch(editItem(item))
+        return item
+    } else if (response.status < 500) {
+        const data = await response.json();
+        if (data.errors) {
+          return data.errors;
+        }
+      } else {
+        return ['An error occurred. Please try again.']
+      }
+}
+
+//Delete item
+const DELETE_ITEM = 'itemPage/DELETE_ITEM'
+const deleteItem = (itemId) => {
+    return { type: DELETE_ITEM, itemId }
+}
+
+export const deleteItemThunk = (itemId) => async (dispatch) => {
+    const response = await fetch(`/api/items/${itemId}`, {
+        method: 'DELETE'
+    })
+
+    if(response.ok) {
+        const message = await response.json()
+        dispatch(deleteItem(itemId))
+        return message
+    }
 }
 
 
@@ -21,6 +72,11 @@ export const itemPageReducer = (state = null, action) => {
         case GET_ITEM:
             const stateGetItemDetails = {...action.item}
             return stateGetItemDetails
+        case EDIT_ITEM:
+            const stateEditItem = {...action.item}
+            return stateEditItem
+        case DELETE_ITEM:
+            return null
         default:
             return state
     }

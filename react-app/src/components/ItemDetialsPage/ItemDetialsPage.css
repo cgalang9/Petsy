@@ -16,3 +16,9 @@
 #items_details_page_right {
     width: 30%;
 }
+
+#delete_item_link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}

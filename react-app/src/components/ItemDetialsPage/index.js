@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
-import { getItemDetailsThunk } from '../../store/itemPage'
+import { getItemDetailsThunk, deleteItemThunk } from '../../store/itemPage'
 import { getItemReviewsThunk } from '../../store/itemReviews'
+import './ItemDetialsPage.css'
+
 
 function ItemDetailsPage() {
     const { itemId } = useParams()
@@ -20,20 +22,31 @@ function ItemDetailsPage() {
     const itemReviews = useSelector(state => state.itemReviews)
     const sessionUser = useSelector(state => state.session.user)
 
+    const handleDelete = () => {
+        if(window.confirm("Are you sure you want to delete this item? You can not recover this item after deletion.")) {
+            dispatch(deleteItemThunk(itemId))
+              .then(() => history.push('/'))
+          }
+    }
+
     return (
         <div id='items_details_page'>
             {item && (
                 <>
                     <div id='items_details_page_left'>
                         {sessionUser.id === item.sellerId && (
-                            // <div className='edit_item_link'><a href={`/${itemId}/edit-item`}>Edit Item</a></div>
-                            <div className='edit_item_link'>
-                                <NavLink to={{
-                                    pathname: `/items/${itemId}/edit-item`,
-                                    state: { ...item }
-                                }}> Edit Item
-                                </NavLink>
-                            </div>
+                            <>
+                                <div id='edit_item_link'>
+                                    <NavLink to={{
+                                        pathname: `/items/${itemId}/edit-item`,
+                                        state: { ...item }
+                                    }}> Edit Item
+                                    </NavLink>
+                                </div>
+                                <div id='delete_item_link' onClick={handleDelete}>
+                                    Delete Item
+                                </div>
+                            </>
                         )}
                         <div id='items_details_page_images_container'>
                             {item.imageURLs && (item.imageURLs.map(url => (
