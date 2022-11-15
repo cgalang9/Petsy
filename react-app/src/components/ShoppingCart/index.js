@@ -5,26 +5,24 @@ import AddToCart from "../AddToCart";
 
 import "../ShoppingCart/ShoppingCart.css";
 
-const cartFromLocalStorage = JSON.parse(localStorage.getItem("cart")) || "[]";
+let localStorageCart = JSON.parse(localStorage.getItem("cart"));
 
 const ShoppingCart = () => {
-  const [cart, setCart] = useState(cartFromLocalStorage);
+  console.log("this is localStorageCart in ShoppingCart", localStorageCart);
 
-  // useEffect(() => {
-  //   localStorage.setItem("cart", JSON.stringify(cart));
-  //   console.log("useEffect in shopping cart running");
-  // }, [cart]);
+  const [shoppingCart, setShoppingCart] = useState(localStorageCart);
 
-  // function getTotalItemsCart() {
-  //   let totalQty = 0;
-  //   console.log("cart in get total items cart", cart);
-
-  //   for (let row of cart) {
-  //     totalQty += row.quantity;
-  //   }
+  useEffect(() => {
+    const shoppingCart = JSON.parse(localStorage.getItem("cart"));
+    if (shoppingCart) {
+      setShoppingCart(shoppingCart);
+    }
+  }, [shoppingCart, AddToCart, getTotalPrice()]);
 
   //   return totalQty;
   // }
+
+  console.log("this is shoppingcart in shopping cart", shoppingCart);
 
   // async function getCartProductInfo(productId) {
   //   const response = await fetch(`/api/items/${productId}`);
@@ -44,12 +42,51 @@ const ShoppingCart = () => {
   //   }
   // }
 
+  // function addToShoppingCart(item) {
+  //   setShoppingCart(...shoppingCart, item);
+  // }
+
+  function getTotalPrice() {
+    let totalPrice = 0;
+    for (let item of shoppingCart) {
+      totalPrice += item.price;
+    }
+    return totalPrice.toFixed(2);
+  }
+
   return (
-    <div className='cart--container'>
-      <p> {} </p>
-      <p> {} </p>;
-      <AddToCart />
-    </div>
+    <>
+      <div className='cart-container-main'>
+        <h1>Shopping Cart</h1>
+        <h3>{shoppingCart.length} items in your cart</h3>
+        <div className='cart-items'>
+          {shoppingCart.map((item, index) => (
+            <div
+              className='cart-item'
+              key={index}>
+              <div className='cart-item-name'>{item.name}</div>
+              <div className='cart-item-price'>{item.price}</div>
+              <div className='cart-item-img-wrapper'>
+                <img
+                  src={item.previewImg}
+                  alt={item.name}
+                  className='cart-item-img'
+                />
+              </div>
+              <div className='cart-item-price'>{item.price}</div>
+              <AddToCart />
+            </div>
+          ))}
+        </div>
+        <div className='cart-sidebox'>
+          {" "}
+          Checkout
+          <div className='cart-sidebox-totalprice'>
+            Item(s) Total Price ${getTotalPrice()}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

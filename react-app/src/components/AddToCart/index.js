@@ -1,23 +1,36 @@
 // AddToCart/index.js
 
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getItemDetailsThunk } from "../../store/itemPage";
 
 import "../AddToCart/AddToCart.css";
 
-let localStorageCart = JSON.parse(localStorage.getItem("cart"));
+const AddToCart = () => {
+  let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
+  let itemId = 5;
 
-const AddToCart = ({ propInfo }) => {
+  const dispatch = useDispatch();
+  const [cart, setCart] = useState(localStorageCart);
+
+  useEffect(() => {
+    dispatch(getItemDetailsThunk(itemId)).catch((res) => "error");
+  }, [dispatch, itemId]);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    console.log("useEffect in add item running");
+  }, [cart]);
+
+  const item = useSelector((state) => state.itemPage);
+
+  if (!item) return null;
+
   let productInfo = {
-    avgShopRating: 2.33,
-    description: "The large cozey for large pets!",
-    imageURLs: "https://randomfox.ca/images/5.jpg",
-    itemReviews: 3,
-    name: "Large Cozey for Pets",
-    sellerId: 10,
-    shopName: "Cozey Critters",
-    shopReviews: 15,
-    shopSales: 0,
-    price: 10.55 // Need Price
+    previewImg: item.imageURLs[0],
+    name: item.name,
+    shopName: item.shopName,
+    price: item.price
   };
 
   // async function getCartProductInfo(productId) {
@@ -30,13 +43,6 @@ const AddToCart = ({ propInfo }) => {
   //   }
   // }
 
-  const [cart, setCart] = useState(localStorageCart);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-    console.log("useEffect in add item running");
-  }, [cart]);
-
   // const getCartIndex = (productId) => {
   //   let cartIndex = cart.indexOf(
   //     cart.find((item) => item.productId === productId)
@@ -46,7 +52,6 @@ const AddToCart = ({ propInfo }) => {
   // };
 
   const handleAddToCartClick = (productInfo) => {
-    console.log(productInfo);
     if (!localStorageCart) {
       setCart([productInfo]);
     } else {
