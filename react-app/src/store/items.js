@@ -21,13 +21,13 @@ export const getProducts = (queryParams) => async (dispatch) => {
         queryString += '?' + query.join('&')
     }
 
+    console.log("queryString", queryString)
+
     const products = await fetch(`/api/items${queryString}`).then(res => res.json()).then(body => body.items)
     const normalizedProducts = products.reduce((acc, product) => {
         acc[product.id] = {...(delete product.id && product)}
         return acc
     }, {})
-
-    console.log("normalized", normalizedProducts)
 
     dispatch(populateProducts(normalizedProducts))
 }
