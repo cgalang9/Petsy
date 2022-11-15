@@ -3,16 +3,16 @@ import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import ProfileButton from './profileButton';
 import './navbar.css'
-import { useState, useEffect, } from 'react';
+import { useState } from 'react';
 
 
 const NavBar = () => {
 
-  const [searchTerm, setSearchTerm] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
   const [toggleAdvancedSearch, setToggleAdvancedSearch] = useState(false)
-  const [pageSize, setPageSize] = useState(null)
-  const [minPrice, setMinPrice] = useState(null)
-  const [maxPrice, setMaxPrice] = useState(null)
+  const [pageSize, setPageSize] = useState('')
+  const [minPrice, setMinPrice] = useState('')
+  const [maxPrice, setMaxPrice] = useState('')
   const history = useHistory()
 
   const submitSearch = () => {
@@ -22,6 +22,12 @@ const NavBar = () => {
     if (minPrice) searchParams.append('minPrice', minPrice)
     if (maxPrice) searchParams.append('maxPrice', maxPrice)
     if (pageSize) searchParams.append('pageSize', pageSize)
+
+    setSearchTerm('')
+    setMaxPrice('')
+    setMinPrice('')
+    setPageSize('')
+    setToggleAdvancedSearch(false)
     if (searchParams.toString()) {
       history.push('/search?' + searchParams.toString())
     } else {
@@ -29,6 +35,9 @@ const NavBar = () => {
     }
   }
 
+  const checkSubmit = (e) => {
+    if (e.nativeEvent.code === "Enter") submitSearch()
+  }
 
   // function to open advanced search drop down
   const openAdvancedSearch = () => {
@@ -47,7 +56,7 @@ const NavBar = () => {
       </NavLink>
       <div className='navbar-relative-wrapper'>
         <div className='navbar-search-wrapper'>
-          <input className="navbar-search-input" type='text' placeholder='Search for anything' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}></input>
+          <input className="navbar-search-input" type='text' placeholder='Search for anything' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} onKeyDown={checkSubmit}></input>
           <button className='navbar-advanced-search-button' onClick={openAdvancedSearch}>
             <i className="fa-solid fa-caret-down" />
           </button>

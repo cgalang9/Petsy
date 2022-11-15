@@ -1,17 +1,18 @@
 import LogoutButton from '../auth/LogoutButton';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { login } from '../../store/session'
 
 const ProfileButton = () => {
     const sessionUser = useSelector(state => state.session.user)
     const [toggleDropDown, setToggleDropDown] = useState(false)
     const dispatch = useDispatch();
-
+    const history = useHistory()
     // function to log in demo user
     const demoLogin = async () => {
-        const data = await dispatch(login('demo@aa.io', 'password'));
+        await dispatch(login('demo@aa.io', 'password'));
+        await history.push('/')
     }
 
     // function to open drop down
