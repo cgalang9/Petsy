@@ -91,7 +91,7 @@ function ItemDetailsPage() {
             {item && (
                 <>
                     <div id='items-details-page-left'>
-                        {sessionUser.id === item.sellerId && (
+                        {sessionUser && sessionUser.id === item.sellerId && (
                             <>
                                 <div id='edit-item-link'>
                                     <NavLink to={{
