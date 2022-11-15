@@ -1,3 +1,7 @@
+from flask import Blueprint, jsonify
+from flask_login import current_user
+from app.models import Review, Product, ReviewImage, User, db
+
 from flask import Blueprint
 from flask_login import current_user, login_required
 from app.models import Order, OrderProduct, ProductImage, Product, db
@@ -5,9 +9,65 @@ from sqlalchemy.orm import joinedload
 
 session_routes = Blueprint('session', __name__)
 
+
 @session_routes.get('/test')
 def test_route():
     return 'session'
+
+
+@session_routes.get('/reviews')
+def get_user_reviews():
+    """
+    gets all reviews by current user session
+    """
+
+    # stand in for current_user.id
+    test_user_id = 3
+
+
+    # checks if user is authenticated
+    if current_user.is_authenticated:
+        # combines all the data from the different tables and labels the different joined tables for all of the required review info
+        user_reviews = db.session.query(
+                                    Review.id,
+                                    Review.user_id,
+                                    Review.date_created,
+                                    Review.rating,
+                                    Review.text,
+                                    Product.id.label("itemId"),
+                                    Product.name,
+                                    ReviewImage.url.label("previewImageURL"),
+                                    User.username.label("shopName")
+                                    ).join(
+                                    Product, Review.product_id == Product.id
+                                    ).outerjoin(
+                                    ReviewImage, ReviewImage.review_id == Review.id
+                                    ).join(
+                                    User, Product.user_id == User.id
+                                    ).all()
+
+
+#formats for the current user the list of dictionaries containing the reviews created by the user
+        user_reviews = [
+            {
+                "id": row.id,
+                "item" : {
+                            "itemId": row.itemId,
+                            "name": row.name,
+                            "previewImageURL": row.previewImageURL,
+                            "shopName": row.shopName,
+                },
+                "text": row.text,
+                "starRating": row.rating,
+                "date": row.date_created
+            } for row in user_reviews if row.user_id == test_user_id
+
+        ]
+
+        print(len(user_reviews))
+        return jsonify({"userReviews": user_reviews})
+    else:
+        return {"message": "Forbidden"}, 403
 
 @session_routes.get('/orders')
 @login_required
