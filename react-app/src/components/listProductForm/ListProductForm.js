@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./listproduct.css"
+import { postItemThunk } from "../../store/itemPage";
 
 const ListProductForm = () => {
     const [name, setName] = useState("");
@@ -10,6 +11,8 @@ const ListProductForm = () => {
     const [urls, setUrls] = useState("");
     const [errors, setErrors] = useState([]);
     const [submitted, setSubmitted] = useState(false)
+    const dispatch = useDispatch()
+    const history = useHistory()
 
     useEffect(() => {
         let errorsArr = []
@@ -33,7 +36,7 @@ const ListProductForm = () => {
         setErrors(errorsArr)
     }, [name, description, price, urls])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         if (errors.length) {
             setSubmitted(true)
@@ -49,8 +52,9 @@ const ListProductForm = () => {
             images_urls: urlStr
         }
 
-        // write thunk and dispatch here
-        console.log(payload)
+        const item = await dispatch(postItemThunk(payload))
+        console.log(item)
+        // history.push(`/items/${item.id}`)
     }
 
     return (

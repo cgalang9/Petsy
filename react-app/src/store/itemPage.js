@@ -7,10 +7,45 @@ const getItem = (item) => {
 export const getItemDetailsThunk = (itemId) => async (dispatch) => {
     const response = await fetch(`/api/items/${itemId}`)
 
-    if(response.ok) {
+    if (response.ok) {
         const item = await response.json()
         dispatch(getItem(item))
         return item
+    }
+}
+
+// Post an item
+const POST_ITEM = 'itemPage/POST_ITEM'
+const postItem = (item) => {
+    return { type: POST_ITEM, item }
+}
+
+export const postItemThunk = (item) => async (dispatch) => {
+    const { name, price, description, images_urls } = item
+    const response = await fetch('/api/items', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name,
+            price,
+            description,
+            images_urls
+        })
+    })
+
+    if (response.ok) {
+        const item = await response.json()
+        dispatch(postItem(item))
+        return item
+    } else if (response.status < 500) {
+        const data = await response.json();
+        if (data.errors) {
+            return data.errors;
+        }
+    } else {
+        return ['An error occurred. Please try again.']
     }
 }
 
@@ -34,18 +69,18 @@ export const editItemThunk = (item, itemId) => async (dispatch) => {
         }),
     })
 
-    if(response.ok) {
+    if (response.ok) {
         const item = await response.json()
         dispatch(editItem(item))
         return item
     } else if (response.status < 500) {
         const data = await response.json();
         if (data.errors) {
-          return data.errors;
+            return data.errors;
         }
-      } else {
+    } else {
         return ['An error occurred. Please try again.']
-      }
+    }
 }
 
 //Delete item
@@ -59,7 +94,7 @@ export const deleteItemThunk = (itemId) => async (dispatch) => {
         method: 'DELETE'
     })
 
-    if(response.ok) {
+    if (response.ok) {
         const message = await response.json()
         dispatch(deleteItem(itemId))
         return message
@@ -68,12 +103,15 @@ export const deleteItemThunk = (itemId) => async (dispatch) => {
 
 
 export const itemPageReducer = (state = null, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GET_ITEM:
-            const stateGetItemDetails = {...action.item}
+            const stateGetItemDetails = { ...action.item }
             return stateGetItemDetails
+        case POST_ITEM:
+            const statePostItem = { ...action.item }
+            return statePostItem
         case EDIT_ITEM:
-            const stateEditItem = {...action.item}
+            const stateEditItem = { ...action.item }
             return stateEditItem
         case DELETE_ITEM:
             return null

@@ -119,6 +119,7 @@ def create_item():
     """
     Creates/posts a new item
     """
+    print('------------------' ,request.cookies)
     form = CreateEditProductForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
