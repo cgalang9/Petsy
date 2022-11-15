@@ -44,6 +44,8 @@ export const editItemThunk = (item, itemId) => async (dispatch) => {
         return item
     } else if (response.status === 404) {
         throw Error('404')
+    } else if (response.status === 403) {
+        throw Error('403')
     } else if (response.status < 500) {
         const data = await response.json();
         if (data.errors) {

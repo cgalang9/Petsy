@@ -10,24 +10,38 @@ function EditItemForm() {
     const history = useHistory()
     const location = useLocation()
 
+    const sessionUser = useSelector(state => state.session.user)
+
+    //Sends user to error page if he is not seller of product
+    if (location.state) {
+        if (location.state.sellerId != sessionUser.id) history.push('/403')
+    }
+
+    //Set name, price and description from passed down data from parent if available
     const [name, setName] = useState(location.state ? location.state.name : "")
     const [price, setPrice] = useState(location.state ? location.state.price : 0)
     const [description, setDescription] = useState(location.state ? location.state.description : "")
     const [errors, setErrors] = useState([])
 
+    //If not data passed down from parent, fetches item data from item id
     let item = {}
     if (!location.state) {
-        const getItem = async () => {
+        (async () => {
             item = await dispatch(getItemDetailsThunk(itemId))
-            console.log(item)
-            setName(item.name)
-            setPrice(item.price)
-            setDescription(item.description)
-        }
-        getItem()
+
+            //Sends user to error page if he is not seller of product
+            if(item.sellerId!= sessionUser.id) history.push('/403')
+
+            await setName(item.name)
+            await setPrice(item.price)
+            await setDescription(item.description)
+        })()
     }
 
     useEffect(() => {}, [errors])
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,7 +60,7 @@ function EditItemForm() {
             } else {
                 history.push(`/items/${itemId}`)
             }
-        } catch {
+        } catch (res) {
             history.push('/404')
         }
     }

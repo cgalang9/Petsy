@@ -77,6 +77,9 @@ function App() {
         <Route exact path='/404'>
           <h1>404 Error: Not found</h1>
         </Route>
+        <Route exact path='/403'>
+          <h1>403 Error: Forbidden</h1>
+        </Route>
       </Switch>
     </BrowserRouter>
   );
