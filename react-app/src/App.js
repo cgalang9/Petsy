@@ -9,6 +9,8 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import ListProductForm from './components/listProductForm/ListProductForm';
+import ItemDetailsPage from './components/ItemDetialsPage'
+import EditItemForm from './components/EditItemForm';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -45,6 +47,12 @@ function App() {
           <User />
         </ProtectedRoute>
         <Route path='/' exact={true} >
+        </Route>
+        <Route exact path="/items/:itemId/edit-item">
+          <EditItemForm />
+        </Route>
+        <Route path="/items/:itemId">
+          <ItemDetailsPage />
         </Route>
       </Switch>
     </BrowserRouter>

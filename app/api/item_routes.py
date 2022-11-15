@@ -99,6 +99,7 @@ def item_by_id(id):
         "sellerId": product.user_id,
         "name": product.name,
         "shopName": seller_name,
+        "price": product.price,
         "avgShopRating": avg_rating,
         "shopSales": shop_sales,
         "description": product.description,
@@ -146,9 +147,10 @@ def create_item():
         # Uses current user id since current user will always be seller when creating item
         reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         avg_rating = 0
-        for review in reviews:
-            avg_rating += review.rating
-        avg_rating /= len(reviews)
+        if reviews:
+            for review in reviews:
+                avg_rating += review.rating
+            avg_rating /= len(reviews)
 
         # Gets all reviews of store then calculates number of sales
         # Uses current user id since current user will always be seller/store owner when creating item
@@ -204,9 +206,10 @@ def edit_product(product_id):
         # Uses current user id since current user must be the seller to be able to edit item
         shop_reviews = Review.query.join(Product).filter(Product.user_id == current_user.get_id()).all()
         avg_rating = 0
-        for review in shop_reviews:
-            avg_rating += review.rating
-        avg_rating /= len(shop_reviews)
+        if shop_reviews:
+            for review in shop_reviews:
+                avg_rating += review.rating
+            avg_rating /= len(shop_reviews)
 
         # Gets all reviews of store then calculates number of sales
         # Uses current user id since current user must be the seller to be able to edit item
@@ -237,6 +240,7 @@ def edit_product(product_id):
 
         return final_product
     else:
+        print(form.errors)
         return {'errors': validation_errors_to_error_messages(form.errors)}, 400
 
 
