@@ -74,6 +74,9 @@ function App() {
         <Route path='/cart'>
           <ShoppingCart />
         </Route>
+        <Route exact path='/404'>
+          <h1>404 Error: Not found</h1>
+        </Route>
       </Switch>
     </BrowserRouter>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import { editItemThunk } from '../../store/itemPage'
+import { editItemThunk, getItemDetailsThunk } from '../../store/itemPage'
 
 function EditItemForm() {
     const { itemId } = useParams()
@@ -10,11 +10,22 @@ function EditItemForm() {
     const history = useHistory()
     const location = useLocation()
 
-
-    const [name, setName] = useState(location.state.name)
-    const [price, setPrice] = useState(location.state.price)
-    const [description, setDescription] = useState(location.state.description)
+    const [name, setName] = useState(location.state ? location.state.name : "")
+    const [price, setPrice] = useState(location.state ? location.state.price : 0)
+    const [description, setDescription] = useState(location.state ? location.state.description : "")
     const [errors, setErrors] = useState([])
+
+    let item = {}
+    if (!location.state) {
+        const getItem = async () => {
+            item = await dispatch(getItemDetailsThunk(itemId))
+            console.log(item)
+            setName(item.name)
+            setPrice(item.price)
+            setDescription(item.description)
+        }
+        getItem()
+    }
 
     useEffect(() => {}, [errors])
 
@@ -28,12 +39,15 @@ function EditItemForm() {
 
         setErrors([]);
 
-
-        const data = await dispatch(editItemThunk(updatedItem, itemId))
-        if (data.errors) {
-            await setErrors(data.errors);
-        } else {
-            history.push(`/items/${itemId}`)
+        try {
+            const data = await dispatch(editItemThunk(updatedItem, itemId))
+            if (data.errors) {
+                await setErrors(data.errors);
+            } else {
+                history.push(`/items/${itemId}`)
+            }
+        } catch {
+            history.push('/404')
         }
     }
 
