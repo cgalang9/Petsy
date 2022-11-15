@@ -14,6 +14,7 @@ const NavBar = () => {
   const [minPrice, setMinPrice] = useState(null)
   const [maxPrice, setMaxPrice] = useState(null)
   const history = useHistory()
+
   const submitSearch = () => {
 
     let searchParams = new URLSearchParams()
@@ -44,28 +45,30 @@ const NavBar = () => {
       <NavLink to='/' exact={true} activeClassName='active' className="navbar-home-button">
         Petsy
       </NavLink>
-      <div className='navbar-search-wrapper'>
-        <input className="navbar-search-input" type='text' placeholder='Search for anything' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}></input>
-        <button className='navbar-advanced-search-button' onClick={openAdvancedSearch}>
-          <i className="fa-solid fa-caret-down" />
-        </button>
-        <div className={advancedSearchClass}>
-          <div>
-            <label>Minimum price: </label>
-            <input className='navbar-advanced-search-dropdown-input' type='number' min='0' value={minPrice} onChange={(e) => setMinPrice(e.target.value)}></input>
+      <div className='navbar-relative-wrapper'>
+        <div className='navbar-search-wrapper'>
+          <input className="navbar-search-input" type='text' placeholder='Search for anything' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}></input>
+          <button className='navbar-advanced-search-button' onClick={openAdvancedSearch}>
+            <i className="fa-solid fa-caret-down" />
+          </button>
+          <div className={advancedSearchClass}>
+            <div>
+              <label>Minimum price: </label>
+              <input className='navbar-advanced-search-dropdown-input' type='number' min='0' value={minPrice} onChange={(e) => setMinPrice(e.target.value)}></input>
+            </div>
+            <div>
+              <label>Maximum price: </label>
+              <input className='navbar-advanced-search-dropdown-input' type='number' min={`${minPrice}`} value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}></input>
+            </div>
+            <div>
+              <label>Results per page: </label>
+              <input className='navbar-advanced-search-dropdown-input' type='number' min='0' value={pageSize} onChange={(e) => setPageSize(e.target.value)}></input>
+            </div>
           </div>
-          <div>
-            <label>Maximum price: </label>
-            <input className='navbar-advanced-search-dropdown-input' type='number' min={`${minPrice}`} value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}></input>
-          </div>
-          <div>
-            <label>Results per page: </label>
-            <input className='navbar-advanced-search-dropdown-input' type='number' min='0' value={pageSize} onChange={(e) => setPageSize(e.target.value)}></input>
-          </div>
+          <button className='navbar-search-button' onClick={submitSearch}>
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
         </div>
-        <button className='navbar-search-button' onClick={submitSearch}>
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
       </div>
       <div className='navbar-buttons-wrapper'>
         <ProfileButton />

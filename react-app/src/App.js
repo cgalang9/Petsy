@@ -8,6 +8,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
+import ListProductForm from './components/listProductForm/ListProductForm';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -33,6 +34,9 @@ function App() {
             <LoginForm />
             <SignUpForm />
           </div>
+        </Route>
+        <Route path='/list-product' exact={true}>
+          <ListProductForm />
         </Route>
         <ProtectedRoute path='/users' exact={true} >
           <UsersList />

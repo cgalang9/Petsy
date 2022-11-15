@@ -1,11 +1,18 @@
 import LogoutButton from '../auth/LogoutButton';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { login } from '../../store/session'
 
 const ProfileButton = () => {
     const sessionUser = useSelector(state => state.session.user)
     const [toggleDropDown, setToggleDropDown] = useState(false)
+    const dispatch = useDispatch();
+
+    // function to log in demo user
+    const demoLogin = async () => {
+        const data = await dispatch(login('demo@aa.io', 'password'));
+    }
 
     // function to open drop down
     const openDropDown = () => {
@@ -55,6 +62,9 @@ const ProfileButton = () => {
                         <NavLink to='/your-reviews' activeClassName='active' className='navbar-profile-dropdown-item'>
                             Your reviews
                         </NavLink>
+                        <NavLink to='/list-product' activeClassName='active' className='navbar-profile-dropdown-item'>
+                            List a product
+                        </NavLink>
                         <LogoutButton />
                     </div>
                 </div>
@@ -63,6 +73,9 @@ const ProfileButton = () => {
     } else {
         buttonContent = (
             <>
+                <button onClick={demoLogin} className='navbar-demo-user-button'>
+                    Demo user
+                </button>
                 <NavLink to='/sign-in' activeClassName='active' className='navbar-sign-in-link'>
                     Sign in
                 </NavLink>
