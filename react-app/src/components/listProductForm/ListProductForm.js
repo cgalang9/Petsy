@@ -109,7 +109,7 @@ const ListProductForm = () => {
                     />
                 </div>
                 <div className='input-wrapper'>
-                    <button type="submit" className='submit-button'>Post product</button>
+                    <button className='submit-button'>Post product</button>
                 </div>
             </form>
         </div>

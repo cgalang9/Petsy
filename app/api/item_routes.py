@@ -70,7 +70,6 @@ def all_items():
         }
 
         constructed_products.append(constructed_product)
-
     return {
         "items": [product for product in constructed_products]
     }
@@ -113,13 +112,12 @@ def item_by_id(id):
 
 
 
-@item_routes.post('/')
+@item_routes.post('')
 @login_required
 def create_item():
     """
     Creates/posts a new item
     """
-    print('------------------' ,request.cookies)
     form = CreateEditProductForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
@@ -238,7 +236,6 @@ def edit_product(product_id):
             "itemReviews": item_reviews_count,
             "imageURLs": [image.url for image in images]
         }
-
         return final_product
     else:
         print(form.errors)
