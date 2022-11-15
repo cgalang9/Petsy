@@ -20,7 +20,7 @@ export default function ProductsContainer() {
             {
                 Object.entries(products).map(([id, product]) => {
                     console.log(product)
-                    return <Product key={id} product={product}/>
+                    return <Product key={id} product={product} id={id}/>
                 })
             }
           </ul>

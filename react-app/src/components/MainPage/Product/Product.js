@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom"
 import "./Product.css"
 
 // export default function Product({sellerId, name, avgShopRating, shopReviews, price, shopName, previewImageURL}) {
-export default function Product( { product }) {
+export default function Product( { product, id }) {
     const {name, avgShopRating, shopReviews, price, shopName, previewImageURL} = product;
     const [hovered, setHovered] = useState("");
     const history = useHistory();
@@ -17,7 +17,7 @@ export default function Product( { product }) {
     }
 
     const navigateToProductPage = () => {
-        history.push("/linos-page")
+        history.push(`/items/${id}`)
     }
 
     return (
