@@ -1,8 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { getItemDetailsThunk, deleteItemThunk } from '../../store/itemPage'
 import { getItemReviewsThunk } from '../../store/itemReviews'
+import { getImagesBySellerIdThunk } from '../../store/sellerReviewImages'
+import StarRatings from 'react-star-ratings';
 import './ItemDetialsPage.css'
 
 
@@ -11,15 +13,24 @@ function ItemDetailsPage() {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    useEffect(() => {
-        dispatch(getItemDetailsThunk(itemId))
-            .catch((res) => 'error')
-        dispatch(getItemReviewsThunk(itemId))
-            .catch((res) => 'error')
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [reviewIdx, setReviewIdx] = useState(0)
+
+
+    useEffect(async () => {
+        try {
+            const item = await dispatch(getItemDetailsThunk(itemId))
+            await dispatch(getItemReviewsThunk(itemId))
+            await dispatch(getImagesBySellerIdThunk(item.sellerId))
+            setIsLoaded(true)
+        } catch {
+            history.push('/404')
+        }
     }, [dispatch, itemId])
 
     const item = useSelector(state => state.itemPage)
     const itemReviews = useSelector(state => state.itemReviews)
+    const sellerReviewImages = useSelector(state => state.sellerReviewImages)
     const sessionUser = useSelector(state => state.session.user)
 
     const handleDelete = () => {
@@ -52,15 +63,15 @@ function ItemDetailsPage() {
         imgSelectedMain.classList.add('show')
     }
 
-    const handleLeftArrow = () => {
-        //Decrease img idx by 1 or goes to last img idx if current img idx is 0
-        imgIdx > 0 ? imgIdx -= 1 : imgIdx = item.imageURLs.length - 1
-        moveDisplayedImage(imgIdx)
-    }
-
     const handleRightArrow = () => {
         //Increase img idx by 1 or if curr img idx is at last img, changes img idx to zero
         imgIdx < item.imageURLs.length - 1 ? imgIdx += 1 : imgIdx = 0
+        moveDisplayedImage(imgIdx)
+    }
+
+    const handleLeftArrow = () => {
+        //Decrease img idx by 1 or goes to last img idx if current img idx is 0
+        imgIdx > 0 ? imgIdx -= 1 : imgIdx = item.imageURLs.length - 1
         moveDisplayedImage(imgIdx)
     }
 
@@ -85,8 +96,20 @@ function ItemDetailsPage() {
         imgSelectedMain.classList.add('show')
     }
 
+    const handleRightArrowReview = () => {
+        if (reviewIdx + 4 < itemReviews.length) {
+            setReviewIdx(reviewIdx + 4)
+        }
+    }
+
+    const handleLeftArrowReview = () => {
+        if (reviewIdx > 0) {
+            setReviewIdx(reviewIdx - 4)
+        }
+    }
 
     return (
+<<<<<<< HEAD
         <div id='items-details-page'>
             {item && (
                 <>
@@ -102,61 +125,102 @@ function ItemDetailsPage() {
                                 </div>
                                 <div id='delete-item-link' onClick={handleDelete}>
                                     Delete Item
-                                </div>
-                            </>
-                        )}
-                        <div id='items-details-page-images-container'>
-                            <div id='items-details-page-images-container-tiles'>
-                                {item.imageURLs && (item.imageURLs.map((url, idx) => (
-                                    <div key={idx} >
-                                        <img
-                                            src={url}
-                                            alt="item picture"
-                                            id={`img-page-tile-${idx}`}
-                                            className={idx == 0 ? "items-details-page-images-container-tiles-images active-tile-image" : "items-details-page-images-container-tiles-images"}
-                                            onClick={makeActive}
-                                        ></img>
+=======
+        <div id='items-details-page-oustside-container'>
+            {isLoaded && (
+                <div id='items-details-page'>
+                    {item && (
+                        <>
+                            <div id='items-details-page-left'>
+                                <div id='items-details-page-images-container'>
+                                    <div id='items-details-page-images-container-tiles'>
+                                        {item.imageURLs && (item.imageURLs.map((url, idx) => (
+                                            <div key={idx} >
+                                                <img
+                                                    src={url}
+                                                    alt="item picture"
+                                                    id={`img-page-tile-${idx}`}
+                                                    className={idx == 0 ? "items-details-page-images-container-tiles-images active-tile-image" : "items-details-page-images-container-tiles-images"}
+                                                    onClick={makeActive}
+                                                ></img>
+                                            </div>
+                                        )))}
                                     </div>
-                                )))}
-                            </div>
-                            <div id='items-details-page-images-container-main'>
-                                <div className='items-details-page-arrow' onClick={handleLeftArrow}><i className="fa-solid fa-angle-left" /></div>
-                                {item.imageURLs && (item.imageURLs.map((url, idx) => (
-                                    <div key={idx}>
-                                        <img
-                                            src={url}
-                                            alt="item picture"
-                                            id={`img-page-main-${idx}`}
-                                            className={idx == 0 ? "items-details-page-images-container-main-images show" : "items-details-page-images-container-main-images"}
-                                        ></img>
+                                    <div id='items-details-page-images-container-main'>
+                                        <div className='items-details-page-arrow' onClick={handleLeftArrow}><i className="fa-solid fa-angle-left" /></div>
+                                        {item.imageURLs && (item.imageURLs.map((url, idx) => (
+                                            <div key={idx}>
+                                                <img
+                                                    src={url}
+                                                    alt="item picture"
+                                                    id={`img-page-main-${idx}`}
+                                                    className={idx == 0 ? "items-details-page-images-container-main-images show" : "items-details-page-images-container-main-images"}
+                                                ></img>
+                                            </div>
+                                        )))}
+                                        <div className='items-details-page-arrow' onClick={handleRightArrow}><i className="fa-solid fa-angle-right" /></div>
                                     </div>
-                                )))}
-                                <div className='items-details-page-arrow' onClick={handleRightArrow}><i className="fa-solid fa-angle-right" /></div>
-                            </div>
-                        </div>
-                        <div>{item.shopReviews} reviews {item.avgShopRating} stars</div>
-                        <div>
-                            <div>Reviews for this item</div>
-                            {itemReviews && (itemReviews.map(review => (
-                                <div key={review.id}>
-                                    <div>{review.starRating}</div>
-                                    <div>{review.text}</div>
-                                    <div>{review.user.username}</div>
+>>>>>>> 6a0952dedcd1f4cb9f4efd58b997bd2044eb1153
                                 </div>
-                            )))}
-                        </div>
-                        {/* <div>
-                            <div>Reviews for this shop</div>
-                        </div> */}
-                    </div>
-                    <div id='items-details-page-right'>
-                        <div>{item.shopName}</div>
-                        <div>{item.shopSales} sales {item.avgShopRating} stars</div>
-                        <div>{item.name}</div>
-                        <div>${item.price}</div>
-                        <div>{item.description}</div>
-                    </div>
-                </>
+                                <div id='items-details-page-main-review-containter'>
+                                    <div id='items-details-page-main-shop-reviews'>
+                                        {item.shopReviews} reviews for this store
+                                        <span className='items-details-page-stars'><StarRatings rating={item.avgShopRating} starRatedColor="black" numberOfStars={5} starDimension='25px' starSpacing='1px' /></span>
+                                    </div>
+                                    <div id='items-details-page-main-item-reviews-total'>Reviews for this item <span>{itemReviews.length}</span></div>
+                                    {itemReviews && (itemReviews.slice(reviewIdx, reviewIdx + 4).map(review => (
+                                        <div key={review.id} className='items-details-page-review-containter'>
+                                            <div className='items-details-page-main-item-reviews-rating'><StarRatings rating={review.starRating} starRatedColor="black" numberOfStars={5} starDimension='20px' starSpacing='1px' /></div>
+                                            <div className='items-details-page-main-item-reviews-text'>{review.text}</div>
+                                            <div className='items-details-page-main-item-reviews-user'>{review.user.username} {new Date(review.date).toDateString().slice(4)}</div>
+                                        </div>
+                                    )))}
+                                    <div id='items-details-page-main-item-reviews-page'>
+                                        <span className='items-details-page-arrow-review' onClick={handleLeftArrowReview}><i className="fa-solid fa-angle-left" /></span>
+                                        Page {reviewIdx / 4 + 1} of {Math.ceil(itemReviews.length / 4)}
+                                        <span className='items-details-page-arrow-review' onClick={handleRightArrowReview}><i className="fa-solid fa-angle-right" /></span>
+                                    </div>
+                                    <div id='items-details-page-main-shop-reviews-images-head'>Photos from reviews</div>
+                                    <div id='items-details-page-main-shop-reviews-images-container'>
+                                        {sellerReviewImages && (sellerReviewImages.map(img => (
+                                            <div key={img.id}>
+                                                <img src={img.url} alt='review image' className='items-details-page-main-shop-reviews-images'></img>
+                                            </div>
+                                        )))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id='items-details-page-right'>
+                                <div id='items-details-page-right-shopname'>{item.shopName}</div>
+                                <div id='items-details-page-right-shop-sales'>
+                                    {item.shopSales} sales
+                                    <span> | </span>
+                                    <StarRatings rating={item.avgShopRating} starRatedColor="black" numberOfStars={5} starDimension='20px' starSpacing='1px' />
+                                </div>
+                                {sessionUser && sessionUser.id === item.sellerId && (
+                                    <div id='items-details-page-edit-links'>
+                                        <div id='edit-item-link'>
+                                            <NavLink to={{
+                                                pathname: `/items/${itemId}/edit-item`,
+                                                state: { ...item }
+                                            }}> Edit Item
+                                            </NavLink>
+                                        </div>
+                                        <div id='delete-item-link' onClick={handleDelete}>
+                                            Delete Item
+                                        </div>
+                                    </div>
+                                )}
+                                <div id='items-details-page-right-item-name'>{item.name}</div>
+                                <div id='items-details-page-right-price'>${item.price}</div>
+                                <div id='items-details-page-right-description'>
+                                    <div id='items-details-page-right-description-head'>Description</div>
+                                    <div id='items-details-page-right-description-text'>{item.description}</div>
+                                </div>
+                            </div>
+                        </>
+                    )}
+                </div>
             )}
         </div>
     )

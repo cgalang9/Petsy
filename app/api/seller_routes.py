@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from app.models import Review, Product, User, db
+from app.models import Review, Product, User, ReviewImage, db
 
 seller_routes = Blueprint('sellers', __name__)
 
@@ -50,3 +50,25 @@ def get_seller_reviews(id):
         return jsonify({"sellerReviews": seller_reviews})
     else:
         return {"message": "seller not found"}, 404
+
+
+@seller_routes.get('/<int:id>/images')
+def get_review_image(id):
+    """
+    Get review images by seller id
+    """
+    user = User.query.get(id)
+    if user == None:
+        return {"message": "seller not found"}, 404
+
+    reviews = ReviewImage.query.join(Review).join(Product).filter(Product.user_id == id)
+    allReviews = []
+    for review in reviews:
+        review_obj = {
+            "id": review.id,
+            "reviewId": review.review_id,
+            "url": review.url
+        }
+        allReviews.append(review_obj)
+
+    return allReviews

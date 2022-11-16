@@ -11,6 +11,10 @@ export const getItemDetailsThunk = (itemId) => async (dispatch) => {
         const item = await response.json()
         dispatch(getItem(item))
         return item
+    } else if (response.status === 404) {
+        throw Error('404')
+    } else {
+        return ['An error occurred. Please try again.']
     }
 }
 
@@ -73,6 +77,10 @@ export const editItemThunk = (item, itemId) => async (dispatch) => {
         const item = await response.json()
         dispatch(editItem(item))
         return item
+    } else if (response.status === 404) {
+        throw Error('404')
+    } else if (response.status === 403) {
+        throw Error('403')
     } else if (response.status < 500) {
         const data = await response.json();
         if (data.errors) {

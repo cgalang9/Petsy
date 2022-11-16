@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
-import { editItemThunk } from '../../store/itemPage'
+import { editItemThunk, getItemDetailsThunk } from '../../store/itemPage'
 
 function EditItemForm() {
     const { itemId } = useParams()
@@ -10,11 +10,33 @@ function EditItemForm() {
     const history = useHistory()
     const location = useLocation()
 
+    const sessionUser = useSelector(state => state.session.user)
 
-    const [name, setName] = useState(location.state.name)
-    const [price, setPrice] = useState(location.state.price)
-    const [description, setDescription] = useState(location.state.description)
+    //Sends user to error page if he is not seller of product
+    if (location.state) {
+        if (location.state.sellerId != sessionUser.id) history.push('/403')
+    }
+
+    //Set name, price and description from passed down data from parent if available
+    const [name, setName] = useState(location.state ? location.state.name : "")
+    const [price, setPrice] = useState(location.state ? location.state.price : 0)
+    const [description, setDescription] = useState(location.state ? location.state.description : "")
     const [errors, setErrors] = useState([])
+
+    //If not data passed down from parent, fetches item data from item id
+    let item = {}
+    if (!location.state) {
+        (async () => {
+            item = await dispatch(getItemDetailsThunk(itemId))
+
+            //Sends user to error page if he is not seller of product
+            if(item.sellerId!= sessionUser.id) history.push('/403')
+
+            await setName(item.name)
+            await setPrice(item.price)
+            await setDescription(item.description)
+        })()
+    }
 
     useEffect(() => {}, [errors])
 
@@ -28,12 +50,15 @@ function EditItemForm() {
 
         setErrors([]);
 
-
-        const data = await dispatch(editItemThunk(updatedItem, itemId))
-        if (data.errors) {
-            await setErrors(data.errors);
-        } else {
-            history.push(`/items/${itemId}`)
+        try {
+            const data = await dispatch(editItemThunk(updatedItem, itemId))
+            if (data.errors) {
+                await setErrors(data.errors);
+            } else {
+                history.push(`/items/${itemId}`)
+            }
+        } catch (res) {
+            history.push('/404')
         }
     }
 

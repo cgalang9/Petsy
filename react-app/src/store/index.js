@@ -5,13 +5,15 @@ import items from './items'
 import { itemReviewsReducer } from './itemReviews';
 import { itemPageReducer } from './itemPage';
 import { userReviewsReducer } from './userReview';
+import { sellerReviewImagesReducer } from './sellerReviewImages';
 
 const rootReducer = combineReducers({
   session,
   itemPage: itemPageReducer,
   itemReviews: itemReviewsReducer,
   items,
-  userReviews: userReviewsReducer
+  userReviews: userReviewsReducer,
+  sellerReviewImages: sellerReviewImagesReducer
 });
 
 
