@@ -62,7 +62,12 @@ function App() {
         <Route
           path='/'
           exact={true}>
-          <ProductsContainer />
+          <ProductsContainer search={false}/>
+        </Route>
+        <Route
+          path='/search'
+          exact={true}>
+          <ProductsContainer search={true}/>
         </Route>
         <Route
           exact

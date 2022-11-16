@@ -25,26 +25,32 @@ def all_items():
     if "page" in request.args:
         page = int(request.args["page"])
 
-    if "size" in request.args:
-        size = int(request.args["size"])
+    if "pageSize" in request.args:
+        size = int(request.args["pageSize"])
 
-    if "min_price" in request.args:
-        min_price = int(request.args["min_price"])
+    if "minPrice" in request.args:
+        min_price = int(request.args["minPrice"])
 
-    if "max_price" in request.args:
-        max_price = int(request.args["max_price"])
+    if "maxPrice" in request.args:
+        max_price = int(request.args["maxPrice"])
 
-    if "keywords" in request.args:
-        keywords = [keyword.lower() for keyword in request.args["keywords"].split()]
+    if "q" in request.args:
+        keywords = [keyword.lower() for keyword in request.args["q"].split()]
 
-    if "seller_id" in request.args:
-        seller_id = request.args["seller_id"]
+    if "sellerId" in request.args:
+        seller_id = request.args["sellerId"]
 
 
     keywords_condition = or_(*[Product.name.ilike(f"%{kw}%") for kw in keywords], *[Product.description.ilike(f"%{kw}%") for kw in keywords])
     price_condition = and_(Product.price >= min_price, Product.price <= max_price)
 
-    queried_products = Product.query.filter(price_condition, keywords_condition).limit(size).offset((page - 1) * size)
+    if not seller_id:
+        # queried_products = Product.query.filter(price_condition, keywords_condition).limit(size).offset((page - 1) * size)
+        queried_products = Product.query.filter(price_condition, keywords_condition)
+    else:
+        # queried_products = Product.query.filter(price_condition, keywords_condition, Product.user_id == seller_id).limit(size).offset((page - 1) * size)
+        queried_products = Product.query.filter(price_condition, keywords_condition, Product.user_id == seller_id)
+
 
     constructed_products = []
 
@@ -70,8 +76,12 @@ def all_items():
         }
 
         constructed_products.append(constructed_product)
+
+    offset = (page - 1) * size
+
     return {
-        "items": [product for product in constructed_products]
+        "items": [product for product in constructed_products][offset:offset + size],
+        "numResults": len(constructed_products)
     }
 
 @item_routes.get("/<int:id>")

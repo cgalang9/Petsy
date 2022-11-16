@@ -11,3 +11,15 @@
   justify-content: center;
   max-width: 1400px;
 }
+
+.products-container-navlink {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 100px;
+  font-size: 50px;
+  width: 100%;
+}
+
+.products-container-navlink > *{
+  margin-left: 10px;
+}
