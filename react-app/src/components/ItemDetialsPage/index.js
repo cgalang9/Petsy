@@ -32,6 +32,7 @@ function ItemDetailsPage() {
   const sellerReviewImages = useSelector((state) => state.sellerReviewImages);
   const sessionUser = useSelector((state) => state.session.user);
 
+
   const handleDelete = () => {
     if (
       window.confirm(
