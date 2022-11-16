@@ -1,0 +1,34 @@
+.cart-container-main {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: ". items checkout .";
+}
+
+.cart-header {
+  grid-area: items;
+}
+
+.cart-items {
+  grid-area: items;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-item {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.cart-sidebox {
+  grid-area: checkout;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.cart-item-img {
+  width: 100%;
+}
