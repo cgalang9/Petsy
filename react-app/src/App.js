@@ -12,6 +12,7 @@ import { authenticate } from "./store/session";
 import ListProductForm from "./components/listProductForm/ListProductForm";
 import ItemDetailsPage from "./components/ItemDetialsPage";
 import EditItemForm from "./components/EditItemForm";
+import AddReviewForm from "./components/AddReviewForm";
 
 import AddToCart from "./components/AddToCart";
 import ShoppingCart from "./components/ShoppingCart";
@@ -74,7 +75,10 @@ function App() {
           path='/items/:itemId/edit-item'>
           <EditItemForm />
         </Route>
-        <Route path='/items/:itemId'>
+        <Route exact path='/items/:itemId/add-review'>
+          <AddReviewForm />
+        </Route>
+        <Route exact path='/items/:itemId'>
           <ItemDetailsPage />
         </Route>
         <Route path='/cart'>

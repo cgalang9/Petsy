@@ -315,7 +315,8 @@ def get_reviews_by_item(product_id):
     if current_product == None:
         return {"message": "Item could not be found"}, 404
 
-    reviews = Review.query.filter(Review.product_id == product_id).options(joinedload(Review.user)).options(joinedload(Review.product)).all()
+    reviews = Review.query.filter(Review.product_id == product_id).options(joinedload(Review.user)).options(joinedload(Review.product)).options(joinedload(Review.review_images)).all()
+
 
     review_lst = []
     for review in reviews:
@@ -329,6 +330,7 @@ def get_reviews_by_item(product_id):
             'starRating': review.rating,
             'text': review.text,
             'date': review.date_created,
+            'imgUrls': [images.url for images in review.review_images]
         }
         review_lst.append(review_data)
 

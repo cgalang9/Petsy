@@ -187,29 +187,39 @@ function ItemDetailsPage() {
                   <div id='items-details-page-main-item-reviews-total'>
                     Reviews for this item <span>{itemReviews.length}</span>
                   </div>
+                  <div>
+                        <NavLink to={{ pathname: `/items/${itemId}/add-review`}}>
+                            Create Review for this Item
+                        </NavLink>
+                    </div>
                   {itemReviews &&
                     itemReviews
                       .slice(reviewIdx, reviewIdx + 4)
                       .map((review) => (
-                        <div
-                          key={review.id}
-                          className='items-details-page-review-containter'>
-                          <div className='items-details-page-main-item-reviews-rating'>
-                            <StarRatings
-                              rating={review.starRating}
-                              starRatedColor='black'
-                              numberOfStars={5}
-                              starDimension='20px'
-                              starSpacing='1px'
-                            />
-                          </div>
-                          <div className='items-details-page-main-item-reviews-text'>
-                            {review.text}
-                          </div>
-                          <div className='items-details-page-main-item-reviews-user'>
-                            {review.user.username}{" "}
-                            {new Date(review.date).toDateString().slice(4)}
-                          </div>
+                        <div key={review.id} className='items-details-page-review-containter'>
+                            <div className='items-details-page-review-containter-left'>
+                                <div className='items-details-page-main-item-reviews-rating'>
+                                    <StarRatings
+                                    rating={review.starRating}
+                                    starRatedColor='black'
+                                    numberOfStars={5}
+                                    starDimension='20px'
+                                    starSpacing='1px'
+                                    />
+                                </div>
+                                <div className='items-details-page-main-item-reviews-text'>
+                                    {review.text}
+                                </div>
+                                <div className='items-details-page-main-item-reviews-user'>
+                                    {review.user.username}{" "}
+                                    {new Date(review.date).toDateString().slice(4)}
+                                </div>
+                            </div>
+                                <div className='items-details-page-review-containter-right'>
+                                    {review.imgUrls[0] && (
+                                        <img src={review.imgUrls[0]} alt='review image' className='items-details-page-review-containter-image'></img>
+                                    )}
+                                </div>
                         </div>
                       ))}
                   <div id='items-details-page-main-item-reviews-page'>
@@ -278,7 +288,7 @@ function ItemDetailsPage() {
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
                 <div id='items-details-page-right-price'>${item.price}</div>
-                <AddToCart itemId={item.id} />
+                <div id='items-details-page-add-to-cart-btn-container'><AddToCart itemId={item.id} /></div>
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description
