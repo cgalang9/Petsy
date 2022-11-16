@@ -4,10 +4,6 @@ from app.models import Review, ReviewImage, db
 
 review_image_routes = Blueprint('reviewImages', __name__)
 
-@review_image_routes.get('/test')
-def test_route():
-    return 'review images'
-
 
 @review_image_routes.delete('/<int:id>')
 @login_required

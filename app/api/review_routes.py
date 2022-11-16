@@ -4,7 +4,6 @@ from app.models import Review, ReviewImage, Product, db
 from ..forms.review_form import CreateEditReviewForm
 from .auth_routes import validation_errors_to_error_messages
 
-
 review_routes = Blueprint('reviews', __name__)
 
 
@@ -28,6 +27,29 @@ def delete_review(id):
         return {"message": "Review Successfully deleted"}
     else:
         return {"message": "Forbidden"}, 403
+
+
+
+@review_routes.get('/<int:id>/images')
+def get_review_image(id):
+    """
+    Get review image by review id
+    """
+    review = Review.query.get(id)
+    if review == None:
+        return {"message": "review not found"}, 404
+
+    reviews = ReviewImage.query.filter(ReviewImage.review_id == id)
+    allReviews = []
+    for review in reviews:
+        review_obj = {
+            "id": review.id,
+            "reviewId": review.review_id,
+            "url": review.url
+        }
+        allReviews.append(review_obj)
+
+    return {"reviewImages": allReviews}
 
 
 @review_routes.post('/<int:id>/images')
