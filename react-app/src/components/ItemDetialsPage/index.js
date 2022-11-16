@@ -277,7 +277,7 @@ function ItemDetailsPage() {
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
                 <div id='items-details-page-right-price'>${item.price}</div>
-                <AddToCart itemId={item.id} />
+                <AddToCart itemId={itemId} />
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description

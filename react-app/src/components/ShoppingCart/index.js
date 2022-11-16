@@ -1,6 +1,6 @@
 // ShoppingCart/index.js
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 
 import "../ShoppingCart/ShoppingCart.css";
 
@@ -22,7 +22,7 @@ const ShoppingCart = () => {
       setShoppingCart(localStorageCart);
     }
     // console.log("mounting localStorage Cart");
-  }, []);
+  });
 
   // console.log("this is localStorageCart in ShoppingCart", localStorageCart);
   // console.log("this is shoppingcart in shopping cart", shoppingCart);
@@ -30,7 +30,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
     // console.log("setting localStorageCart to shoppingCart change");
-  }, [shoppingCart, emptyCart]);
+  }, [shoppingCart]);
 
   //   return totalQty;
   // }
@@ -96,6 +96,8 @@ const ShoppingCart = () => {
   // }
 
   function getTotalQuantity() {
+    if (!shoppingCart) return 0;
+
     let totalQuantity = 0;
     for (let item of shoppingCart) {
       totalQuantity += item.quantity;
@@ -104,6 +106,8 @@ const ShoppingCart = () => {
   }
 
   function getTotalPrice() {
+    if (!shoppingCart) return 0.0;
+
     let totalPrice = 0;
     for (let item of shoppingCart) {
       totalPrice += item.price * item.quantity;
@@ -111,17 +115,25 @@ const ShoppingCart = () => {
     return totalPrice.toFixed(2);
   }
 
-  function emptyCart() {
-    // localStorage.removeItem("cart");
+  // function emptyCart() {
+  //   // localStorage.removeItem("cart");
+  //   setShoppingCart([]);
+  // }
+
+  const emptyCart = useCallback(() => {
     setShoppingCart([]);
-  }
+  }, [shoppingCart]);
+
+  // const shoppingCartMap = (
+
+  // )
 
   return (
     <>
       <div className='cart-header'></div>
       <div className='cart-container-main'>
         <div className='cart-items'>
-          {shoppingCart.map((item, index) => (
+          {shoppingCart?.map((item, index) => (
             <div
               className='cart-item'
               key={index}>
@@ -176,7 +188,7 @@ const ShoppingCart = () => {
           <div>
             <button
               className='cart-sidebox-emptyShoppingCart-button'
-              onClick={() => emptyCart()}>
+              onClick={() => emptyCart}>
               Empty Cart
             </button>
           </div>

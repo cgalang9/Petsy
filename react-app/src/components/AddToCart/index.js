@@ -12,6 +12,17 @@ const AddToCart = ({ itemId }) => {
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
 
+  // useEffect(() => {
+  //   localStorageCart = JSON.parse(localStorage.getItem("cart"));
+
+  //   if (cart === [] && localStorageCart === []) {
+  //     setCart([]);
+  //   } else {
+  //     setCart(localStorageCart);
+  //   }
+  //   // console.log("mounting localStorage Cart");
+  // });
+
   useEffect(() => {
     dispatch(getItemDetailsThunk(itemId)).catch((res) => "error");
   }, [dispatch, itemId]);
@@ -62,32 +73,33 @@ const AddToCart = ({ itemId }) => {
   // onClick={() => handleAddToCartClick(productInfo)}
 
   const addToCart = (productInfo) => {
-    // if (!localStorageCart) {
-    //   let initialItem = { ...productInfo, quantity: 1 };
-    //   setCart([initialItem]);
-    // } else {
-    let cartArray = [...cart];
-    let foundItem = cartArray.find(
-      (item) => productInfo.itemId === item.itemId
-    );
-    console.log("this is found item in ATC", foundItem);
-    if (foundItem) {
-      foundItem.quantity += 1;
+    if (!localStorageCart) {
+      let initialItem = { ...productInfo, quantity: 1 };
+      setCart([initialItem]);
     } else {
-      foundItem = { ...productInfo, quantity: 1 };
-      cartArray.push(foundItem);
+      let cartArray = [...cart];
+      let foundItem = cartArray.find(
+        (item) => productInfo.itemId === item.itemId
+      );
+      console.log("this is found item in ATC", foundItem);
+      if (foundItem) {
+        foundItem.quantity += 1;
+      } else {
+        foundItem = { ...productInfo, quantity: 1 };
+        cartArray.push(foundItem);
+      }
+      setCart(cartArray);
     }
-    setCart(cartArray);
-  };
 
-  return (
-    <button
-      className='AddToCart--button-component'
-      onClick={() => addToCart(productInfo)}
-      type='button'>
-      Add to cart
-    </button>
-  );
+    return (
+      <button
+        className='AddToCart--button-component'
+        onClick={() => addToCart(productInfo)}
+        type='button'>
+        Add to cart
+      </button>
+    );
+  };
 };
 
 export default AddToCart;
