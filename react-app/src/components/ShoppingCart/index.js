@@ -22,7 +22,7 @@ const ShoppingCart = () => {
       setShoppingCart(localStorageCart);
     }
     // console.log("mounting localStorage Cart");
-  });
+  }, []);
 
   // console.log("this is localStorageCart in ShoppingCart", localStorageCart);
   // console.log("this is shoppingcart in shopping cart", shoppingCart);
@@ -115,14 +115,14 @@ const ShoppingCart = () => {
     return totalPrice.toFixed(2);
   }
 
-  // function emptyCart() {
-  //   // localStorage.removeItem("cart");
-  //   setShoppingCart([]);
-  // }
-
-  const emptyCart = useCallback(() => {
+  function emptyCart() {
+    // localStorage.removeItem("cart");
     setShoppingCart([]);
-  }, [shoppingCart]);
+  }
+
+  // const emptyCart = useCallback(() => {
+  //   setShoppingCart([]);
+  // }, [shoppingCart]);
 
   // const shoppingCartMap = (
 

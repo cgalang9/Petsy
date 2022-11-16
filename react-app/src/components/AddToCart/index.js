@@ -12,17 +12,6 @@ const AddToCart = ({ itemId }) => {
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
 
-  // useEffect(() => {
-  //   localStorageCart = JSON.parse(localStorage.getItem("cart"));
-
-  //   if (cart === [] && localStorageCart === []) {
-  //     setCart([]);
-  //   } else {
-  //     setCart(localStorageCart);
-  //   }
-  //   // console.log("mounting localStorage Cart");
-  // });
-
   useEffect(() => {
     dispatch(getItemDetailsThunk(itemId)).catch((res) => "error");
   }, [dispatch, itemId]);
@@ -87,19 +76,19 @@ const AddToCart = ({ itemId }) => {
       } else {
         foundItem = { ...productInfo, quantity: 1 };
         cartArray.push(foundItem);
+        setCart(cartArray);
       }
-      setCart(cartArray);
     }
-
-    return (
-      <button
-        className='AddToCart--button-component'
-        onClick={() => addToCart(productInfo)}
-        type='button'>
-        Add to cart
-      </button>
-    );
   };
+
+  return (
+    <button
+      className='AddToCart--button-component'
+      onClick={() => addToCart(productInfo)}
+      type='button'>
+      Add to cart
+    </button>
+  );
 };
 
 export default AddToCart;
