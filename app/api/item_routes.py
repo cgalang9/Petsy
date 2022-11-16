@@ -25,8 +25,8 @@ def all_items():
     if "page" in request.args:
         page = int(request.args["page"])
 
-    if "size" in request.args:
-        size = int(request.args["size"])
+    if "pageSize" in request.args:
+        size = int(request.args["pageSize"])
 
     if "minPrice" in request.args:
         min_price = int(request.args["minPrice"])
@@ -44,7 +44,13 @@ def all_items():
     keywords_condition = or_(*[Product.name.ilike(f"%{kw}%") for kw in keywords], *[Product.description.ilike(f"%{kw}%") for kw in keywords])
     price_condition = and_(Product.price >= min_price, Product.price <= max_price)
 
-    queried_products = Product.query.filter(price_condition, keywords_condition).limit(size).offset((page - 1) * size)
+    if not seller_id:
+        # queried_products = Product.query.filter(price_condition, keywords_condition).limit(size).offset((page - 1) * size)
+        queried_products = Product.query.filter(price_condition, keywords_condition)
+    else:
+        # queried_products = Product.query.filter(price_condition, keywords_condition, Product.user_id == seller_id).limit(size).offset((page - 1) * size)
+        queried_products = Product.query.filter(price_condition, keywords_condition, Product.user_id == seller_id)
+
 
     constructed_products = []
 
@@ -71,8 +77,11 @@ def all_items():
 
         constructed_products.append(constructed_product)
 
+    offset = (page - 1) * size
+
     return {
-        "items": [product for product in constructed_products]
+        "items": [product for product in constructed_products][offset:offset + size],
+        "numResults": len(constructed_products)
     }
 
 @item_routes.get("/<int:id>")
