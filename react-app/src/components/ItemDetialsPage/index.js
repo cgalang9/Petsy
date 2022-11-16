@@ -6,6 +6,7 @@ import { getItemReviewsThunk } from "../../store/itemReviews";
 import { getImagesBySellerIdThunk } from "../../store/sellerReviewImages";
 import StarRatings from "react-star-ratings";
 import "./ItemDetialsPage.css";
+import AddToCart from "../AddToCart";
 
 function ItemDetailsPage() {
   const { itemId } = useParams();
@@ -276,6 +277,7 @@ function ItemDetailsPage() {
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
                 <div id='items-details-page-right-price'>${item.price}</div>
+                <AddToCart itemId={item.id} />
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description
