@@ -146,7 +146,7 @@ const ShoppingCart = () => {
                   type='number'
                   required
                   onChange={(e) => {
-                    updateQuantity(item, e.target.value);
+                    // updateQuantity(item, e.target.value);
                   }}
                   value={Number(item.quantity)}
                   name='quantity'
