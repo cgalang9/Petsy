@@ -30,27 +30,6 @@ def delete_review(id):
 
 
 
-@review_routes.get('/<int:id>/images')
-def get_review_image(id):
-    """
-    Get review image by review id
-    """
-    review = Review.query.get(id)
-    if review == None:
-        return {"message": "review not found"}, 404
-
-    reviews = ReviewImage.query.filter(ReviewImage.review_id == id)
-    allReviews = []
-    for review in reviews:
-        review_obj = {
-            "id": review.id,
-            "reviewId": review.review_id,
-            "url": review.url
-        }
-        allReviews.append(review_obj)
-
-    return allReviews
-
 
 @review_routes.post('/<int:id>/images')
 @login_required
