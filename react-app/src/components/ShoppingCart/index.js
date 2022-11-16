@@ -188,7 +188,7 @@ const ShoppingCart = () => {
           <div>
             <button
               className='cart-sidebox-emptyShoppingCart-button'
-              onClick={() => emptyCart}>
+              onClick={() => emptyCart()}>
               Empty Cart
             </button>
           </div>
