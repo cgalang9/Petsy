@@ -5,7 +5,7 @@ import AddToCart from "../AddToCart";
 
 import "../ShoppingCart/ShoppingCart.css";
 
-let localStorageCart = JSON.parse(localStorage.getItem("cart"));
+let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const ShoppingCart = () => {
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
@@ -34,7 +34,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
     console.log("setting localStorageCart to shoppingCart change");
-  }, [shoppingCart]);
+  }, [shoppingCart, emptyCart]);
 
   //   return totalQty;
   // }
@@ -83,6 +83,11 @@ const ShoppingCart = () => {
     return totalPrice.toFixed(2);
   }
 
+  function emptyCart() {
+    // localStorage.removeItem("cart");
+    setShoppingCart([]);
+  }
+
   return (
     <>
       <div className='cart-header'></div>
@@ -121,6 +126,13 @@ const ShoppingCart = () => {
           </div>
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
+          </div>
+          <div>
+            <button
+              className='cart-sidebox-emptyShoppingCart-button'
+              onClick={() => emptyCart()}>
+              Empty Cart
+            </button>
           </div>
         </div>
       </div>
