@@ -10,6 +10,7 @@ let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
 const ShoppingCart = () => {
   //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
+  // const [itemQty, setItemQty] = useState()
 
   // mounts the shopping cart on initial mount
   useEffect(() => {
@@ -20,15 +21,15 @@ const ShoppingCart = () => {
     } else {
       setShoppingCart(localStorageCart);
     }
-    console.log("mounting localStorage Cart");
+    // console.log("mounting localStorage Cart");
   }, []);
 
-  console.log("this is localStorageCart in ShoppingCart", localStorageCart);
-  console.log("this is shoppingcart in shopping cart", shoppingCart);
+  // console.log("this is localStorageCart in ShoppingCart", localStorageCart);
+  // console.log("this is shoppingcart in shopping cart", shoppingCart);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
-    console.log("setting localStorageCart to shoppingCart change");
+    // console.log("setting localStorageCart to shoppingCart change");
   }, [shoppingCart, emptyCart]);
 
   //   return totalQty;
@@ -66,7 +67,7 @@ const ShoppingCart = () => {
     //   setCart([initialItem]);
     // } else {
     let cartArray = [...shoppingCart];
-    console.log("this is cartArray before founditem", cartArray);
+    // console.log("this is cartArray before founditem", cartArray);
     let foundItem = cartArray.find(
       (item) => productInfo.itemId === item.itemId
     );
@@ -89,6 +90,10 @@ const ShoppingCart = () => {
     // return;
     setShoppingCart(shoppingCart.filter((item) => item !== removedItem));
   }
+
+  // function updateQuantity(productInfo, newQty) {
+  //   for
+  // }
 
   function getTotalQuantity() {
     let totalQuantity = 0;
@@ -130,6 +135,23 @@ const ShoppingCart = () => {
               <div className='cart-item-name'>{item.name}</div>
               <div className='cart-item-price'>${item.price}</div>
               <div className='cart-item-qty'>{item.quantity} in cart</div>
+              <div className='cart-item-qty-input'>
+                <label
+                  htmlFor='quantity'
+                  className='cart-form-label'>
+                  in cart
+                </label>
+                <input
+                  className='cart-form-input  '
+                  type='number'
+                  required
+                  onChange={(e) => {
+                    updateQuantity(item, e.target.value);
+                  }}
+                  value={Number(item.quantity)}
+                  name='quantity'
+                />
+              </div>
               <button
                 className='cart-add-item-button'
                 onClick={() => addToShoppingCart(item)}>
