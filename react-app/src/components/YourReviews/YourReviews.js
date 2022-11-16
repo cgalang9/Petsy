@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { getUserReviewsThunk } from "../../store/userReview"
 import StarRatings from "react-star-ratings";
+import { editUserReviewThunk, deleteUserReviewThunk } from "../../store/userReview";
 import './yourReview.css'
 
 const YourReviews = () => {
@@ -21,7 +22,7 @@ const YourReviews = () => {
         }
         await dispatch(getUserReviewsThunk())
         setIsLoaded(true)
-    }, [dispatch, user])
+    }, [dispatch])
 
     const reviews = useSelector((state) => {
         if (isLoaded) return Object.values(state.userReviews)
@@ -41,6 +42,29 @@ const YourReviews = () => {
             setText('')
         }
     }, [editFocus, isLoaded])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        let payload = {
+            id: editFocus,
+            rating: starRating,
+            text
+        }
+        await dispatch(editUserReviewThunk(payload))
+        setEditFocus(null)
+    }
+
+    const handleDelete = (reviewId) => {
+        return async () => {
+            if (
+                window.confirm(
+                    "Are you sure you want to delete this review? You can not recover this review after deletion."
+                )
+            ) {
+                await dispatch(deleteUserReviewThunk(reviewId))
+            }
+        }
+    }
 
     return (
         <div>
@@ -67,7 +91,7 @@ const YourReviews = () => {
                                             {review?.reviewImageURL && <div className="your-reviews-review-image" style={{ backgroundImage: `url(${review?.reviewImageURL})` }}></div>}
                                         </>}
                                         {editFocus === review.id && <>
-                                            <form className="your-reviews-edit-form">
+                                            <form onSubmit={handleSubmit} className="your-reviews-edit-form">
                                                 <div className='your-reviews-input-wrapper'>
                                                     <StarRatings
                                                         rating={starRating}
@@ -92,6 +116,7 @@ const YourReviews = () => {
                                                         className='your-reviews-form-input-textarea'
                                                         onChange={e => setText(e.target.value)}
                                                         value={text}
+                                                        maxLength='255'
                                                     />
                                                 </div>
                                                 <div className='input-wrapper'>
@@ -108,7 +133,7 @@ const YourReviews = () => {
                                     else setEditFocus(review.id)
                                 }}>
                                     {editFocus === review.id && 'Cancel'}{editFocus !== review.id && 'Edit review'}</button>
-                                <button>Delete review</button>
+                                <button onClick={handleDelete(review.id)}>Delete review</button>
                             </div>
                         </div>
                     )
