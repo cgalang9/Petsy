@@ -109,23 +109,6 @@ function ItemDetailsPage() {
     }
 
     return (
-<<<<<<< HEAD
-        <div id='items-details-page'>
-            {item && (
-                <>
-                    <div id='items-details-page-left'>
-                        {sessionUser?.id === item.sellerId && (
-                            <>
-                                <div id='edit-item-link'>
-                                    <NavLink to={{
-                                        pathname: `/items/${itemId}/edit-item`,
-                                        state: { ...item }
-                                    }}> Edit Item
-                                    </NavLink>
-                                </div>
-                                <div id='delete-item-link' onClick={handleDelete}>
-                                    Delete Item
-=======
         <div id='items-details-page-oustside-container'>
             {isLoaded && (
                 <div id='items-details-page'>
@@ -160,7 +143,6 @@ function ItemDetailsPage() {
                                         )))}
                                         <div className='items-details-page-arrow' onClick={handleRightArrow}><i className="fa-solid fa-angle-right" /></div>
                                     </div>
->>>>>>> 6a0952dedcd1f4cb9f4efd58b997bd2044eb1153
                                 </div>
                                 <div id='items-details-page-main-review-containter'>
                                     <div id='items-details-page-main-shop-reviews'>
