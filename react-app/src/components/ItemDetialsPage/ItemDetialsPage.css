@@ -11,13 +11,15 @@
 
 #items-details-page{
     margin-top: 60px;
-    max-width: 1300px;
+    max-width: 2000px;
+    min-width: 1300px;
     align-self: center;
 }
 
 #items-details-page-images-container {
     justify-content: center;
     padding-bottom: 40px;
+    width: 100%;
 }
 
 #items-details-page-left,
@@ -48,6 +50,8 @@
 #items-details-page-images-container-tiles {
    padding: 0 10px;
    height: 500px;
+   min-width: 140px;
+   margin-right: 20px;
    overflow: scroll;
 }
 
@@ -86,7 +90,7 @@
 
 #items-details-page-main-review-containter {
     margin-bottom: 20px;
-    padding-left: 50px;
+    padding: 0 50px;
 }
 
 .items-details-page-arrow-review {
@@ -178,4 +182,23 @@
 #items-details-page-right-description-text {
     font-size: 18px;
     margin-top: 5px;
+}
+
+#items-details-page-main-shop-reviews-images-head {
+    margin-top: 50px;
+    font-size: 16px;
+}
+
+#items-details-page-main-shop-reviews-images-container {
+    display: flex;
+    overflow: scroll;
+    gap: 20px;
+    padding: 30px 0;
+}
+
+.items-details-page-main-shop-reviews-images {
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+
 }

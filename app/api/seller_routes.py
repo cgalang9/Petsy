@@ -71,4 +71,4 @@ def get_review_image(id):
         }
         allReviews.append(review_obj)
 
-    return {"reviewImages": allReviews}
+    return allReviews

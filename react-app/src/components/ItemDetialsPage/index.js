@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useHistory, useParams } from 'react-router-dom'
 import { getItemDetailsThunk, deleteItemThunk } from '../../store/itemPage'
 import { getItemReviewsThunk } from '../../store/itemReviews'
+import { getImagesBySellerIdThunk } from '../../store/sellerReviewImages'
 import StarRatings from 'react-star-ratings';
 import './ItemDetialsPage.css'
 
@@ -18,8 +19,9 @@ function ItemDetailsPage() {
 
     useEffect(async () => {
         try {
-            await dispatch(getItemDetailsThunk(itemId))
+            const item = await dispatch(getItemDetailsThunk(itemId))
             await dispatch(getItemReviewsThunk(itemId))
+            await dispatch(getImagesBySellerIdThunk(item.sellerId))
             setIsLoaded(true)
         } catch {
             history.push('/404')
@@ -28,6 +30,7 @@ function ItemDetailsPage() {
 
     const item = useSelector(state => state.itemPage)
     const itemReviews = useSelector(state => state.itemReviews)
+    const sellerReviewImages = useSelector(state => state.sellerReviewImages)
     const sessionUser = useSelector(state => state.session.user)
 
     const handleDelete = () => {
@@ -158,6 +161,14 @@ function ItemDetailsPage() {
                                         <span className='items-details-page-arrow-review' onClick={handleLeftArrowReview}><i className="fa-solid fa-angle-left" /></span>
                                         Page {reviewIdx / 4 + 1} of {Math.ceil(itemReviews.length / 4)}
                                         <span className='items-details-page-arrow-review' onClick={handleRightArrowReview}><i className="fa-solid fa-angle-right" /></span>
+                                    </div>
+                                    <div id='items-details-page-main-shop-reviews-images-head'>Photos from reviews</div>
+                                    <div id='items-details-page-main-shop-reviews-images-container'>
+                                        {sellerReviewImages && (sellerReviewImages.map(img => (
+                                            <div key={img.id}>
+                                                <img src={img.url} alt='review image' className='items-details-page-main-shop-reviews-images'></img>
+                                            </div>
+                                        )))}
                                     </div>
                                 </div>
                             </div>

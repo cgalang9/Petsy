@@ -4,12 +4,14 @@ import session from './session'
 import items from './items'
 import { itemReviewsReducer } from './itemReviews';
 import { itemPageReducer } from './itemPage';
+import { sellerReviewImagesReducer } from './sellerReviewImages';
 
   const rootReducer = combineReducers({
     session,
     itemPage: itemPageReducer,
     itemReviews: itemReviewsReducer,
-    items
+    items,
+    sellerReviewImages: sellerReviewImagesReducer
 });
 
 
