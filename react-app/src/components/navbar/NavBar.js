@@ -75,7 +75,7 @@ const NavBar = () => {
             </div>
           </div>
           <button className='navbar-search-button' onClick={submitSearch}>
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i className="fa-solid fa-magnifying-glass"></i>
           </button>
         </div>
       </div>

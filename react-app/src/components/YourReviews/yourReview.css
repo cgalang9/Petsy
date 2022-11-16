@@ -4,6 +4,8 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px black;
 }
 
 .your-reviews-header {
@@ -22,6 +24,8 @@
 .your-reviews-review-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 30px;
     width: 70%;
 }
 
@@ -54,11 +58,18 @@
 .your-reviews-review-content-wrapper>h2 {
     font-size: 20px;
     font-weight: 500;
+    cursor: pointer;
 }
 
-.your-reviews-review-content-wrapper>h4 {
+.your-reviews-review-content-wrapper>h2:hover {
+    text-decoration: underline;
+    color: rgb(60, 60, 60);
+}
+
+.your-reviews-review-content>h4 {
     font-size: 15px;
     font-weight: 400;
+    color: black;
 }
 
 .your-reviews-review-content {
@@ -67,4 +78,28 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.your-reviews-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 140px;
+}
+
+.your-reviews-buttons>button {
+    font-size: 16px;
+    color: black;
+    background: none;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-family: unset;
+    text-align: center;
+    box-shadow: 0px 1px 2px lightgray;
+}
+
+.your-reviews-buttons>button:hover {
+    background-color: rgba(211, 211, 211, 0.2)
 }

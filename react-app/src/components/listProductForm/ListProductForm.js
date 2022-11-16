@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import "./listproduct.css"
 import { postItemThunk } from "../../store/itemPage";
@@ -13,6 +13,14 @@ const ListProductForm = () => {
     const [submitted, setSubmitted] = useState(false)
     const dispatch = useDispatch()
     const history = useHistory()
+    const user = useSelector((state) => state.session.user)
+
+    useEffect(() => {
+        if (!user) {
+            history.push('/')
+            return
+        }
+    }, [user])
 
     useEffect(() => {
         let errorsArr = []
