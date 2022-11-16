@@ -1,15 +1,17 @@
 // ShoppingCart/index.js
 
 import React, { useEffect, useState } from "react";
-import AddToCart from "../AddToCart";
 
 import "../ShoppingCart/ShoppingCart.css";
 
+// initializes localStorageCart, if it doesn't exist sets it to an empty array
 let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const ShoppingCart = () => {
+  //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
 
+  // mounts the shopping cart on initial mount
   useEffect(() => {
     localStorageCart = JSON.parse(localStorage.getItem("cart"));
 
@@ -23,13 +25,6 @@ const ShoppingCart = () => {
 
   console.log("this is localStorageCart in ShoppingCart", localStorageCart);
   console.log("this is shoppingcart in shopping cart", shoppingCart);
-
-  // useEffect(() => {
-  //   const shoppingCart = JSON.parse(localStorage.getItem("cart"));
-  //   if (shoppingCart) {
-  //     setShoppingCart(shoppingCart);
-  //   }
-  // }, [AddToCart, localStorageCart]);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
@@ -57,14 +52,34 @@ const ShoppingCart = () => {
   //   }
   // }
 
-  function addToShoppingCart(item) {
-    if (!localStorageCart) {
-      setShoppingCart([item]);
+  // function addToShoppingCart(item) {
+  //   if (!localStorageCart) {
+  //     setShoppingCart([item]);
+  //   } else {
+  //     setShoppingCart([...shoppingCart, item]);
+  //   }
+  //   console.log("shopping cart after addtocart ", shoppingCart);
+
+  const addToShoppingCart = (productInfo) => {
+    // if (!localStorageCart) {
+    //   let initialItem = { ...productInfo, quantity: 1 };
+    //   setCart([initialItem]);
+    // } else {
+    let cartArray = [...shoppingCart];
+    console.log("this is cartArray before founditem", cartArray);
+    let foundItem = cartArray.find(
+      (item) => productInfo.itemId === item.itemId
+    );
+    console.log("this is found item", foundItem);
+    if (foundItem) {
+      foundItem.quantity += 1;
     } else {
-      setShoppingCart([...shoppingCart, item]);
+      foundItem = { ...productInfo, quantity: 1 };
+      cartArray.push(foundItem);
     }
-    console.log("shopping cart after addtocart ", shoppingCart);
-  }
+    setShoppingCart(cartArray);
+  };
+  // }
 
   function removeFromShoppingCart(removedItem) {
     // shoppingCart.splice(removedItem, 1);
@@ -106,6 +121,7 @@ const ShoppingCart = () => {
               </div>
               <div className='cart-item-name'>{item.name}</div>
               <div className='cart-item-price'>${item.price}</div>
+              <div className='cart-item-qty'>{item.quantity} in cart</div>
               <button
                 className='cart-add-item-button'
                 onClick={() => addToShoppingCart(item)}>

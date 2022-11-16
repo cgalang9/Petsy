@@ -29,7 +29,8 @@ const AddToCart = ({ itemId }) => {
     previewImg: item.imageURLs[0],
     name: item.name,
     shopName: item.shopName,
-    price: item.price
+    price: item.price,
+    itemId
   };
 
   // async function getCartProductInfo(productId) {
@@ -50,19 +51,39 @@ const AddToCart = ({ itemId }) => {
   //   return cartIndex;
   // };
 
-  const handleAddToCartClick = (productInfo) => {
-    if (!localStorageCart) {
-      setCart([productInfo]);
+  // const handleAddToCartClick = (productInfo) => {
+  //   if (!localStorageCart) {
+  //     setCart([productInfo]);
+  //   } else {
+  //     setCart([...cart, productInfo]);
+  //   }
+  //   console.log("cart after add to click", cart);
+  // };
+  // onClick={() => handleAddToCartClick(productInfo)}
+
+  const addToCart = (productInfo) => {
+    // if (!localStorageCart) {
+    //   let initialItem = { ...productInfo, quantity: 1 };
+    //   setCart([initialItem]);
+    // } else {
+    let cartArray = [...cart];
+    let foundItem = cartArray.find(
+      (item) => productInfo.itemId === item.itemId
+    );
+    console.log("this is found item in ATC", foundItem);
+    if (foundItem) {
+      foundItem.quantity += 1;
     } else {
-      setCart([...cart, productInfo]);
+      foundItem = { ...productInfo, quantity: 1 };
+      cartArray.push(foundItem);
     }
-    console.log("cart after add to click", cart);
+    setCart(cartArray);
   };
 
   return (
     <button
       className='AddToCart--button-component'
-      onClick={() => handleAddToCartClick(productInfo)}
+      onClick={() => addToCart(productInfo)}
       type='button'>
       Add to cart
     </button>
