@@ -12,7 +12,6 @@ export const getItemReviewsThunk = (itemId) => async (dispatch) => {
         dispatch(getItemReviews(reviews))
         return reviews
     }
-
 }
 
 //Post review by item id
@@ -57,7 +56,6 @@ export const addItemReviewThunk = (itemId, review) => async (dispatch) => {
 export const itemReviewsReducer = (state = null, action) => {
     switch (action.type) {
         case GET_REVIEWS:
-            console.log('asdasdasdadadasdsdasdsadasdasdsaddasdsa', action.review)
             const stateGetItemReviews = [...action.reviews['itemReviews']]
             return stateGetItemReviews
         case ADD_REVIEW:

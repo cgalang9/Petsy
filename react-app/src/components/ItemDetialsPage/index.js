@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useHistory, useParams } from "react-router-dom";
 import { getItemDetailsThunk, deleteItemThunk } from "../../store/itemPage";
 import { getItemReviewsThunk } from "../../store/itemReviews";
 import { getImagesBySellerIdThunk } from "../../store/sellerReviewImages";
 import StarRatings from "react-star-ratings";
+import Modal from 'react-modal';
+import ReviewImageModal from "../ReviewImageModal";
 import "./ItemDetialsPage.css";
 import AddToCart from "../AddToCart";
 
@@ -12,9 +14,14 @@ function ItemDetailsPage() {
   const { itemId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const modalStr = useRef('')
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
+
+  useEffect(() => {
+    Modal.setAppElement('body')
+  },[])
 
   useEffect(async () => {
     try {
@@ -118,6 +125,30 @@ function ItemDetailsPage() {
       setReviewIdx(reviewIdx - 4);
     }
   };
+
+  //Modal functions and styling
+  const customStyles = {
+    content: {
+      width: '65%',
+      height: '65%',
+      top: '50%',
+      left: '50%',
+      borderRadius: '15px',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+//   let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const openModal = async(e) => {
+    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}` //reviewId separated by img url to pass to modal
+    await setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div id='items-details-page-oustside-container'>
@@ -245,11 +276,15 @@ function ItemDetailsPage() {
                         <div key={img.id}>
                           <img
                             src={img.url}
-                            alt='review image'
-                            className='items-details-page-main-shop-reviews-images'></img>
+                            alt={`Image: Review ${img.reviewId}`}
+                            className='items-details-page-main-shop-reviews-images'
+                            onClick={openModal}></img>
                         </div>
                       ))}
                   </div>
+                  <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                        <ReviewImageModal modalStr={modalStr.current}/>
+                  </Modal>
                 </div>
               </div>
               <div id='items-details-page-right'>

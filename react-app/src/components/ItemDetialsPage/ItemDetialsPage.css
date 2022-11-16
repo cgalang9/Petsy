@@ -218,5 +218,9 @@
 }
 
 #items-details-page-add-to-cart-btn-container {
-    max-width: 50px;
+    max-width: 160px;
+}
+
+#items-details-page-add-to-cart-btn-container > button {
+    padding: 10px;
 }

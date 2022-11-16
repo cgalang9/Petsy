@@ -244,7 +244,7 @@ def edit_product(product_id):
             "description": current_product.description,
             "shopReviews": len(shop_reviews),
             "itemReviews": item_reviews_count,
-            "imageURLs": [image.url for image in images]
+            "imageURLs": [image.url for image in images] if images else []
         }
         return final_product
     else:
