@@ -6,9 +6,8 @@ import { getItemDetailsThunk } from "../../store/itemPage";
 
 import "../AddToCart/AddToCart.css";
 
-const AddToCart = () => {
+const AddToCart = ({ itemId }) => {
   let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
-  let itemId = 5;
 
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);

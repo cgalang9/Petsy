@@ -8,21 +8,36 @@ import "../ShoppingCart/ShoppingCart.css";
 let localStorageCart = JSON.parse(localStorage.getItem("cart"));
 
 const ShoppingCart = () => {
-  console.log("this is localStorageCart in ShoppingCart", localStorageCart);
-
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
 
   useEffect(() => {
-    const shoppingCart = JSON.parse(localStorage.getItem("cart"));
-    if (shoppingCart) {
-      setShoppingCart(shoppingCart);
+    localStorageCart = JSON.parse(localStorage.getItem("cart"));
+
+    if (shoppingCart === [] && localStorageCart === []) {
+      setShoppingCart([]);
+    } else {
+      setShoppingCart(localStorageCart);
     }
-  }, [shoppingCart, AddToCart, getTotalPrice()]);
+    console.log("mounting localStorage Cart");
+  }, []);
+
+  console.log("this is localStorageCart in ShoppingCart", localStorageCart);
+  console.log("this is shoppingcart in shopping cart", shoppingCart);
+
+  // useEffect(() => {
+  //   const shoppingCart = JSON.parse(localStorage.getItem("cart"));
+  //   if (shoppingCart) {
+  //     setShoppingCart(shoppingCart);
+  //   }
+  // }, [AddToCart, localStorageCart]);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    console.log("setting localStorageCart to shoppingCart change");
+  }, [shoppingCart]);
 
   //   return totalQty;
   // }
-
-  console.log("this is shoppingcart in shopping cart", shoppingCart);
 
   // async function getCartProductInfo(productId) {
   //   const response = await fetch(`/api/items/${productId}`);
@@ -42,9 +57,23 @@ const ShoppingCart = () => {
   //   }
   // }
 
-  // function addToShoppingCart(item) {
-  //   setShoppingCart(...shoppingCart, item);
-  // }
+  function addToShoppingCart(item) {
+    if (!localStorageCart) {
+      setShoppingCart([item]);
+    } else {
+      setShoppingCart([...shoppingCart, item]);
+    }
+    console.log("shopping cart after addtocart ", shoppingCart);
+  }
+
+  function removeFromShoppingCart(removedItem) {
+    // shoppingCart.splice(removedItem, 1);
+    // console.log("this is shoppingCart after splice", shoppingCart);
+    // setShoppingCart(shoppingCart);
+    // console.log("this is shoppingCart after set", shoppingCart);
+    // return;
+    setShoppingCart(shoppingCart.filter((item) => item !== removedItem));
+  }
 
   function getTotalPrice() {
     let totalPrice = 0;
@@ -56,16 +85,13 @@ const ShoppingCart = () => {
 
   return (
     <>
+      <div className='cart-header'></div>
       <div className='cart-container-main'>
-        <h1>Shopping Cart</h1>
-        <h3>{shoppingCart.length} items in your cart</h3>
         <div className='cart-items'>
           {shoppingCart.map((item, index) => (
             <div
               className='cart-item'
               key={index}>
-              <div className='cart-item-name'>{item.name}</div>
-              <div className='cart-item-price'>{item.price}</div>
               <div className='cart-item-img-wrapper'>
                 <img
                   src={item.previewImg}
@@ -73,14 +99,26 @@ const ShoppingCart = () => {
                   className='cart-item-img'
                 />
               </div>
-              <div className='cart-item-price'>{item.price}</div>
-              <AddToCart />
+              <div className='cart-item-name'>{item.name}</div>
+              <div className='cart-item-price'>${item.price}</div>
+              <button
+                className='cart-add-item-button'
+                onClick={() => addToShoppingCart(item)}>
+                Add to Cart
+              </button>
+              <button
+                className='cart-remove-item-button'
+                onClick={() => removeFromShoppingCart(item)}>
+                Remove Item
+              </button>
             </div>
           ))}
         </div>
         <div className='cart-sidebox'>
-          {" "}
-          Checkout
+          <div className='cart-sidebox-header'>Checkout</div>
+          <div className='cart-sidebox-totalitems'>
+            {shoppingCart.length} items in your cart
+          </div>
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
           </div>
