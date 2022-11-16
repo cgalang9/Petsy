@@ -90,10 +90,18 @@ const ShoppingCart = () => {
     setShoppingCart(shoppingCart.filter((item) => item !== removedItem));
   }
 
+  function getTotalQuantity() {
+    let totalQuantity = 0;
+    for (let item of shoppingCart) {
+      totalQuantity += item.quantity;
+    }
+    return totalQuantity.toFixed(0);
+  }
+
   function getTotalPrice() {
     let totalPrice = 0;
     for (let item of shoppingCart) {
-      totalPrice += item.price;
+      totalPrice += item.price * item.quantity;
     }
     return totalPrice.toFixed(2);
   }
@@ -138,7 +146,7 @@ const ShoppingCart = () => {
         <div className='cart-sidebox'>
           <div className='cart-sidebox-header'>Checkout</div>
           <div className='cart-sidebox-totalitems'>
-            {shoppingCart.length} items in your cart
+            {getTotalQuantity()} items in your cart
           </div>
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
