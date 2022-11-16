@@ -21,8 +21,6 @@ def get_user_reviews():
     gets all reviews by current user session
     """
 
-    # stand in for current_user.id
-    test_user_id = 3
 
 
     # checks if user is authenticated
@@ -36,7 +34,7 @@ def get_user_reviews():
                                     Review.text,
                                     Product.id.label("itemId"),
                                     Product.name,
-                                    ReviewImage.url.label("previewImageURL"),
+                                    ReviewImage.url.label("reviewImageURL"),
                                     User.username.label("shopName")
                                     ).join(
                                     Product, Review.product_id == Product.id
@@ -54,13 +52,14 @@ def get_user_reviews():
                 "item" : {
                             "itemId": row.itemId,
                             "name": row.name,
-                            "previewImageURL": row.previewImageURL,
+                            "previewImageURL": ProductImage.query.filter(ProductImage.product_id==row.itemId).filter(ProductImage.preview_image==True).all()[0].url,
                             "shopName": row.shopName,
                 },
+                "reviewImageURL": row.reviewImageURL,
                 "text": row.text,
                 "starRating": row.rating,
                 "date": row.date_created
-            } for row in user_reviews if row.user_id == test_user_id
+            } for row in user_reviews if row.user_id == current_user.id
 
         ]
 

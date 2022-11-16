@@ -53,8 +53,7 @@ const ListProductForm = () => {
         }
 
         const item = await dispatch(postItemThunk(payload))
-        console.log(item)
-        // history.push(`/items/${item.id}`)
+        history.push(`/items/${item.id}`)
     }
 
     return (

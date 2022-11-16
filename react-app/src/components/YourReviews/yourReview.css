@@ -1,0 +1,25 @@
+.your-reviews-item-image {
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.your-reviews-review-image {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.your-reviews-review-wrapper {
+    display: flex;
+
+}
+
+.your-reviews-review-content-wrapper {
+    display: flex;
+    flex-direction: column;
+}

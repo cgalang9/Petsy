@@ -23,10 +23,10 @@ function ItemDetailsPage() {
     const sessionUser = useSelector(state => state.session.user)
 
     const handleDelete = () => {
-        if(window.confirm("Are you sure you want to delete this item? You can not recover this item after deletion.")) {
+        if (window.confirm("Are you sure you want to delete this item? You can not recover this item after deletion.")) {
             dispatch(deleteItemThunk(itemId))
-              .then(() => history.push('/'))
-          }
+                .then(() => history.push('/'))
+        }
     }
 
     let imgIdx = 0 //to keep track of which img needs to be displayed
@@ -91,7 +91,7 @@ function ItemDetailsPage() {
             {item && (
                 <>
                     <div id='items-details-page-left'>
-                        {sessionUser.id === item.sellerId && (
+                        {sessionUser?.id === item.sellerId && (
                             <>
                                 <div id='edit-item-link'>
                                     <NavLink to={{

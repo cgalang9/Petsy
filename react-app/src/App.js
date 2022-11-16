@@ -15,6 +15,7 @@ import EditItemForm from "./components/EditItemForm";
 
 import AddToCart from "./components/AddToCart";
 import ShoppingCart from "./components/ShoppingCart";
+import YourReviews from "./components/YourReviews/YourReviews";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -73,6 +74,9 @@ function App() {
         </Route>
         <Route path='/cart'>
           <ShoppingCart />
+        </Route>
+        <Route path='/your-reviews'>
+          <YourReviews />
         </Route>
       </Switch>
     </BrowserRouter>

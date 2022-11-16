@@ -7,7 +7,7 @@ const getItemReviews = (reviews) => {
 export const getItemReviewsThunk = (itemId) => async (dispatch) => {
     const response = await fetch(`/api/items/${itemId}/reviews`)
 
-    if(response.ok) {
+    if (response.ok) {
         const reviews = await response.json()
         dispatch(getItemReviews(reviews))
         return reviews
@@ -17,7 +17,7 @@ export const getItemReviewsThunk = (itemId) => async (dispatch) => {
 
 
 export const itemReviewsReducer = (state = null, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GET_REVIEWS:
             const stateGetItemReviews = [...action.reviews['itemReviews']]
             return stateGetItemReviews
