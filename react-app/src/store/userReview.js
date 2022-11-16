@@ -8,7 +8,12 @@ export const getUserReviewsThunk = () => async (dispatch) => {
 
     if (response.ok) {
         const reviews = await response.json()
-        dispatch(getUserReviews(reviews))
+        let normalizedReviews = {}
+        console.log(reviews.userReviews)
+        reviews.userReviews.forEach(review => {
+            normalizedReviews[review.id] = review
+        });
+        dispatch(getUserReviews(normalizedReviews))
         return reviews
     }
 
@@ -17,7 +22,7 @@ export const getUserReviewsThunk = () => async (dispatch) => {
 export const userReviewsReducer = (state = null, action) => {
     switch (action.type) {
         case GET_USER_REVIEWS:
-            const stateGetUserReviews = [...action.reviews['userReviews']]
+            const stateGetUserReviews = { ...action.reviews }
             return stateGetUserReviews
         default:
             return state
