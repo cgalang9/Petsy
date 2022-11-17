@@ -208,12 +208,12 @@ def seed_users():
             "reviews": [
                 {
                 "rating": 5,
-                "text": "Super Fantastic, pricey though, even though my little diva takes pretty good care of her toys, especially purses because I paid so much for this, over two times what I would for any other Faux Designer Doggie hand bag. This is not made as strong as others I have Purchased so it may just come out during special occasions when we have guest. I LOVE IT THOUGH VERY MUCH.",
+                "text": "Super Fantastic, pricey though, even though my little diva takes pretty good care of her toys, especially purses because I paid so much for this, over two times what I would for any other Faux Designer Doggie hand bag.  LOVE IT THOUGH VERY MUCH.",
                 "review_images": []
                 },
                 {
                 "rating": 5,
-                "text": "Great seller, beautiful products! Very responsive and caring to my questions/concerns. Her products are beautiful and made very well. My only advice is to look at the dimensions of the product to make sure the size of the products is right for your pet before ordering! But the seller is great and I would order from her again. Thanks for your hard work, and beautiful product for my spoiled puppy!",
+                "text": "Great seller, beautiful products! Very responsive and caring to my questions/concerns. Her products are beautiful and made very well. My only advice is to look at the dimensions of the product to make sure the size of the products is right",
                 "review_images": []
                 },
                 {
@@ -381,7 +381,7 @@ def seed_users():
             "reviews": [
                 {
                 "rating": 5,
-                "text": "My puppy is four months old and absolutely loves the crinkle! We’ve had it for two weeks and she did puncture it going for the squeaker so I remove the squeaker and stitched our precious sushi back up and she’s good for at least a couple more weeks of play.",
+                "text": "My puppy is four months old and absolutely loves the crinkle! We’ve had it for two weeks and she did puncture it going for the squeaker so I remove the squeaker and stitched our precious sushi back up and she’s good for couple more weeks of play.",
                 "review_images": ["https://photos-us.bazaarvoice.com/photo/2/cGhvdG86cGV0Y28/5bbef906-3518-57fe-894c-a7e6945a4823"]
                 },
                 {
@@ -453,7 +453,7 @@ def seed_users():
                 },
                 {
                 "rating": 3,
-                "text": "Bought it for our guinea pigs. They were 2 months old and they could fit then. We had it about a month and the rope pieces are barely hanging on and a spot in the seam is coming undone. It’s sad because 1 guinea pig still likes to sleep with his head in the pineapple",
+                "text": "Bought it for our guinea pigs. They were 2 months old and they could fit then. We had it about a month and the rope pieces are barely hanging on and a spot in the seam is coming undone.",
                 "review_images": []
                 }
             ]
@@ -1030,7 +1030,7 @@ def seed_users():
                 },
                 {
                     "rating": 5,
-                    "text": "I purchased these socks in November as a Christmas gift for a friend. They were supposed to show up well before Christmas but with the virus and the ongoing issues with USPS they unfortunately got lost in the mail. I got an Etsy message from the seller offering me a refund or to send another pair. I opted for them to send another pair and they arrived very quickly this time! My friend absolutely loves them. Definitly worth the wait, thanks for the excellent customer service!",
+                    "text": "I purchased these socks in November as a Christmas gift for a friend. They were supposed to show up well before Christmas but with the virus and the ongoing issues with USPS they unfortunately got lost in the mail.",
                     "review_images": ["https://i.etsystatic.com/iap/8cca17/3973205797/iap_640x640.3973205797_a94vprdd.jpg?version=0"]
                 }
             ]
@@ -1049,7 +1049,7 @@ def seed_users():
                 },
                 {
                     "rating": 5,
-                    "text": "It’s perfect study well made well worth the money matched description exactly what I expected I could not be happier best quality purchase I have made I am so happy ! Came very quickly it’s is awesome thank you so much ! I just want to hug you !",
+                    "text": "It’s perfect study well made well worth the money matched description exactly what I expected I could not be happier best quality purchase I have made I am so happy ! Came very quickly it’s is awesome thank you so much !",
                     "review_images": ["https://i.etsystatic.com/iap/357fd2/4265110810/iap_640x640.4265110810_4v65xam3.jpg?version=0"]
                 }
             ]
@@ -1139,7 +1139,7 @@ def seed_users():
             "reviews": [
                 {
                     "rating": 5,
-                    "text": "I will be ordering this again! Aprill was prompt, friendly, and clearly cares about what she does. This shampoo is gentle on my little Pomeranian, whose fur picks up a lot of dirt. The consistency is not thick like commercial shampoos, but I like this. It has a light, pleasant smell and cleans my pup! Thanks again!",
+                    "text": "I will be ordering this again! Aprill was prompt, friendly, and clearly cares about what she does. This shampoo is gentle on my little Pomeranian, whose fur picks up a lot of dirt.",
                     "review_images": ["https://i.etsystatic.com/iap/8e8861/2511640056/iap_640x640.2511640056_lzayttyi.jpg?version=0"]
                 },
                 {
@@ -1182,7 +1182,7 @@ def seed_users():
                 },
                 {
                     "rating": 3,
-                    "text": "I am very very excited about the top quality of this leash :-D It is very robust and stable, so that it would be quite quick to undress in case ! I am happy about this beautiful part, thank you for being there ;-) If necessary, I will order from you again!",
+                    "text": "I am very very excited about the top quality of this leash :-D It is very robust and stable, so that it would be quite quick to undress in case ! I am happy about this beautiful part, thank you for being there ;-) I will order from you again!",
                     "review_images": ["https://i.etsystatic.com/iap/66cb6f/4251018328/iap_640x640.4251018328_ofuert8b.jpg?version=0"]
                 }
             ]
@@ -1196,7 +1196,7 @@ def seed_users():
             "reviews": [
                 {
                     "rating": 5,
-                    "text": "The scratching post is well-constructed, sturdy, and nice-looking. I appreciated being able to choose the appropriate height, as well as the wood grain color of the base. It looks well in my home. The base can be quickly dusted instead of vacuumed like posts that have a carpeted base. The scratching post was packaged very securely, and arrived in perfect condition ahead of schedule. For 2 hours, the cat REALLY enjoyed rolling around in the packing material which must have become infused with some of the organic catnip on its journey. A quality item, worth the price.",
+                    "text": "The scratching post is well-constructed, sturdy, and nice-looking. I appreciated being able to choose the appropriate height, as well as the wood grain color of the base. It looks well in my home.",
                     "review_images": ["https://i.etsystatic.com/iap/239098/3152257902/iap_640x640.3152257902_c8zgz8nr.jpg?version=0"]
                 },
                 {
@@ -1215,12 +1215,12 @@ def seed_users():
             "reviews": [
                 {
                     "rating": 5,
-                    "text": "Easily one of the best purchases I have EVER made. We run a rescue out of our home and have 25 cats flying around wrecking everything all the time, but they cannot wreck this! It is STURDY, and they absolutely love it! We’re in the middle of some very late spring cleaning and we’re actually trying to find another spot for one so we can buy another. This thing is constantly occupied by cats, from 3 month olds to 19 year olds.",
+                    "text": "Easily one of the best purchases I have EVER made. We run a rescue out of our home and have 25 cats flying around wrecking everything all the time, but they cannot wreck this! It is STURDY, and they absolutely love it!",
                     "review_images": ["https://i.etsystatic.com/iap/552b89/4280364872/iap_640x640.4280364872_oqmfceta.jpg?version=0"]
                 },
                 {
                     "rating": 5,
-                    "text": "If you are hesitating bc of the wait time - do not! Worth the wait and every single penny! Not only is this tree very beautiful it is also functional. It it steady and extremely well made. The instructions are clear and I had no trouble putting it together by myself. My cats took to it immediately. I did not even need the complimentary cat nip - they jumped on it the second i finished putting the baskets on! Very satisfied with this purchase!",
+                    "text": "If you are hesitating bc of the wait time - do not! Worth the wait and every single penny! Not only is this tree very beautiful it is also functional. It it steady and extremely well made.",
                     "review_images": ["https://i.etsystatic.com/iap/0690d3/4085425063/iap_640x640.4085425063_d3bk1am7.jpg?version=0"]
                 }
             ]
