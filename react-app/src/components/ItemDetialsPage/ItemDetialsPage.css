@@ -35,6 +35,7 @@
 
 #items-details-page-left {
     width: 60%;
+    min-width: 800px;
 }
 
 #items-details-page-right {
@@ -68,6 +69,7 @@
     width: 500px;
     height: 500px;
     margin: 0 10px;
+    border-radius: 5px;
     object-fit: cover;
 }
 
@@ -93,6 +95,7 @@
 #items-details-page-main-review-containter {
     margin-bottom: 20px;
     padding: 0 50px;
+    width: 100%;
 }
 
 .items-details-page-arrow-review {
@@ -118,6 +121,7 @@
     width: 150px;
     border-radius: 5px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 #items-details-page-main-shop-reviews{
@@ -217,6 +221,7 @@
     height: 200px;
     width: 200px;
     border-radius: 15px;
+    object-fit: cover;
 
 }
 
@@ -226,4 +231,8 @@
 
 #items-details-page-add-to-cart-btn-container > button {
     padding: 10px;
+}
+
+#items-details-page-create-review-link {
+    margin-bottom: 30px;
 }

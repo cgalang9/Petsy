@@ -118,17 +118,17 @@ function ItemDetailsPage() {
   const handleRightArrowReview = () => {
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
+      const element = document.getElementById("items-details-page-main-review-containter");
+      element.scrollIntoView();
     }
-    const element = document.getElementById("items-details-page-main-review-containter");
-    element.scrollIntoView();
   };
 
   const handleLeftArrowReview = () => {
     if (reviewIdx > 0) {
       setReviewIdx(reviewIdx - 4);
+      const element = document.getElementById("items-details-page-main-review-containter");
+      element.scrollIntoView();
     }
-    const element = document.getElementById("items-details-page-main-review-containter");
-    element.scrollIntoView();
   };
 
   //Modal functions and styling
@@ -223,11 +223,11 @@ function ItemDetailsPage() {
                   <div id='items-details-page-main-item-reviews-total'>
                     Reviews for this item <span>{itemReviews.length}</span>
                   </div>
-                  <div>
+                  <div id='items-details-page-create-review-link'>
                         <NavLink to={{ pathname: `/items/${itemId}/add-review`}}>
                             Create Review for this Item
                         </NavLink>
-                    </div>
+                  </div>
                   {itemReviews &&
                     itemReviews
                       .slice(reviewIdx, reviewIdx + 4)
@@ -258,25 +258,29 @@ function ItemDetailsPage() {
                                 </div>
                         </div>
                       ))}
-                  <div id='items-details-page-main-item-reviews-page'>
-                    <span
-                      className='items-details-page-arrow-review'
-                      onClick={handleLeftArrowReview}>
-                      <i className='fa-solid fa-angle-left' />
-                    </span>
-                    Page {reviewIdx / 4 + 1} of{" "}
-                    {Math.ceil(itemReviews.length / 4)}
-                    <span
-                      className='items-details-page-arrow-review'
-                      onClick={handleRightArrowReview}>
-                      <i className='fa-solid fa-angle-right' />
-                    </span>
-                  </div>
-                  <div id='items-details-page-main-shop-reviews-images-head'>
-                    Photos from reviews
-                  </div>
+                      {itemReviews.length > 0 && (
+                        <div id='items-details-page-main-item-reviews-page'>
+                          <span
+                            className='items-details-page-arrow-review'
+                            onClick={handleLeftArrowReview}>
+                            <i className='fa-solid fa-angle-left' />
+                          </span>
+                          Page {reviewIdx / 4 + 1} of{" "}
+                          {Math.ceil(itemReviews.length / 4)}
+                          <span
+                            className='items-details-page-arrow-review'
+                            onClick={handleRightArrowReview}>
+                            <i className='fa-solid fa-angle-right' />
+                          </span>
+                        </div>
+                      )}
+                    {sellerReviewImages.length > 0 && (
+                      <div id='items-details-page-main-shop-reviews-images-head'>
+                        Photos from reviews
+                      </div>
+                    )}
                   <div id='items-details-page-main-shop-reviews-images-container'>
-                    {sellerReviewImages &&
+                    {sellerReviewImages.length > 0  &&
                       sellerReviewImages.map((img) => (
                         <div key={img.id}>
                           <img

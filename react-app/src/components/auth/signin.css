@@ -4,32 +4,58 @@
     width: 60%;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 100px;
-    gap: 5%
+    margin-top: 50px;
+    gap: 20%
 }
 
 .sign-up-forms-wrapper>form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
     width: 30%;
 }
+
 
 .sign-up-forms-wrapper>form>div {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
     margin-bottom: 5px;
+    width: 100%;
 }
 
 .sign-up-forms-wrapper>form>button {
-    margin-top: 5px;
+    margin-top: 20px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.sign-up-forms-wrapper>form>button:hover {
+    opacity: 80%;
 }
 
 .sign-up-forms-wrapper>form>h1 {
     font-size: 25px;
-    margin: 0px;
-    padding: 0px;
-    font-weight: 500;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+
+.sign-up-forms-wrapper > form > div > input {
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.sign-up-forms-wrapper > form > div > label {
+    font-weight: 700;
+    margin-bottom: 10px;
 }

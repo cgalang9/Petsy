@@ -13,7 +13,6 @@ def get_review(id):
     """
     Get review by review id
     """
-    # review_result = Review.query.filter(Review.id == id).join(ReviewImage).join(Product).join(User).join(ProductImage).one()
     review_result = Review.query.filter(Review.id == id).join(User).join(Product).join(ProductImage).one()
 
     if review_result == None:

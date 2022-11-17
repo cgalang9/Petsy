@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { addItemReviewThunk } from '../../store/itemReviews'
+import './AddReviewForm.css'
 
 function AddReviewForm() {
     const { itemId } = useParams()
@@ -38,35 +39,36 @@ function AddReviewForm() {
     }
 
     return (
-        <form id='add_reivew_form' onSubmit={handleSubmit}>
-            <title>Add Your Review</title>
-            <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                <span>Rating</span>
-                <input
-                    type="number"
-                    value={rating}
-                    onChange={(e) => setRating(e.target.value)}
-                    required
-                    min={1}
-                    max={5}
-                />
-            </label>
-            <label>
-                <span>Text: </span>
-                <input
-                    type="text"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                    required
-                    minLength={1}
-                    maxLength={255}
-                />
-            </label>
-            <button>Add Review</button>
-        </form>
+        <div id='add_reivew_form-wrapper'>
+            <form id='add_reivew_form' onSubmit={handleSubmit}>
+                <h1>Add Your Review</h1>
+                <ul>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <div>
+                    <label>Rating</label>
+                    <input
+                        type="number"
+                        value={rating}
+                        onChange={(e) => setRating(e.target.value)}
+                        required
+                        min={1}
+                        max={5}
+                    />
+                </div>
+                <div>
+                    <label>Review</label>
+                    <textarea
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        required
+                        minLength={1}
+                        maxLength={255}
+                    />
+                </div>
+                <button>Add Review</button>
+            </form>
+        </div>
     )
 }
 

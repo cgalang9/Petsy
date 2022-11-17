@@ -6,7 +6,7 @@ import { postItemThunk } from "../../store/itemPage";
 
 const ListProductForm = () => {
     const [name, setName] = useState("");
-    const [price, setPrice] = useState("");
+    const [price, setPrice] = useState(0);
     const [description, setDescription] = useState("");
     const [urls, setUrls] = useState("");
     const [errors, setErrors] = useState([]);
@@ -71,8 +71,8 @@ const ListProductForm = () => {
                 {errors.length > 0 && submitted && <ul className="list-product-form-errors">
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>}
-                <div className='list-product-input-wrapper'>
-                    <label className='list-product-input-label'>
+                <div>
+                    <label>
                         Name
                     </label>
                     <input
@@ -80,44 +80,44 @@ const ListProductForm = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className='list-product-form-input'
+                        minLength={1}
+                        maxLength={75}
                     />
                 </div>
-                <div className='list-product-input-wrapper'>
-                    <label className='list-product-input-label'>
+                <div>
+                    <label>
                         Price
                     </label>
                     <input
-                        type="text"
+                        type="number"
+                        step="0.01"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         required
-                        className='list-product-form-input'
+                        min={0.01}
                     />
                 </div>
-                <div className='list-product-input-wrapper'>
-                    <label className='list-product-input-label'>
+                <div>
+                    <label>
                         Description
                     </label>
-                    <input
+                    <textarea
                         type="text"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         required
-                        className='list-product-form-input'
+                        minLength={1}
+                        maxLength={2000}
                     />
                 </div>
-                <div className='input-wrapper'>
-                    <label className='input-label'>Image urls (one per line)</label>
+                <div>
+                    <label>Image urls (separated by commas)</label>
                     <textarea
-                        className='form-input'
                         onChange={e => setUrls(e.target.value)}
                         value={urls}
                     />
                 </div>
-                <div className='input-wrapper'>
-                    <button className='submit-button'>Post product</button>
-                </div>
+                <button>Post product</button>
             </form>
         </div>
     )

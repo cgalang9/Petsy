@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { editItemThunk, getItemDetailsThunk } from '../../store/itemPage'
+import './EditItemForm.css'
 
 function EditItemForm() {
     const { itemId } = useParams()
@@ -63,45 +64,47 @@ function EditItemForm() {
     }
 
     return (
-        <form id='edit_item_form' onSubmit={handleSubmit}>
-            <title>Edit Your Item</title>
-            <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                <span>Item Name: </span>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    minLength={1}
-                    maxLength={75}
-                />
-            </label>
-            <label>
-                <span>Price: </span>
-                <input
-                    type="number"
-                    step="0.01"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                    min={0.01}
-                />
-            </label>
-            <label>
-                <span>Description: </span>
-                <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                    minLength={1}
-                    maxLength={2000}
-                />
-            </label>
-            <button>Confirm Changes</button>
-        </form>
+        <div id='edit-item-form-wrapper'>
+            <form id='edit-item-form' onSubmit={handleSubmit}>
+                <h1>Edit Your Item</h1>
+                <ul>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <div>
+                    <label>Name </label>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        minLength={1}
+                        maxLength={75}
+                    />
+                </div>
+                <div>
+                    <label>Price </label>
+                    <input
+                        type="number"
+                        step="0.01"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        required
+                        min={0.01}
+                    />
+                </div>
+                <div>
+                    <label>Description </label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                        minLength={1}
+                        maxLength={2000}
+                    />
+                </div>
+                <button>Confirm Changes</button>
+            </form>
+        </div>
     )
 }
 
