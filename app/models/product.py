@@ -14,7 +14,7 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.String(2000), nullable=False)
 
-    user = db.relationship('User', foreign_keys='[Order.user_id]', back_populates='products')
+    user = db.relationship('User', foreign_keys=[Order.user_id], back_populates='products')
     reviews = db.relationship('Review',  back_populates='product', cascade="all, delete-orphan")
     order_products = db.relationship('OrderProduct', back_populates='product')
     product_images = db.relationship('ProductImage', back_populates='product', cascade="all, delete-orphan")
