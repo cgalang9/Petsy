@@ -169,9 +169,8 @@ const ShoppingCart = () => {
                   />
                 </div>
               </div>
-
               <button
-                className='cart-remove-item-button cart-button'
+                className='cart-remove-item-button'
                 onClick={() => removeFromShoppingCart(item)}>
                 Remove Item
               </button>
@@ -190,12 +189,12 @@ const ShoppingCart = () => {
             {shoppingCart.length > 0 && (
               <>
                 <button
-                  className='cart-sidebox-emptyShoppingCart-button cart-button'
+                  className='cart-sidebox-emptyShoppingCart-button'
                   onClick={() => emptyCart()}>
                   Empty Cart
                 </button>
                 <button
-                  className='cart-sidebox-checkout-button cart-button'
+                  className='cart-sidebox-checkout-button'
                   onClick={() => handleCheckout()}>
                   Checkout
                 </button>
