@@ -115,7 +115,7 @@ function ItemDetailsPage() {
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
       const element = document.getElementById(
-        "items-details-page-main-review-containter"
+        "items-details-page-main-review-container"
       );
       element.scrollIntoView();
     }
@@ -202,8 +202,8 @@ function ItemDetailsPage() {
                               idx == 0
                                 ? "items-details-page-images-container-main-images show"
                                 : "items-details-page-images-container-main-images"
-                            }//sets active main image to first image
-                            ></img>
+                            } //sets active main image to first image
+                          ></img>
                         </div>
                       ))}
                     <div
