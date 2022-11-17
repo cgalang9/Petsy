@@ -23,7 +23,7 @@ function ReviewImageModal({ modalStr }) {
 
     const redirect = () => {
         history.push(`/items/${review.product_id}`)
-        history.go(0)
+        history.go(0) //refreshes page, modal will stay open otherwise
     }
 
     return (

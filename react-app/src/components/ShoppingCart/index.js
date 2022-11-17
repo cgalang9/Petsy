@@ -13,6 +13,8 @@ const ShoppingCart = () => {
   const user = useSelector((state) => state.session.user);
   const history = useHistory();
 
+  let conditionalButtons;
+
   //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
   // const [checkoutItemsObj, setCheckoutItemsObj] = useState({});
@@ -130,6 +132,25 @@ const ShoppingCart = () => {
   // )
   console.log("shoppingCart", shoppingCart);
 
+  if (shoppingCart.length <= 0) {
+    conditionalButtons = <></>;
+  } else {
+    conditionalButtons = (
+      <>
+        <button
+          className='cart-sidebox-emptyShoppingCart-button cart-button'
+          onClick={() => emptyCart()}>
+          Empty Cart
+        </button>
+        <button
+          className='cart-sidebox-checkout-button cart-button'
+          onClick={() => handleCheckout()}>
+          Checkout
+        </button>
+      </>
+    );
+  }
+
   return (
     <>
       <div className='cart-container-main'>
@@ -185,22 +206,7 @@ const ShoppingCart = () => {
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
           </div>
-          <div cart-conditional-buttons-container>
-            {shoppingCart.length > 0 && (
-              <>
-                <button
-                  className='cart-sidebox-emptyShoppingCart-button'
-                  onClick={() => emptyCart()}>
-                  Empty Cart
-                </button>
-                <button
-                  className='cart-sidebox-checkout-button'
-                  onClick={() => handleCheckout()}>
-                  Checkout
-                </button>
-              </>
-            )}
-          </div>
+          <div cart-conditional-buttons-container>{conditionalButtons}</div>
         </div>
       </div>
     </>
