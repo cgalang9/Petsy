@@ -10,7 +10,7 @@ class Order(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(User.id)))
     total_price = db.Column(db.Float, nullable=False)
     order_datetime = db.Column(db.DateTime, nullable=False, default=datetime.today())
 

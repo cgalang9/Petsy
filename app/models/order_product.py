@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .product import Product
 from .order import Order
 
@@ -10,8 +10,8 @@ class OrderProduct(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey(Product.id))
-    order_id = db.Column(db.Integer, db.ForeignKey(Order.id))
+    product_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(Product.id)))
+    order_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(Order.id)))
     item_price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
 
