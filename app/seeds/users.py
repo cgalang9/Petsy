@@ -261,10 +261,10 @@ def seed_users():
         },
         {
             "user_id": 4,
-            "name": "Catnip Joints",
-            "price": 7.28,
-            "description": "Not all cats have extra thumbs... and the ones that do aren't good at using them anyway. Treat your cat to a pre-roll to make things easy.",
-            "product_images": ["https://i.etsystatic.com/14817346/r/il/84e1fb/4105290974/il_1140xN.4105290974_d8t5.jpg", "https://i.etsystatic.com/14817346/r/il/6885b6/4152911669/il_1140xN.4152911669_bv2d.jpg"],
+            "name": "Refillable Catnip Mat with Organic Catnip",
+            "price": 12.28,
+            "description": "This pretty 15x15 inch catnip mat is the purrfect place to sleep away the afternoon. A small velcro opening in the side allows you to add more catnip as needed, and the flannel fabric and layer of cotton batting makes it just that much better to snooze on.",
+            "product_images": ["https://i.etsystatic.com/5837345/r/il/592d4e/2833825036/il_1588xN.2833825036_dfbq.jpg", "https://i.etsystatic.com/5837345/r/il/784226/2708060839/il_1588xN.2708060839_25gb.jpg", "https://i.etsystatic.com/5837345/r/il/bb9550/2707812245/il_1588xN.2707812245_qzdq.jpg", "https://i.etsystatic.com/5837345/r/il/65d633/2881492231/il_1588xN.2881492231_k00p.jpg"],
             "reviews": [
                 {
                 "rating": 5,
@@ -1333,7 +1333,7 @@ def seed_users():
 
     # Seed data for an order
     new_order = Order(
-        user_id = 2,
+        user_id = 1,
         total_price = 44.47
     )
     order_product1 = OrderProduct(
@@ -1348,9 +1348,22 @@ def seed_users():
         quantity = 1,
         order_id = 1
     )
+    new_order2 = Order(
+        user_id = 1,
+        total_price = 35.67
+    )
+    order_product3 = OrderProduct(
+        product_id = 19,
+        item_price = 35.67,
+        quantity = 1,
+        order_id = 2
+    )
+
     db.session.add(new_order)
+    db.session.add(new_order2)
     db.session.add(order_product1)
     db.session.add(order_product2)
+    db.session.add(order_product3)
     db.session.commit()
 
 

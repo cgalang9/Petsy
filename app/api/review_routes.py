@@ -1,15 +1,35 @@
 from flask import Blueprint, request
 from flask_login import current_user, login_required
-from app.models import Review, ReviewImage, Product, db
+from app.models import Review, ReviewImage, Product, User, ProductImage, db
 from ..forms.review_form import CreateEditReviewForm
 from .auth_routes import validation_errors_to_error_messages
+from sqlalchemy.orm import joinedload
 
 review_routes = Blueprint('reviews', __name__)
 
 
-@review_routes.get('/test')
-def test_route():
-    return 'reviews'
+@review_routes.get('/<int:id>')
+def get_review(id):
+    """
+    Get review by review id
+    """
+    review_result = Review.query.filter(Review.id == id).join(User).join(Product).join(ProductImage).one()
+
+    if review_result == None:
+        return {"message": "Review not found"}, 404
+
+    review = {
+        'id': review_result.id,
+        'date': review_result.date_created,
+        'rating': review_result.rating,
+        'text': review_result.text,
+        'username': review_result.user.username,
+        'product_id': review_result.product.id,
+        'product_name': review_result.product.name,
+        'product_price': review_result.product.price,
+        'product_url': review_result.product.product_images[0].url,
+    }
+    return review
 
 
 @review_routes.delete('/<int:id>')

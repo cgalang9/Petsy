@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { HashRouter as BrowserRouter, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LoginForm from "./components/auth/LoginForm";
 import SignUpForm from "./components/auth/SignUpForm";
@@ -12,7 +12,7 @@ import { authenticate } from "./store/session";
 import ListProductForm from "./components/listProductForm/ListProductForm";
 import ItemDetailsPage from "./components/ItemDetialsPage";
 import EditItemForm from "./components/EditItemForm";
-
+import AddReviewForm from "./components/AddReviewForm";
 import AddToCart from "./components/AddToCart";
 import ShoppingCart from "./components/ShoppingCart";
 import YourReviews from "./components/YourReviews/YourReviews";
@@ -75,7 +75,10 @@ function App() {
           path='/items/:itemId/edit-item'>
           <EditItemForm />
         </Route>
-        <Route path='/items/:itemId'>
+        <Route exact path='/items/:itemId/add-review'>
+          <AddReviewForm />
+        </Route>
+        <Route exact path='/items/:itemId'>
           <ItemDetailsPage />
         </Route>
         <Route path='/cart'>
