@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, NavLink } from "react-router-dom";
 import { getProducts } from "../../../store/items";
 import Product from "../Product/Product";
+import slidingWindowPages from "./utils/slidingWindowPages"
 
 import "./ProductsContainer.css";
 
@@ -11,12 +12,23 @@ export default function ProductsContainer({ isSearch }) {
 
     const [page, setPage] = useState(1);
     const [pageNums, setPageNums] = useState([])
+    const [displayPageNums, setDisplayPageNums] = useState([])
+    const [prefix, setPrefix] = useState(false)
+    const [postfix, setPostfix] = useState(false)
     const [query, setQuery] = useState({})
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const dispatch = useDispatch();
     const location = useLocation();
 
-
+    console.log(displayPageNums)
+  useEffect(() => {
+    const pageDisplayInfo = slidingWindowPages(pageNums, page);
+    setDisplayPageNums(pageDisplayInfo.pages)
+    setPrefix(pageDisplayInfo.prefix)
+    setPostfix(pageDisplayInfo.postfix)
+    console.log("WE UPDATIN")
+  }, [page, pageNums])
 
   useEffect(() => {
     const query = {};
@@ -30,6 +42,7 @@ export default function ProductsContainer({ isSearch }) {
     ]);
 
         if (isSearch) {
+            console.log("WE SEARCHIN" )
             const params = new URLSearchParams(location.search)
 
             if (params.get("page")) {
@@ -46,7 +59,10 @@ export default function ProductsContainer({ isSearch }) {
 
             for (let [key, val] of params) {
                 if (acceptedParams.has(key)) {
-                    if (key !== 'q') {
+                    if (["page", "pageSize", "sellerId"].includes(key)) {
+                        query[key] = Math.floor(val)
+                    }
+                    else if (key !== 'q') {
                         query[key] = Number(val)
                         
                     } else {
@@ -57,27 +73,30 @@ export default function ProductsContainer({ isSearch }) {
             setQuery(query)
         }
 
-        dispatch(getProducts(query))
-        
+        dispatch(getProducts(query)).then(() => setIsLoaded(true))
+    
     }, [location, numResults])
     
 
     return (
         <>
-          <ul id="products-container-products-container">
-            {
-                Object.entries(products).map(([id, product]) => {
-                    if (id !== "numResults") {
-                        return <Product key={id} product={product} id={id}/>
-                    }
-                })
-            }
-          </ul>
-          {
-            isSearch && 
-            <div className="products-container-navlinks">
+           { isLoaded && (Object.entries(products).length > 1 &&
+            <ul id="products-container-products-container">
                 {
-                    pageNums.map(pageNum => 
+                    Object.entries(products).map(([id, product]) => {
+                        if (id !== "numResults") {
+                            return <Product key={id} product={product} id={id}/>
+                        }
+                    })
+                }
+            </ul> || <div className="products-container-no-results"><h1 ><i class="fa-solid fa-bone"></i><span className="products-container-no-results-message">no results</span><i class="fa-solid fa-bone"></i></h1> <img src="https://i.pinimg.com/564x/2d/37/ab/2d37ab595697d54c61094894cdbca161.jpg" /></div>)
+            }
+          {
+            isSearch &&
+            <div className="products-container-navlinks">
+                {prefix && <span className="products-container-dots">"..."</span>}
+                {
+                    displayPageNums.map(pageNum => 
                         <NavLink 
                             className={`products-container-navlink ${pageNum === page ? "current" : ""}`}
                             key={pageNum} 
@@ -88,6 +107,7 @@ export default function ProductsContainer({ isSearch }) {
                         </NavLink>
                     )
                 }
+                {postfix && <span className="products-container-dots">"..."</span>}
             </div>
           }
         </>

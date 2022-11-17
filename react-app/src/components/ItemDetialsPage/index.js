@@ -255,7 +255,7 @@ function ItemDetailsPage() {
                               {review.text}
                             </div>
                             <div className='items-details-page-main-item-reviews-user'>
-                              {review.user.username}{" "}
+                              {review.user.username}{",  "}
                               {new Date(review.date).toDateString().slice(4)}
                             </div>
                           </div>
@@ -272,6 +272,7 @@ function ItemDetailsPage() {
                         </div>
                       ))}
                   {itemReviews.length > 0 && (
+                    //displays arrows to navigate pages of review if there are reviews for the item
                     <div id='items-details-page-main-item-reviews-page'>
                       <span
                         className='items-details-page-arrow-review'

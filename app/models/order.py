@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .user import User
 from datetime import datetime
 
@@ -10,7 +10,7 @@ class Order(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')))
     total_price = db.Column(db.Float, nullable=False)
     order_datetime = db.Column(db.DateTime, nullable=False, default=datetime.today())
 

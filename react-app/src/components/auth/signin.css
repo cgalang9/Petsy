@@ -36,7 +36,7 @@
 }
 
 .sign-up-forms-wrapper>form>button:hover {
-    opacity: 80%;
+    opacity: .8;
 }
 
 .sign-up-forms-wrapper>form>h1 {
