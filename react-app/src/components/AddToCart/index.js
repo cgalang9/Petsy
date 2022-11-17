@@ -3,14 +3,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getItemDetailsThunk } from "../../store/itemPage";
+import { useHistory } from "react-router-dom";
 
 import "../AddToCart/AddToCart.css";
 
 const AddToCart = ({ itemId }) => {
   let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
-
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
+  const [trackCart, setTrackCart] = useState("");
+
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getItemDetailsThunk(itemId)).catch((res) => "error");
@@ -18,7 +21,7 @@ const AddToCart = ({ itemId }) => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
-    console.log("useEffect in add item running");
+    // console.log("useEffect in add item running");
   }, [cart]);
 
   const item = useSelector((state) => state.itemPage);
@@ -33,51 +36,39 @@ const AddToCart = ({ itemId }) => {
     itemId
   };
 
-  // async function getCartProductInfo(productId) {
-  //   const response = await fetch(`/api/items/${productId}`);
+  // console.log("this is cart in addtocart", cart);
 
-  //   if (response.ok) {
-  //     const responseData = await response.json();
-  //     console.log("rp", responseData);
-  //     return responseData;
-  //   }
-  // }
+  const addToCart = async (productInfo) => {
+    let cartArray = [...cart];
 
-  // const getCartIndex = (productId) => {
-  //   let cartIndex = cart.indexOf(
-  //     cart.find((item) => item.productId === productId)
-  //   );
-  //   console.log("cart index", cartIndex);
-  //   return cartIndex;
-  // };
-
-  // const handleAddToCartClick = (productInfo) => {
-  //   if (!localStorageCart) {
-  //     setCart([productInfo]);
-  //   } else {
-  //     setCart([...cart, productInfo]);
-  //   }
-  //   console.log("cart after add to click", cart);
-  // };
-  // onClick={() => handleAddToCartClick(productInfo)}
-
-  const addToCart = (productInfo) => {
     // if (!localStorageCart) {
     //   let initialItem = { ...productInfo, quantity: 1 };
     //   setCart([initialItem]);
-    // } else {
-    let cartArray = [...cart];
+    // }
+
+    // console.log("this is productInfo", productInfo);
+
     let foundItem = cartArray.find(
       (item) => productInfo.itemId === item.itemId
     );
-    console.log("this is found item in ATC", foundItem);
+
+    // console.log("this is found item in ATC before check", foundItem);
+
     if (foundItem) {
+      // console.log("this is adding quantity");
       foundItem.quantity += 1;
     } else {
+      // console.log("this is adding item if not found");
       foundItem = { ...productInfo, quantity: 1 };
       cartArray.push(foundItem);
+      // console.log("this is cartArray after push", cartArray);
     }
-    setCart(cartArray);
+
+    // console.log("this is cartArray", cartArray);
+    // console.log("this is cart before set", cart);
+    await setCart(cartArray);
+    // console.log("this is cart after set", cart);
+    history.push("/cart");
   };
 
   return (

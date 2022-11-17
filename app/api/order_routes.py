@@ -9,7 +9,7 @@ def test_route():
     return 'orders'
 
 
-@order_routes.post('/')
+@order_routes.post('')
 @login_required
 def post_order():
     # create order with dummy total price to get order id

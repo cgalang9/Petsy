@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { useLocation, NavLink } from "react-router-dom"
-import { getProducts } from "../../../store/items"
-import Product from "../Product/Product"
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, NavLink } from "react-router-dom";
+import { getProducts } from "../../../store/items";
+import Product from "../Product/Product";
 
-import "./ProductsContainer.css"
+import "./ProductsContainer.css";
 
 export default function ProductsContainer({ isSearch }) {
     const [numResults, products] = useSelector(state => [state.items.numResults, state.items])
@@ -18,9 +18,16 @@ export default function ProductsContainer({ isSearch }) {
 
 
 
-    useEffect(() => {
-        const query = {}
-        const acceptedParams = new Set(["q", "minPrice", "maxPrice", "sellerId", "pageSize", "page"])
+  useEffect(() => {
+    const query = {};
+    const acceptedParams = new Set([
+      "q",
+      "minPrice",
+      "maxPrice",
+      "sellerId",
+      "pageSize",
+      "page"
+    ]);
 
         if (isSearch) {
             const params = new URLSearchParams(location.search)
@@ -85,4 +92,5 @@ export default function ProductsContainer({ isSearch }) {
           }
         </>
     )
+
 }
