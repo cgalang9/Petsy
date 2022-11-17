@@ -12,14 +12,26 @@
   max-width: 1400px;
 }
 
-.products-container-navlink {
+.products-container-navlinks {
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
-  font-size: 50px;
   width: 100%;
 }
 
-.products-container-navlink > *{
+.products-container-navlink {
   margin-left: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.products-container-navlink.current {
+  display: block;
+  color: white;
+  background-color: gray;
+  border-radius: 10px;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  line-height: 20px;
 }

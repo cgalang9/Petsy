@@ -16,6 +16,7 @@ import EditItemForm from "./components/EditItemForm";
 import AddToCart from "./components/AddToCart";
 import ShoppingCart from "./components/ShoppingCart";
 import YourReviews from "./components/YourReviews/YourReviews";
+import YourOrders from "./components/YourOrders/YourOrders";
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -62,12 +63,12 @@ function App() {
         <Route
           path='/'
           exact={true}>
-          <ProductsContainer search={false}/>
+          <ProductsContainer isSearch={false}/>
         </Route>
         <Route
           path='/search'
           exact={true}>
-          <ProductsContainer search={true}/>
+          <ProductsContainer isSearch={true}/>
         </Route>
         <Route
           exact
@@ -82,6 +83,9 @@ function App() {
         </Route>
         <Route path='/your-reviews'>
           <YourReviews />
+        </Route>
+        <Route path='/your-orders'>
+          <YourOrders />
         </Route>
         <Route exact path='/404'>
           <h1>404 Error: Not found</h1>
