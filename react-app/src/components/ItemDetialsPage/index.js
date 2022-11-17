@@ -331,13 +331,8 @@ function ItemDetailsPage() {
                   </div>
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
-<<<<<<< HEAD
-                <div id='items-details-page-right-price'>${item.price}</div>
-                <AddToCart itemId={itemId} />
-=======
                 <div id='items-details-page-right-price'>${item.price.toFixed(2)}</div>
                 <div id='items-details-page-add-to-cart-btn-container'><AddToCart itemId={item.id} /></div>
->>>>>>> item-details
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description

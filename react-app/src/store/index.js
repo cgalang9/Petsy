@@ -6,11 +6,8 @@ import { itemReviewsReducer } from './itemReviews';
 import { itemPageReducer } from './itemPage';
 import { userReviewsReducer } from './userReview';
 import { sellerReviewImagesReducer } from './sellerReviewImages';
-<<<<<<< HEAD
 import { orderPageReducer } from './orderPage';
-=======
 import { modalReviewReducer } from './modalReview';
->>>>>>> item-details
 
 const rootReducer = combineReducers({
   session,
@@ -19,11 +16,8 @@ const rootReducer = combineReducers({
   items,
   userReviews: userReviewsReducer,
   sellerReviewImages: sellerReviewImagesReducer,
-<<<<<<< HEAD
-  orders: orderPageReducer
-=======
+  orders: orderPageReducer,
   modalReview: modalReviewReducer
->>>>>>> item-details
 });
 
 
