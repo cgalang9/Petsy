@@ -1,11 +1,8 @@
 from flask import Blueprint, jsonify
-from flask_login import current_user
-from app.models import Review, Product, ReviewImage, User, db
-
-from flask import Blueprint
 from flask_login import current_user, login_required
-from app.models import Order, OrderProduct, ProductImage, Product, db
+from app.models import Order, OrderProduct, ProductImage, Product, Review, ReviewImage, User, db
 from sqlalchemy.orm import joinedload
+from sqlalchemy import desc
 
 session_routes = Blueprint('session', __name__)
 
@@ -75,14 +72,16 @@ def get_orders():
     gets all orders of session user and formats them
     """
     # eager loads orders, order products, products, and product seller information
-    orders = Order.query.options(joinedload(Order.order_products, OrderProduct.product, Product.user)).filter(Order.user_id==current_user.id).all()
+    orders = Order.query.options(joinedload(Order.order_products, OrderProduct.product, Product.user)).filter(Order.user_id==current_user.id).order_by(desc(Order.order_datetime)).all()
     order_dicts = [order.to_dict() for order in orders]
     # loops through order dictionaries to format
     for order_dict in order_dicts:
         items = order_dict['items']
         formatted_items=[]
         # loops through items in each order to format and add product/seller information
+        total_items = 0
         for item in items:
+            total_items+=item.quantity
             # query for preview image url
             preview_image_url=ProductImage.query.filter(ProductImage.product_id==item.product_id).filter(ProductImage.preview_image==True).all()[0].url
             item_dict = {
@@ -90,8 +89,10 @@ def get_orders():
                 "previewImageURL": preview_image_url,
                 "name": item.product.name,
                 "purchasePrice": item.item_price,
-                "shopName": item.product.user.username
+                "shopName": item.product.user.username,
+                "quantity": item.quantity
             }
             formatted_items.append(item_dict)
         order_dict['items']=formatted_items
+        order_dict['totalItems']=total_items
     return order_dicts

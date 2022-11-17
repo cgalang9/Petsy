@@ -15,7 +15,6 @@ export const getItemReviewsThunk = (itemId) => async (dispatch) => {
 
 }
 
-
 export const itemReviewsReducer = (state = null, action) => {
     switch (action.type) {
         case GET_REVIEWS:
