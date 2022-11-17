@@ -27,7 +27,7 @@ const YourOrders = () => {
                 return (
                     <div key={order.id} className="your-orders-order-wrapper">
                         <div className="your-orders-order-border-wrapper">
-                            <h2>Ordered {order.totalItems} items on {(new Date(order.orderDate)).toDateString()}</h2>
+                            <h2>Ordered {order.totalItems} items on {(new Date(order.orderDate)).toDateString().slice(3,)}</h2>
                             <div className="your-orders-items-wrapper">
                                 {order.items?.map((item) => {
                                     return (
@@ -42,7 +42,7 @@ const YourOrders = () => {
                                     )
                                 })}
                             </div>
-                            <h3>Order total: ${order.totalPrice}</h3>
+                            <h3>Order total: ${Math.round(order.totalPrice * 100) / 100}</h3>
                         </div>
                     </div>
                 )
