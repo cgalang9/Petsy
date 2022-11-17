@@ -1,22 +1,17 @@
-.sign-up-forms-wrapper {
+#edit-item-form-wrapper {
     display: flex;
     justify-content: center;
-    width: 60%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 50px;
-    gap: 20%
 }
 
-.sign-up-forms-wrapper>form {
+#edit-item-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 30%;
+    margin-top: 25px;
 }
 
-
-.sign-up-forms-wrapper>form>div {
+#edit-item-form>div {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
@@ -24,7 +19,7 @@
     width: 100%;
 }
 
-.sign-up-forms-wrapper>form>button {
+#edit-item-form>button {
     margin-top: 20px;
     width: 100%;
     background-color: black;
@@ -35,18 +30,19 @@
     font-size: 18px;
 }
 
-.sign-up-forms-wrapper>form>button:hover {
+#edit-item-form>button:hover {
     opacity: 80%;
 }
 
-.sign-up-forms-wrapper>form>h1 {
+#edit-item-form>h1 {
     font-size: 25px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 
-.sign-up-forms-wrapper > form > div > input {
+#edit-item-form > div > input,
+#edit-item-form > div > textarea {
     border: 1px solid gray;
     border-radius: 5px;
     height: 30px;
@@ -55,11 +51,14 @@
     width: 100%;
 }
 
-.sign-up-forms-wrapper > form > div > label {
-    font-weight: 700;
-    margin-bottom: 10px;
+#edit-item-form > div > textarea {
+    height: 90px;
+    resize: vertical;
+    overflow-y: scroll;
+    padding: 10px;
 }
 
-.errors {
-    color: red;
+#edit-item-form > div > label {
+    font-weight: 700;
+    margin-bottom: 10px;
 }

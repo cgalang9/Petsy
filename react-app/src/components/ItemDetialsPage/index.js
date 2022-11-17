@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useHistory, useParams } from "react-router-dom";
 import { getItemDetailsThunk, deleteItemThunk } from "../../store/itemPage";
 import { getItemReviewsThunk } from "../../store/itemReviews";
 import { getImagesBySellerIdThunk } from "../../store/sellerReviewImages";
+import { clearModalReview } from "../../store/modalReview";
 import StarRatings from "react-star-ratings";
+import Modal from 'react-modal';
+import ReviewImageModal from "../ReviewImageModal";
 import "./ItemDetialsPage.css";
 import AddToCart from "../AddToCart";
 
@@ -12,9 +15,14 @@ function ItemDetailsPage() {
   const { itemId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const modalStr = useRef('')
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
+
+  useEffect(() => {
+    Modal.setAppElement('body')
+  },[])
 
   useEffect(async () => {
     try {
@@ -110,14 +118,42 @@ function ItemDetailsPage() {
   const handleRightArrowReview = () => {
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
+      const element = document.getElementById("items-details-page-main-review-containter");
+      element.scrollIntoView();
     }
   };
 
   const handleLeftArrowReview = () => {
     if (reviewIdx > 0) {
       setReviewIdx(reviewIdx - 4);
+      const element = document.getElementById("items-details-page-main-review-containter");
+      element.scrollIntoView();
     }
   };
+
+  //Modal functions and styling
+  const customStyles = {
+    content: {
+      width: '65%',
+      height: '65%',
+      top: '50%',
+      left: '50%',
+      borderRadius: '15px',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  const openModal = async(e) => {
+    await dispatch(clearModalReview())
+    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}` //reviewId separated by img url to pass to modal
+    await setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div id='items-details-page-oustside-container'>
@@ -187,59 +223,77 @@ function ItemDetailsPage() {
                   <div id='items-details-page-main-item-reviews-total'>
                     Reviews for this item <span>{itemReviews.length}</span>
                   </div>
+                  <div id='items-details-page-create-review-link'>
+                        <NavLink to={{ pathname: `/items/${itemId}/add-review`}}>
+                            Create Review for this Item
+                        </NavLink>
+                  </div>
                   {itemReviews &&
                     itemReviews
                       .slice(reviewIdx, reviewIdx + 4)
                       .map((review) => (
-                        <div
-                          key={review.id}
-                          className='items-details-page-review-containter'>
-                          <div className='items-details-page-main-item-reviews-rating'>
-                            <StarRatings
-                              rating={review.starRating}
-                              starRatedColor='black'
-                              numberOfStars={5}
-                              starDimension='20px'
-                              starSpacing='1px'
-                            />
-                          </div>
-                          <div className='items-details-page-main-item-reviews-text'>
-                            {review.text}
-                          </div>
-                          <div className='items-details-page-main-item-reviews-user'>
-                            {review.user.username}{" "}
-                            {new Date(review.date).toDateString().slice(4)}
-                          </div>
+                        <div key={review.id} className='items-details-page-review-containter'>
+                            <div className='items-details-page-review-containter-left'>
+                                <div className='items-details-page-main-item-reviews-rating'>
+                                    <StarRatings
+                                    rating={review.starRating}
+                                    starRatedColor='black'
+                                    numberOfStars={5}
+                                    starDimension='20px'
+                                    starSpacing='1px'
+                                    />
+                                </div>
+                                <div className='items-details-page-main-item-reviews-text'>
+                                    {review.text}
+                                </div>
+                                <div className='items-details-page-main-item-reviews-user'>
+                                    {review.user.username}{" "}
+                                    {new Date(review.date).toDateString().slice(4)}
+                                </div>
+                            </div>
+                                <div className='items-details-page-review-containter-right'>
+                                    {review.imgUrls[0] && (
+                                        <img src={review.imgUrls[0]} alt={`Image: Review ${review.id}`} onClick={openModal} className='items-details-page-review-containter-image'></img>
+                                    )}
+                                </div>
                         </div>
                       ))}
-                  <div id='items-details-page-main-item-reviews-page'>
-                    <span
-                      className='items-details-page-arrow-review'
-                      onClick={handleLeftArrowReview}>
-                      <i className='fa-solid fa-angle-left' />
-                    </span>
-                    Page {reviewIdx / 4 + 1} of{" "}
-                    {Math.ceil(itemReviews.length / 4)}
-                    <span
-                      className='items-details-page-arrow-review'
-                      onClick={handleRightArrowReview}>
-                      <i className='fa-solid fa-angle-right' />
-                    </span>
-                  </div>
-                  <div id='items-details-page-main-shop-reviews-images-head'>
-                    Photos from reviews
-                  </div>
+                      {itemReviews.length > 0 && (
+                        <div id='items-details-page-main-item-reviews-page'>
+                          <span
+                            className='items-details-page-arrow-review'
+                            onClick={handleLeftArrowReview}>
+                            <i className='fa-solid fa-angle-left' />
+                          </span>
+                          Page {reviewIdx / 4 + 1} of{" "}
+                          {Math.ceil(itemReviews.length / 4)}
+                          <span
+                            className='items-details-page-arrow-review'
+                            onClick={handleRightArrowReview}>
+                            <i className='fa-solid fa-angle-right' />
+                          </span>
+                        </div>
+                      )}
+                    {sellerReviewImages.length > 0 && (
+                      <div id='items-details-page-main-shop-reviews-images-head'>
+                        Photos from reviews
+                      </div>
+                    )}
                   <div id='items-details-page-main-shop-reviews-images-container'>
-                    {sellerReviewImages &&
+                    {sellerReviewImages.length > 0  &&
                       sellerReviewImages.map((img) => (
                         <div key={img.id}>
                           <img
                             src={img.url}
-                            alt='review image'
-                            className='items-details-page-main-shop-reviews-images'></img>
+                            alt={`Image: Review ${img.reviewId}`}
+                            className='items-details-page-main-shop-reviews-images'
+                            onClick={openModal}></img>
                         </div>
                       ))}
                   </div>
+                  <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                        <ReviewImageModal modalStr={modalStr.current}/>
+                  </Modal>
                 </div>
               </div>
               <div id='items-details-page-right'>
@@ -277,8 +331,13 @@ function ItemDetailsPage() {
                   </div>
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
+<<<<<<< HEAD
                 <div id='items-details-page-right-price'>${item.price}</div>
                 <AddToCart itemId={itemId} />
+=======
+                <div id='items-details-page-right-price'>${item.price.toFixed(2)}</div>
+                <div id='items-details-page-add-to-cart-btn-container'><AddToCart itemId={item.id} /></div>
+>>>>>>> item-details
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description
