@@ -82,7 +82,6 @@ function ItemDetailsPage() {
   const handleLeftArrow = () => {
     //Decrease img idx by 1 or goes to last img idx if current img idx is 0
     imgIdx > 0 ? (imgIdx = Number(imgIdx) - 1) : (imgIdx = item.imageURLs.length - 1);
-    console.log(imgIdx)
     moveDisplayedImage(imgIdx);
 
   };
