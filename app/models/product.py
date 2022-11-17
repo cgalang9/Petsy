@@ -9,7 +9,7 @@ class Product(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(User.id)))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod(User.id)))
     name = db.Column(db.String(75), nullable=False)
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.String(2000), nullable=False)
