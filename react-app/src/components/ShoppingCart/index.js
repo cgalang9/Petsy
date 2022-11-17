@@ -1,6 +1,8 @@
 // ShoppingCart/index.js
 
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import "../ShoppingCart/ShoppingCart.css";
 
@@ -8,9 +10,13 @@ import "../ShoppingCart/ShoppingCart.css";
 let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
 const ShoppingCart = () => {
+  const user = useSelector((state) => state.session.user);
+  const history = useHistory();
+
   //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
-  // const [itemQty, setItemQty] = useState()
+  const [checkoutItemsObj, setCheckoutItemsObj] = useState({});
+  const [checkoutRes, setCheckoutRes] = useState("");
 
   // mounts the shopping cart on initial mount
   useEffect(() => {
@@ -24,85 +30,54 @@ const ShoppingCart = () => {
     // console.log("mounting localStorage Cart");
   }, []);
 
-  // console.log("this is localStorageCart in ShoppingCart", localStorageCart);
-  // console.log("this is shoppingcart in shopping cart", shoppingCart);
-
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
-    // console.log("setting localStorageCart to shoppingCart change");
   }, [shoppingCart]);
 
-  //   return totalQty;
-  // }
+  const postCheckout = async () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(checkoutItemsObj)
+    };
+    const res = await fetch("/api/orders", requestOptions);
+    // console.log(requestOptions.body);
 
-  // async function getCartProductInfo(productId) {
-  //   const response = await fetch(`/api/items/${productId}`);
-
-  //   if (response.ok) {
-  //     const responseData = await response.json();
-  //     console.log(responseData);
-
-  //     let cartProductInfo = {
-  //       name: responseData.name,
-  //       previewImg: responseData.imageURLs[0],
-  //       price: 10, // Need Price responseData.price
-  //       shopName: responseData.shopName
-  //     };
-
-  //     return cartProductInfo;
-  //   }
-  // }
-
-  // function addToShoppingCart(item) {
-  //   if (!localStorageCart) {
-  //     setShoppingCart([item]);
-  //   } else {
-  //     setShoppingCart([...shoppingCart, item]);
-  //   }
-  //   console.log("shopping cart after addtocart ", shoppingCart);
-
-  const addToShoppingCart = (productInfo) => {
-    // if (!localStorageCart) {
-    //   let initialItem = { ...productInfo, quantity: 1 };
-    //   setCart([initialItem]);
-    // } else {
-    let cartArray = [...shoppingCart];
-    // console.log("this is cartArray before founditem", cartArray);
-    let foundItem = cartArray.find(
-      (item) => productInfo.itemId === item.itemId
-    );
-    console.log("this is found item", foundItem);
-    if (foundItem) {
-      foundItem.quantity += 1;
+    if (res.ok) {
+      setCheckoutRes(
+        "Your order has been placed, thanks for shopping at Petsy!"
+      );
+      // console.log("it worked");
+      emptyCart();
     } else {
-      foundItem = { ...productInfo, quantity: 1 };
-      cartArray.push(foundItem);
+      // console.log(res);
     }
-    setShoppingCart(cartArray);
   };
-  // }
 
   function removeFromShoppingCart(removedItem) {
-    // shoppingCart.splice(removedItem, 1);
-    // console.log("this is shoppingCart after splice", shoppingCart);
-    // setShoppingCart(shoppingCart);
-    // console.log("this is shoppingCart after set", shoppingCart);
-    // return;
     setShoppingCart(shoppingCart.filter((item) => item !== removedItem));
   }
 
-  // function updateQuantity(productInfo, newQty) {
-  //   for
-  // }
+  function updateQuantity(productInfo, newQty) {
+    let cartArray = [...shoppingCart];
+
+    for (let item of cartArray) {
+      if (item.itemId === productInfo.itemId) {
+        item.quantity = newQty;
+      }
+    }
+
+    setShoppingCart(cartArray);
+  }
 
   function getTotalQuantity() {
     if (!shoppingCart) return 0;
 
     let totalQuantity = 0;
     for (let item of shoppingCart) {
-      totalQuantity += item.quantity;
+      totalQuantity += Number(item.quantity);
     }
-    return totalQuantity.toFixed(0);
+    return totalQuantity;
   }
 
   function getTotalPrice() {
@@ -120,6 +95,23 @@ const ShoppingCart = () => {
     setShoppingCart([]);
   }
 
+  async function handleCheckout() {
+    if (!user) {
+      history.push("/sign-in");
+    }
+
+    let checkoutItems = [];
+
+    for (let item of shoppingCart) {
+      checkoutItems.push({
+        id: Number(item.itemId),
+        quantity: item.quantity
+      });
+    }
+    await setCheckoutItemsObj({ checkoutItems });
+    await postCheckout();
+  }
+
   // const emptyCart = useCallback(() => {
   //   setShoppingCart([]);
   // }, [shoppingCart]);
@@ -130,54 +122,53 @@ const ShoppingCart = () => {
 
   return (
     <>
-      <div className='cart-header'></div>
       <div className='cart-container-main'>
-        <div className='cart-items'>
+        <h1 className='cart-header'>Shopping Cart</h1>
+        <div className='cart-items-container'>
           {shoppingCart?.map((item, index) => (
             <div
-              className='cart-item'
+              className='cart-item-container'
               key={index}>
-              <div className='cart-item-img-wrapper'>
+              <div className='cart-item-img-container'>
                 <img
                   src={item.previewImg}
                   alt={item.name}
                   className='cart-item-img'
                 />
               </div>
-              <div className='cart-item-name'>{item.name}</div>
-              <div className='cart-item-price'>${item.price}</div>
-              <div className='cart-item-qty'>{item.quantity} in cart</div>
-              <div className='cart-item-qty-input'>
-                <label
-                  htmlFor='quantity'
-                  className='cart-form-label'>
-                  in cart
-                </label>
-                <input
-                  className='cart-form-input  '
-                  type='number'
-                  required
-                  onChange={(e) => {
-                    // updateQuantity(item, e.target.value);
-                  }}
-                  value={Number(item.quantity)}
-                  name='quantity'
-                />
+              <div className='cart-item-text-container'>
+                <div className='cart-item-name'>{item.name}</div>
+                <div className='cart-item-price'>${item.price}</div>
+                <div className='cart-item-qty'>{item.quantity} in cart</div>
+                <div className='cart-item-qty-input'>
+                  <label
+                    htmlFor='quantity'
+                    className='cart-form-label'>
+                    in cart
+                  </label>
+                  <input
+                    className='cart-form-input  '
+                    type='number'
+                    required
+                    min='0'
+                    onChange={(e) => {
+                      updateQuantity(item, Number(e.target.value));
+                    }}
+                    value={Number(item.quantity)}
+                    name='quantity'
+                  />
+                </div>
               </div>
+
               <button
-                className='cart-add-item-button'
-                onClick={() => addToShoppingCart(item)}>
-                Add to Cart
-              </button>
-              <button
-                className='cart-remove-item-button'
+                className='cart-remove-item-button cart-button'
                 onClick={() => removeFromShoppingCart(item)}>
                 Remove Item
               </button>
             </div>
           ))}
         </div>
-        <div className='cart-sidebox'>
+        <div className='cart-sidebox-container'>
           <div className='cart-sidebox-header'>Checkout</div>
           <div className='cart-sidebox-totalitems'>
             {getTotalQuantity()} items in your cart
@@ -185,12 +176,21 @@ const ShoppingCart = () => {
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
           </div>
-          <div>
-            <button
-              className='cart-sidebox-emptyShoppingCart-button'
-              onClick={() => emptyCart()}>
-              Empty Cart
-            </button>
+          <div cart-conditional-buttons-container>
+            {shoppingCart.length > 0 && (
+              <>
+                <button
+                  className='cart-sidebox-emptyShoppingCart-button cart-button'
+                  onClick={() => emptyCart()}>
+                  Empty Cart
+                </button>
+                <button
+                  className='cart-sidebox-checkout-button cart-button'
+                  onClick={() => handleCheckout()}>
+                  Checkout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
