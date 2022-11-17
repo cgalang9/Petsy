@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { login } from '../../store/session';
+import './signin.css'
 
 const LoginForm = () => {
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
@@ -32,10 +33,11 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={onLogin}>
-      <div>
-        {errors.map((error, ind) => (
+      <h1>Log in</h1>
+      <div className='errors'>
+        {errors.errors && (errors.errors.map((error, ind) => (
           <div key={ind}>{error}</div>
-        ))}
+        )))}
       </div>
       <div>
         <label htmlFor='email'>Email</label>
@@ -56,8 +58,9 @@ const LoginForm = () => {
           value={password}
           onChange={updatePassword}
         />
-        <button type='submit'>Login</button>
+
       </div>
+      <button type='submit'>Login</button>
     </form>
   );
 };

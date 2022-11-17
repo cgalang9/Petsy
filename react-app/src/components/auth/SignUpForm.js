@@ -44,10 +44,11 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={onSignUp}>
-      <div>
-        {errors.map((error, ind) => (
+      <h1>Sign up</h1>
+      <div className='errors'>
+        {errors.errors && (errors.errors.map((error, ind) => (
           <div key={ind}>{error}</div>
-        ))}
+        )))}
       </div>
       <div>
         <label>User Name</label>

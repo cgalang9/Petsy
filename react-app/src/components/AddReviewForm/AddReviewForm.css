@@ -1,0 +1,64 @@
+#add_reivew_form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#add_reivew_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin-top: 25px;
+}
+
+#add_reivew_form>div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#add_reivew_form>button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+}
+
+#add_reivew_form>button:hover {
+    opacity: 80%;
+}
+
+#add_reivew_form>h1 {
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+
+#add_reivew_form > div > input,
+#add_reivew_form > div > textarea {
+    border: 1px solid gray;
+    border-radius: 5px;
+    height: 30px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#add_reivew_form > div > textarea {
+    height: 90px;
+    resize: vertical;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+#add_reivew_form > div > label {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
