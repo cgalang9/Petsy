@@ -1,30 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Codespaces
-Marketplace
-Explore
-
-@jhpremo
-appacademy
-/
-practice-for-week-19-python-project-skeleton
-Public
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-Insights
-practice-for-week-19-python-project-skeleton/migrations/env.py /
-@aa-assessment-project-manager
-aa-assessment-project-manager Updated from solution change by jessesbyers
-Latest commit 7a90431 28 days ago
- History
- 1 contributor
-106 lines (82 sloc)  3.25 KB
 
 from __future__ import with_statement
 
@@ -127,18 +100,3 @@ if context.is_offline_mode():
     run_migrations_offline()
 else:
     run_migrations_online()
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-practice-for-week-19-python-project-skeleton/env.py at main · appacademy/practice-for-week-19-python-project-skeleton
