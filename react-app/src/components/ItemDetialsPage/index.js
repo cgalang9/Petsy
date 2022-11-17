@@ -15,21 +15,17 @@ function ItemDetailsPage() {
   const { itemId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const modalStr = useRef("");
+  const modalStr = useRef(""); //will use this to pass info to modal, avoids unnecessary renders
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
-
-  useEffect(() => {
-    Modal.setAppElement("body");
-  }, []);
 
   useEffect(async () => {
     try {
       const item = await dispatch(getItemDetailsThunk(itemId));
       await dispatch(getItemReviewsThunk(itemId));
       await dispatch(getImagesBySellerIdThunk(item.sellerId));
-      setIsLoaded(true);
+      setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
     } catch {
       history.push("/404");
     }
@@ -115,6 +111,7 @@ function ItemDetailsPage() {
   };
 
   const handleRightArrowReview = () => {
+    //display next 4 reviews if not at last page and the scrolls to top of review section
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
       const element = document.getElementById(
@@ -125,6 +122,7 @@ function ItemDetailsPage() {
   };
 
   const handleLeftArrowReview = () => {
+    //display previous 4 reviews if not at first page and the scrolls to top of review section
     if (reviewIdx > 0) {
       setReviewIdx(reviewIdx - 4);
       const element = document.getElementById(
@@ -146,11 +144,15 @@ function ItemDetailsPage() {
     }
   };
 
+  useEffect(() => {
+    Modal.setAppElement("body");
+  }, []);
+
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = async (e) => {
     await dispatch(clearModalReview());
-    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}`; //reviewId separated by img url to pass to modal
+    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}`; //to pass reviewId and img url to modal since useRef.current can only be a string
     await setIsOpen(true);
   };
 
@@ -178,7 +180,7 @@ function ItemDetailsPage() {
                               idx == 0
                                 ? "items-details-page-images-container-tiles-images active-tile-image"
                                 : "items-details-page-images-container-tiles-images"
-                            }
+                            } //sets active tile image to first image
                             onClick={makeActive}></img>
                         </div>
                       ))}
@@ -200,7 +202,8 @@ function ItemDetailsPage() {
                               idx == 0
                                 ? "items-details-page-images-container-main-images show"
                                 : "items-details-page-images-container-main-images"
-                            }></img>
+                            }//sets active main image to first image
+                            ></img>
                         </div>
                       ))}
                     <div
@@ -257,6 +260,7 @@ function ItemDetailsPage() {
                             </div>
                           </div>
                           <div className='items-details-page-review-containter-right'>
+                            {/* display first imgae of review if review has image */}
                             {review.imgUrls[0] && (
                               <img
                                 src={review.imgUrls[0]}
@@ -294,7 +298,7 @@ function ItemDetailsPage() {
                         <div key={img.id}>
                           <img
                             src={img.url}
-                            alt={`Image: Review ${img.reviewId}`}
+                            alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
                             className='items-details-page-main-shop-reviews-images'
                             onClick={openModal}></img>
                         </div>
