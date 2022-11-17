@@ -1,7 +1,7 @@
 """empty message
 
 Revision ID: 91e24894db2a
-Revises: 
+Revises:
 Create Date: 2022-11-17 09:03:14.361185
 
 """
@@ -14,6 +14,7 @@ revision = '91e24894db2a'
 down_revision = None
 branch_labels = None
 depends_on = None
+
 
 
 def upgrade():
