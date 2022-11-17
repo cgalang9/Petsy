@@ -15,8 +15,9 @@ const ShoppingCart = () => {
 
   //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
-  const [checkoutItemsObj, setCheckoutItemsObj] = useState({});
-  const [checkoutRes, setCheckoutRes] = useState("");
+  // const [checkoutItemsObj, setCheckoutItemsObj] = useState({});
+  // const [checkoutRes, setCheckoutRes] = useState("");
+  // console.log("this is checkoutItemsObj", checkoutItemsObj);
 
   // mounts the shopping cart on initial mount
   useEffect(() => {
@@ -34,23 +35,26 @@ const ShoppingCart = () => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
   }, [shoppingCart]);
 
-  const postCheckout = async () => {
+  const postCheckout = async (checkoutItems) => {
+    console.log(checkoutItems);
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(checkoutItemsObj)
+      body: JSON.stringify(checkoutItems)
     };
     const res = await fetch("/api/orders", requestOptions);
     // console.log(requestOptions.body);
 
     if (res.ok) {
-      setCheckoutRes(
-        "Your order has been placed, thanks for shopping at Petsy!"
-      );
-      // console.log("it worked");
-      emptyCart();
+      // setCheckoutRes(
+      //   "Your order has been placed, thanks for shopping at Petsy!"
+      // );
+      console.log("res", res);
+      console.log("it worked");
+      await emptyCart();
     } else {
-      // console.log(res);
+      console.log(res);
     }
   };
 
@@ -102,14 +106,18 @@ const ShoppingCart = () => {
 
     let checkoutItems = [];
 
+    // await shoppingCart;
+
     for (let item of shoppingCart) {
       checkoutItems.push({
         id: Number(item.itemId),
         quantity: item.quantity
       });
     }
-    await setCheckoutItemsObj({ checkoutItems });
-    await postCheckout();
+    // setCheckoutItemsObj({ checkoutItems });
+    console.log("this is checkout items", checkoutItems);
+
+    postCheckout({ checkoutItems });
   }
 
   // const emptyCart = useCallback(() => {
@@ -119,6 +127,7 @@ const ShoppingCart = () => {
   // const shoppingCartMap = (
 
   // )
+  console.log("shoppingCart", shoppingCart);
 
   return (
     <>

@@ -26,7 +26,7 @@ export default function Product( { product, id }) {
             <div className="product-details">
                 <div className="product-name">{name}</div>
                 <div>{avgShopRating} ({shopReviews})</div>
-                <div className="product-price">${price}</div>
+                <div className="product-price">${price.toFixed(2)}</div>
                 <div className="product-shop-name">{shopName}</div>
             </div>
         </div>

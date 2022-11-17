@@ -6,7 +6,7 @@ import { getItemReviewsThunk } from "../../store/itemReviews";
 import { getImagesBySellerIdThunk } from "../../store/sellerReviewImages";
 import { clearModalReview } from "../../store/modalReview";
 import StarRatings from "react-star-ratings";
-import Modal from 'react-modal';
+import Modal from "react-modal";
 import ReviewImageModal from "../ReviewImageModal";
 import "./ItemDetialsPage.css";
 import AddToCart from "../AddToCart";
@@ -15,21 +15,17 @@ function ItemDetailsPage() {
   const { itemId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const modalStr = useRef('')
+  const modalStr = useRef(""); //will use this to pass info to modal, avoids unnecessary renders
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
-
-  useEffect(() => {
-    Modal.setAppElement('body')
-  },[])
 
   useEffect(async () => {
     try {
       const item = await dispatch(getItemDetailsThunk(itemId));
       await dispatch(getItemReviewsThunk(itemId));
       await dispatch(getImagesBySellerIdThunk(item.sellerId));
-      setIsLoaded(true);
+      setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
     } catch {
       history.push("/404");
     }
@@ -39,7 +35,6 @@ function ItemDetailsPage() {
   const itemReviews = useSelector((state) => state.itemReviews);
   const sellerReviewImages = useSelector((state) => state.sellerReviewImages);
   const sessionUser = useSelector((state) => state.session.user);
-
 
   const handleDelete = () => {
     if (
@@ -116,17 +111,23 @@ function ItemDetailsPage() {
   };
 
   const handleRightArrowReview = () => {
+    //display next 4 reviews if not at last page and the scrolls to top of review section
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
-      const element = document.getElementById("items-details-page-main-review-containter");
+      const element = document.getElementById(
+        "items-details-page-main-review-containter"
+      );
       element.scrollIntoView();
     }
   };
 
   const handleLeftArrowReview = () => {
+    //display previous 4 reviews if not at first page and the scrolls to top of review section
     if (reviewIdx > 0) {
       setReviewIdx(reviewIdx - 4);
-      const element = document.getElementById("items-details-page-main-review-containter");
+      const element = document.getElementById(
+        "items-details-page-main-review-containter"
+      );
       element.scrollIntoView();
     }
   };
@@ -134,22 +135,26 @@ function ItemDetailsPage() {
   //Modal functions and styling
   const customStyles = {
     content: {
-      width: '65%',
-      height: '65%',
-      top: '50%',
-      left: '50%',
-      borderRadius: '15px',
-      transform: 'translate(-50%, -50%)',
-    },
+      width: "65%",
+      height: "65%",
+      top: "50%",
+      left: "50%",
+      borderRadius: "15px",
+      transform: "translate(-50%, -50%)"
+    }
   };
+
+  useEffect(() => {
+    Modal.setAppElement("body");
+  }, []);
 
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  const openModal = async(e) => {
-    await dispatch(clearModalReview())
-    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}` //reviewId separated by img url to pass to modal
+  const openModal = async (e) => {
+    await dispatch(clearModalReview());
+    modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}`; //to pass reviewId and img url to modal since useRef.current can only be a string
     await setIsOpen(true);
-  }
+  };
 
   function closeModal() {
     setIsOpen(false);
@@ -175,7 +180,7 @@ function ItemDetailsPage() {
                               idx == 0
                                 ? "items-details-page-images-container-tiles-images active-tile-image"
                                 : "items-details-page-images-container-tiles-images"
-                            }
+                            } //sets active tile image to first image
                             onClick={makeActive}></img>
                         </div>
                       ))}
@@ -197,7 +202,8 @@ function ItemDetailsPage() {
                               idx == 0
                                 ? "items-details-page-images-container-main-images show"
                                 : "items-details-page-images-container-main-images"
-                            }></img>
+                            }//sets active main image to first image
+                            ></img>
                         </div>
                       ))}
                     <div
@@ -224,75 +230,85 @@ function ItemDetailsPage() {
                     Reviews for this item <span>{itemReviews.length}</span>
                   </div>
                   <div id='items-details-page-create-review-link'>
-                        <NavLink to={{ pathname: `/items/${itemId}/add-review`}}>
-                            Create Review for this Item
-                        </NavLink>
+                    <NavLink to={{ pathname: `/items/${itemId}/add-review` }}>
+                      Create Review for this Item
+                    </NavLink>
                   </div>
                   {itemReviews &&
                     itemReviews
                       .slice(reviewIdx, reviewIdx + 4)
                       .map((review) => (
-                        <div key={review.id} className='items-details-page-review-containter'>
-                            <div className='items-details-page-review-containter-left'>
-                                <div className='items-details-page-main-item-reviews-rating'>
-                                    <StarRatings
-                                    rating={review.starRating}
-                                    starRatedColor='black'
-                                    numberOfStars={5}
-                                    starDimension='20px'
-                                    starSpacing='1px'
-                                    />
-                                </div>
-                                <div className='items-details-page-main-item-reviews-text'>
-                                    {review.text}
-                                </div>
-                                <div className='items-details-page-main-item-reviews-user'>
-                                    {review.user.username}{" "}
-                                    {new Date(review.date).toDateString().slice(4)}
-                                </div>
+                        <div
+                          key={review.id}
+                          className='items-details-page-review-containter'>
+                          <div className='items-details-page-review-containter-left'>
+                            <div className='items-details-page-main-item-reviews-rating'>
+                              <StarRatings
+                                rating={review.starRating}
+                                starRatedColor='black'
+                                numberOfStars={5}
+                                starDimension='20px'
+                                starSpacing='1px'
+                              />
                             </div>
-                                <div className='items-details-page-review-containter-right'>
-                                    {review.imgUrls[0] && (
-                                        <img src={review.imgUrls[0]} alt={`Image: Review ${review.id}`} onClick={openModal} className='items-details-page-review-containter-image'></img>
-                                    )}
-                                </div>
+                            <div className='items-details-page-main-item-reviews-text'>
+                              {review.text}
+                            </div>
+                            <div className='items-details-page-main-item-reviews-user'>
+                              {review.user.username}{" "}
+                              {new Date(review.date).toDateString().slice(4)}
+                            </div>
+                          </div>
+                          <div className='items-details-page-review-containter-right'>
+                            {/* display first imgae of review if review has image */}
+                            {review.imgUrls[0] && (
+                              <img
+                                src={review.imgUrls[0]}
+                                alt={`Image: Review ${review.id}`}
+                                onClick={openModal}
+                                className='items-details-page-review-containter-image'></img>
+                            )}
+                          </div>
                         </div>
                       ))}
-                      {itemReviews.length > 0 && (
-                        <div id='items-details-page-main-item-reviews-page'>
-                          <span
-                            className='items-details-page-arrow-review'
-                            onClick={handleLeftArrowReview}>
-                            <i className='fa-solid fa-angle-left' />
-                          </span>
-                          Page {reviewIdx / 4 + 1} of{" "}
-                          {Math.ceil(itemReviews.length / 4)}
-                          <span
-                            className='items-details-page-arrow-review'
-                            onClick={handleRightArrowReview}>
-                            <i className='fa-solid fa-angle-right' />
-                          </span>
-                        </div>
-                      )}
-                    {sellerReviewImages.length > 0 && (
-                      <div id='items-details-page-main-shop-reviews-images-head'>
-                        Photos from reviews
-                      </div>
-                    )}
+                  {itemReviews.length > 0 && (
+                    <div id='items-details-page-main-item-reviews-page'>
+                      <span
+                        className='items-details-page-arrow-review'
+                        onClick={handleLeftArrowReview}>
+                        <i className='fa-solid fa-angle-left' />
+                      </span>
+                      Page {reviewIdx / 4 + 1} of{" "}
+                      {Math.ceil(itemReviews.length / 4)}
+                      <span
+                        className='items-details-page-arrow-review'
+                        onClick={handleRightArrowReview}>
+                        <i className='fa-solid fa-angle-right' />
+                      </span>
+                    </div>
+                  )}
+                  {sellerReviewImages.length > 0 && (
+                    <div id='items-details-page-main-shop-reviews-images-head'>
+                      Photos from reviews
+                    </div>
+                  )}
                   <div id='items-details-page-main-shop-reviews-images-container'>
-                    {sellerReviewImages.length > 0  &&
+                    {sellerReviewImages.length > 0 &&
                       sellerReviewImages.map((img) => (
                         <div key={img.id}>
                           <img
                             src={img.url}
-                            alt={`Image: Review ${img.reviewId}`}
+                            alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
                             className='items-details-page-main-shop-reviews-images'
                             onClick={openModal}></img>
                         </div>
                       ))}
                   </div>
-                  <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-                        <ReviewImageModal modalStr={modalStr.current}/>
+                  <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose={closeModal}
+                    style={customStyles}>
+                    <ReviewImageModal modalStr={modalStr.current} />
                   </Modal>
                 </div>
               </div>
@@ -331,8 +347,12 @@ function ItemDetailsPage() {
                   </div>
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>
-                <div id='items-details-page-right-price'>${item.price.toFixed(2)}</div>
-                <div id='items-details-page-add-to-cart-btn-container'><AddToCart itemId={item.id} /></div>
+                <div id='items-details-page-right-price'>
+                  ${item.price.toFixed(2)}
+                </div>
+                <div id='items-details-page-add-to-cart-btn-container'>
+                  <AddToCart itemId={itemId} />
+                </div>
                 <div id='items-details-page-right-description'>
                   <div id='items-details-page-right-description-head'>
                     Description
