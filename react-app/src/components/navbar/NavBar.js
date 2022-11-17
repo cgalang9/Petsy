@@ -21,7 +21,7 @@ const NavBar = () => {
     if (searchTerm) searchParams.append('q', searchTerm)
     if (minPrice) searchParams.append('minPrice', minPrice)
     if (maxPrice) searchParams.append('maxPrice', maxPrice)
-    if (pageSize) searchParams.append('pageSize', pageSize)
+    if (pageSize) searchParams.append('pageSize', Math.round(pageSize))
 
     setSearchTerm('')
     setMaxPrice('')

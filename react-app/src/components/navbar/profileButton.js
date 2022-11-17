@@ -9,6 +9,7 @@ const ProfileButton = () => {
     const [toggleDropDown, setToggleDropDown] = useState(false)
     const dispatch = useDispatch();
     const history = useHistory()
+
     // function to log in demo user
     const demoLogin = async () => {
         await dispatch(login('demo@aa.io', 'password'));
@@ -54,22 +55,22 @@ const ProfileButton = () => {
                             <span> </span>
                             {sessionUser.username}
                         </div>
-                        <NavLink to='/your-listings' activeClassName='active' className='navbar-profile-dropdown-item'>
-                            Your listings
+                        <NavLink to={`/search?sellerId=${sessionUser.id}`} activeClassName='active' className='navbar-profile-dropdown-item'>
+                            <i className="fa-solid fa-list" /> Your listings
                         </NavLink>
                         <NavLink to='/your-orders' activeClassName='active' className='navbar-profile-dropdown-item'>
-                            Your orders
+                            <i className="fa-regular fa-clipboard" /> <span> </span> Your orders
                         </NavLink>
-                        <NavLink to='/your-reviews' activeClassName='active' className='navbar-profile-dropdown-item'>
-                            Your reviews
+                        <NavLink to='/your-reviews' activeClassName='active' className='navbar-profile-dropdown-item navbar-star'>
+                            <i className="fa-regular fa-star" /> Your reviews
                         </NavLink>
                         <NavLink to='/list-product' activeClassName='active' className='navbar-profile-dropdown-item'>
-                            List a product
+                            <i className="fa-solid fa-pen-to-square" /> List a product
                         </NavLink>
                         <LogoutButton />
                     </div>
                 </div>
-            </div>
+            </div >
         )
     } else {
         buttonContent = (
