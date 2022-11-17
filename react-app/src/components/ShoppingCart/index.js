@@ -36,7 +36,7 @@ const ShoppingCart = () => {
   }, [shoppingCart]);
 
   const postCheckout = async (checkoutItems) => {
-    console.log(checkoutItems);
+    // console.log(checkoutItems);
 
     const requestOptions = {
       method: "POST",
@@ -50,11 +50,11 @@ const ShoppingCart = () => {
       // setCheckoutRes(
       //   "Your order has been placed, thanks for shopping at Petsy!"
       // );
-      console.log("res", res);
-      console.log("it worked");
+      // console.log("res", res);
+      // console.log("it worked");
       await emptyCart();
     } else {
-      console.log(res);
+      // console.log(res);
     }
   };
 
