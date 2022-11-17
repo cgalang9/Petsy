@@ -12,6 +12,9 @@ const AddToCart = ({ itemId }) => {
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
   // const [trackCart, setTrackCart] = useState("");
+  if (!cart) {
+    setCart([]);
+  }
 
   const history = useHistory();
 

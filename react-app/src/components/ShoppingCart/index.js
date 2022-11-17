@@ -17,6 +17,9 @@ const ShoppingCart = () => {
 
   //  initializes shoppingCart state, defaults to the localStorageCart
   const [shoppingCart, setShoppingCart] = useState(localStorageCart);
+  if (!shoppingCart) {
+    setShoppingCart([]);
+  }
   // const [checkoutItemsObj, setCheckoutItemsObj] = useState({});
   // const [checkoutRes, setCheckoutRes] = useState("");
   // console.log("this is checkoutItemsObj", checkoutItemsObj);
@@ -132,7 +135,7 @@ const ShoppingCart = () => {
   // )
   console.log("shoppingCart", shoppingCart);
 
-  if (shoppingCart.length <= 0) {
+  if (!shoppingCart || shoppingCart.length <= 0) {
     conditionalButtons = <></>;
   } else {
     conditionalButtons = (
