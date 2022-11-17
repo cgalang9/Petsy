@@ -110,6 +110,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 70px;
 }
 
 .items-details-page-review-containter-right {
@@ -155,7 +156,9 @@
 }
 
 .items-details-page-main-item-reviews-user {
-    margin-bottom: 50px;
+    margin: 20px 0 50px 20px;
+    color: rgb(165, 165, 165);
+    font-size: 16px;
 }
 
 #items-details-page-right {
