@@ -11,7 +11,7 @@ const AddToCart = ({ itemId }) => {
   let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
-  const [trackCart, setTrackCart] = useState("");
+  // const [trackCart, setTrackCart] = useState("");
 
   const history = useHistory();
 
@@ -46,22 +46,22 @@ const AddToCart = ({ itemId }) => {
     //   setCart([initialItem]);
     // }
 
-    // console.log("this is productInfo", productInfo);
+    console.log("this is productInfo", productInfo);
 
     let foundItem = cartArray.find(
       (item) => productInfo.itemId === item.itemId
     );
 
-    // console.log("this is found item in ATC before check", foundItem);
+    console.log("this is found item in ATC before check", foundItem);
 
     if (foundItem) {
-      // console.log("this is adding quantity");
+      console.log("this is adding quantity");
       foundItem.quantity += 1;
     } else {
-      // console.log("this is adding item if not found");
+      console.log("this is adding item if not found");
       foundItem = { ...productInfo, quantity: 1 };
       cartArray.push(foundItem);
-      // console.log("this is cartArray after push", cartArray);
+      console.log("this is cartArray after push", cartArray);
     }
 
     // console.log("this is cartArray", cartArray);
