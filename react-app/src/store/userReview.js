@@ -65,7 +65,6 @@ export const userReviewsReducer = (state = null, action) => {
             editedReview.text = action.review.text
             editedReview.starRating = action.review.starRating
             stateEditReview[action.review.id] = editedReview
-            console.log("-----------", stateEditReview)
             return stateEditReview
         case DELETE_REVIEW:
             let stateDeleteReview = { ...state }
