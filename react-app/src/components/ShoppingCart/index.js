@@ -53,6 +53,7 @@ const ShoppingCart = () => {
       // console.log("res", res);
       // console.log("it worked");
       await emptyCart();
+      history.push("/your-orders");
     } else {
       // console.log(res);
     }
