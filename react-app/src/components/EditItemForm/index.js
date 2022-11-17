@@ -67,9 +67,11 @@ function EditItemForm() {
         <div id='edit-item-form-wrapper'>
             <form id='edit-item-form' onSubmit={handleSubmit}>
                 <h1>Edit Your Item</h1>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
+                <div className='errors'>
+                    {errors.errors && (errors.errors.map((error, ind) => (
+                    <div key={ind}>{error}</div>
+                    )))}
+                </div>
                 <div>
                     <label>Name </label>
                     <input
@@ -102,7 +104,7 @@ function EditItemForm() {
                         maxLength={2000}
                     />
                 </div>
-                <button>Confirm Changes</button>
+                <button  type='submit'>Confirm Changes</button>
             </form>
         </div>
     )

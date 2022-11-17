@@ -52,7 +52,7 @@ function ReviewImageModal({ modalStr }) {
                             <img src={review.product_url} alt='review image' id='review-img-modal-product-img'></img>
                             <div id='review-img-modal-review-details'>
                                 <div id='review-img-modal-review-details-name'>{review.product_name}</div>
-                                <div id='review-img-modal-review-details-price'>${review.product_price}</div>
+                                <div id='review-img-modal-review-details-price'>${review.product_price.toFixed(2)}</div>
                             </div>
                         </div>
                     </div>

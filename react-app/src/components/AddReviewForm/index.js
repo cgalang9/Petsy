@@ -42,9 +42,11 @@ function AddReviewForm() {
         <div id='add_reivew_form-wrapper'>
             <form id='add_reivew_form' onSubmit={handleSubmit}>
                 <h1>Add Your Review</h1>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
+                <div className='errors'>
+                    {errors.errors && (errors.errors.map((error, ind) => (
+                    <div key={ind}>{error}</div>
+                    )))}
+                </div>
                 <div>
                     <label>Rating</label>
                     <input
@@ -66,7 +68,7 @@ function AddReviewForm() {
                         maxLength={255}
                     />
                 </div>
-                <button>Add Review</button>
+                <button type='submit'>Add Review</button>
             </form>
         </div>
     )

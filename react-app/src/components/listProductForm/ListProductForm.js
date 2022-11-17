@@ -117,7 +117,7 @@ const ListProductForm = () => {
                         value={urls}
                     />
                 </div>
-                <button>Post product</button>
+                <button type='submit'>Post product</button>
             </form>
         </div>
     )

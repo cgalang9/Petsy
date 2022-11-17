@@ -5,7 +5,7 @@ import { login } from '../../store/session';
 import './signin.css'
 
 const LoginForm = () => {
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
@@ -34,10 +34,10 @@ const LoginForm = () => {
   return (
     <form onSubmit={onLogin}>
       <h1>Log in</h1>
-      <div>
-        {errors.map((error, ind) => (
+      <div className='errors'>
+        {errors.errors && (errors.errors.map((error, ind) => (
           <div key={ind}>{error}</div>
-        ))}
+        )))}
       </div>
       <div>
         <label htmlFor='email'>Email</label>
