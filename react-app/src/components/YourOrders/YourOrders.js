@@ -36,7 +36,7 @@ const YourOrders = () => {
                                             <div className="your-orders-item-text-wrapper">
                                                 <h4 >Purchased {item.quantity} x <span onClick={() => history.push(`/items/${item.id}`)}>{item.name}</span></h4>
                                                 <h5 >Sold by {item.shopName} </h5>
-                                                <h6>${item.purchasePrice} x {item.quantity} = ${item.purchasePrice * item.quantity}</h6>
+                                                <h6>${item.purchasePrice} x {item.quantity} = ${(item.purchasePrice * item.quantity).toFixed(2)}</h6>
                                             </div>
                                         </div>
                                     )
