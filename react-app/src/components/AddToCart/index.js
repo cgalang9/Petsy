@@ -11,7 +11,7 @@ const AddToCart = ({ itemId }) => {
   let localStorageCart = JSON.parse(localStorage.getItem("cart") || "[]");
   const dispatch = useDispatch();
   const [cart, setCart] = useState(localStorageCart);
-  const [trackCart, setTrackCart] = useState("");
+  // const [trackCart, setTrackCart] = useState("");
 
   const history = useHistory();
 
