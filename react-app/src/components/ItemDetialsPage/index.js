@@ -4,6 +4,7 @@ import { NavLink, useHistory, useParams } from "react-router-dom";
 import { getItemDetailsThunk, deleteItemThunk } from "../../store/itemPage";
 import { getItemReviewsThunk } from "../../store/itemReviews";
 import { getImagesBySellerIdThunk } from "../../store/sellerReviewImages";
+import { clearModalReview } from "../../store/modalReview";
 import StarRatings from "react-star-ratings";
 import Modal from 'react-modal';
 import ReviewImageModal from "../ReviewImageModal";
@@ -118,12 +119,16 @@ function ItemDetailsPage() {
     if (reviewIdx + 4 < itemReviews.length) {
       setReviewIdx(reviewIdx + 4);
     }
+    const element = document.getElementById("items-details-page-main-review-containter");
+    element.scrollIntoView();
   };
 
   const handleLeftArrowReview = () => {
     if (reviewIdx > 0) {
       setReviewIdx(reviewIdx - 4);
     }
+    const element = document.getElementById("items-details-page-main-review-containter");
+    element.scrollIntoView();
   };
 
   //Modal functions and styling
@@ -138,10 +143,10 @@ function ItemDetailsPage() {
     },
   };
 
-//   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = async(e) => {
+    await dispatch(clearModalReview())
     modalStr.current = `${e.target.alt.slice(14)}:::::${e.target.src}` //reviewId separated by img url to pass to modal
     await setIsOpen(true);
   }
@@ -248,7 +253,7 @@ function ItemDetailsPage() {
                             </div>
                                 <div className='items-details-page-review-containter-right'>
                                     {review.imgUrls[0] && (
-                                        <img src={review.imgUrls[0]} alt='review image' className='items-details-page-review-containter-image'></img>
+                                        <img src={review.imgUrls[0]} alt={`Image: Review ${review.id}`} onClick={openModal} className='items-details-page-review-containter-image'></img>
                                     )}
                                 </div>
                         </div>
