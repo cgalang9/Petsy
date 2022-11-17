@@ -11,8 +11,8 @@ class Review(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = add_prefix_for_prod(db.Column(db.Integer, db.ForeignKey(User.id)))
-    product_id = add_prefix_for_prod(db.Column(db.Integer, db.ForeignKey(Product.id)))
+    user_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(User.id)))
+    product_id = db.Column(db.Integer, add_prefix_for_prod(db.ForeignKey(Product.id)))
     rating = db.Column(db.Integer, nullable=False)
     text = db.Column(db.String(255), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.today())
