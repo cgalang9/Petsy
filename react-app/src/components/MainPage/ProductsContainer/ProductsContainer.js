@@ -6,24 +6,37 @@ import Product from "../Product/Product"
 
 import "./ProductsContainer.css"
 
-export default function ProductsContainer({ search }) {
+export default function ProductsContainer({ isSearch }) {
+    const [numResults, products] = useSelector(state => [state.items.numResults, state.items])
+
     const [page, setPage] = useState(1);
-    const [pageNums, setPageNums] = useState([1, 2, 3])
+    const [pageNums, setPageNums] = useState([])
     const [query, setQuery] = useState({})
 
     const dispatch = useDispatch();
-    const products = useSelector(state => state.items)
-    const numResults = products.numResults;
-    delete products.numResults
     const location = useLocation();
-    console.log(numResults)
+
+
 
     useEffect(() => {
         const query = {}
         const acceptedParams = new Set(["q", "minPrice", "maxPrice", "sellerId", "pageSize", "page"])
 
-        if (search) {
+        if (isSearch) {
             const params = new URLSearchParams(location.search)
+
+            if (params.get("page")) {
+                setPage(Number(params.get("page")));
+            } else if (page !== 1) {
+                setPage(1);
+            }
+            
+            const newPageNums = Array.from({length: Math.ceil(numResults / (params.get("pageSize") || 20))}, (_, i) => i + 1)
+
+            if (String(newPageNums) !== String(pageNums)) {
+                setPageNums(newPageNums)
+            }
+
             for (let [key, val] of params) {
                 if (acceptedParams.has(key)) {
                     if (key !== 'q') {
@@ -36,25 +49,37 @@ export default function ProductsContainer({ search }) {
             }
             setQuery(query)
         }
-        
-        console.log(query);
+
         dispatch(getProducts(query))
-    }, [location])
+        
+    }, [location, numResults])
+    
 
     return (
         <>
           <ul id="products-container-products-container">
             {
                 Object.entries(products).map(([id, product]) => {
-                    return <Product key={id} product={product} id={id}/>
+                    if (id !== "numResults") {
+                        return <Product key={id} product={product} id={id}/>
+                    }
                 })
             }
           </ul>
           {
-            search && 
-            <div className="products-container-navlink">
+            isSearch && 
+            <div className="products-container-navlinks">
                 {
-                    pageNums.map(pageNum => <NavLink to={`/search?${new URLSearchParams({...query, page: pageNum}).toString()}`}>{pageNum}</NavLink>)
+                    pageNums.map(pageNum => 
+                        <NavLink 
+                            className={`products-container-navlink ${pageNum === page ? "current" : ""}`}
+                            key={pageNum} 
+                            onClick={() => {setPage(pageNum)}} 
+                            to={`/search?${new URLSearchParams({...query, page: pageNum}).toString()}`}
+                        >
+                            {pageNum}
+                        </NavLink>
+                    )
                 }
             </div>
           }

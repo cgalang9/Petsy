@@ -79,6 +79,8 @@ def all_items():
 
     offset = (page - 1) * size
 
+    # print("numRESULLLLLTS", len(constructed_products))
+
     return {
         "items": [product for product in constructed_products][offset:offset + size],
         "numResults": len(constructed_products)
