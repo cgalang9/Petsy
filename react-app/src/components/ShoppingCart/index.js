@@ -202,14 +202,16 @@ const ShoppingCart = () => {
           ))}
         </div>
         <div className='cart-sidebox-container'>
-          <div className='cart-sidebox-header'>Checkout</div>
-          <div className='cart-sidebox-totalitems'>
-            {getTotalQuantity()} items in your cart
+          <div className='cart-sidebox-container'>
+            <div className='cart-sidebox-header'>Checkout</div>
+            <div className='cart-sidebox-totalitems'>
+              {getTotalQuantity()} items in your cart
+            </div>
+            <div className='cart-sidebox-totalprice'>
+              Item(s) Total Price ${getTotalPrice()}
+            </div>
+            <div cart-conditional-buttons-container>{conditionalButtons}</div>
           </div>
-          <div className='cart-sidebox-totalprice'>
-            Item(s) Total Price ${getTotalPrice()}
-          </div>
-          <div cart-conditional-buttons-container>{conditionalButtons}</div>
         </div>
       </div>
     </>
