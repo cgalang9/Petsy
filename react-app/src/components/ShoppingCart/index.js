@@ -166,42 +166,44 @@ const ShoppingCart = () => {
     <>
       <div className='cart-container-main'>
         <h1 className='cart-header'>Shopping Cart</h1>
-        <div className='cart-items-container'>
+        <div className='cart-items-container '>
           {shoppingCart?.map((item, index) => (
             <div
-              className='cart-item-container cart-border-container'
+              className='cart-item-container '
               key={index}>
-              <div className='cart-item-img-container'>
-                <img
-                  src={item.previewImg}
-                  alt={item.name}
-                  className='cart-item-img'
-                />
-              </div>
-              <div className='cart-item-text-container'>
-                <div className='cart-text-container'>
-                  <div className='cart-item-name'>{item.name}</div>
-                  <div className='cart-item-price'>${item.price}</div>
-                  <div className='cart-item-qty'>{item.quantity} in cart</div>
-                </div>
-                <div className='cart-item-qty-input'>
-                  <label
-                    htmlFor='quantity'
-                    className='cart-form-label'>
-                    Change quantity{"  "}
-                  </label>
-                  <input
-                    className='cart-form-input'
-                    type='number'
-                    required
-                    min='1'
-                    maxLength={4}
-                    onChange={(e) => {
-                      updateQuantity(item, Number(e.target.value));
-                    }}
-                    value={Number(item.quantity)}
-                    name='quantity'
+              <div className='cart-border-container'>
+                <div className='cart-item-img-container'>
+                  <img
+                    src={item.previewImg}
+                    alt={item.name}
+                    className='cart-item-img'
                   />
+                </div>
+                <div className='cart-item-text-container'>
+                  <div className='cart-text-container'>
+                    <h3 className='cart-item-name'>{item.name}</h3>
+                    <div className='cart-item-price'>${item.price}</div>
+                    <div className='cart-item-qty'>{item.quantity} in cart</div>
+                  </div>
+                  <div className='cart-item-qty-input'>
+                    <label
+                      htmlFor='quantity'
+                      className='cart-form-label'>
+                      Change quantity{"  "}
+                    </label>
+                    <input
+                      className='cart-form-input'
+                      type='number'
+                      required
+                      min='1'
+                      maxLength={4}
+                      onChange={(e) => {
+                        updateQuantity(item, Number(e.target.value));
+                      }}
+                      value={Number(item.quantity)}
+                      name='quantity'
+                    />
+                  </div>
                 </div>
               </div>
               <button
