@@ -69,6 +69,14 @@ const ShoppingCart = () => {
   }
 
   function updateQuantity(productInfo, newQty) {
+    if (newQty >= 1000) {
+      newQty = 999;
+    }
+
+    if (newQty === 0) {
+      newQty = 1;
+    }
+
     let cartArray = [...shoppingCart];
 
     for (let item of cartArray) {
@@ -158,39 +166,44 @@ const ShoppingCart = () => {
     <>
       <div className='cart-container-main'>
         <h1 className='cart-header'>Shopping Cart</h1>
-        <div className='cart-items-container'>
+        <div className='cart-items-container '>
           {shoppingCart?.map((item, index) => (
             <div
-              className='cart-item-container'
+              className='cart-item-container '
               key={index}>
-              <div className='cart-item-img-container'>
-                <img
-                  src={item.previewImg}
-                  alt={item.name}
-                  className='cart-item-img'
-                />
-              </div>
-              <div className='cart-item-text-container'>
-                <div className='cart-item-name'>{item.name}</div>
-                <div className='cart-item-price'>${item.price}</div>
-                <div className='cart-item-qty'>{item.quantity} in cart</div>
-                <div className='cart-item-qty-input'>
-                  <label
-                    htmlFor='quantity'
-                    className='cart-form-label'>
-                    in cart
-                  </label>
-                  <input
-                    className='cart-form-input  '
-                    type='number'
-                    required
-                    min='0'
-                    onChange={(e) => {
-                      updateQuantity(item, Number(e.target.value));
-                    }}
-                    value={Number(item.quantity)}
-                    name='quantity'
+              <div className='cart-border-container'>
+                <div className='cart-item-img-container'>
+                  <img
+                    src={item.previewImg}
+                    alt={item.name}
+                    className='cart-item-img'
                   />
+                </div>
+                <div className='cart-item-text-container'>
+                  <div className='cart-text-container'>
+                    <h3 className='cart-item-name'>{item.name}</h3>
+                    <div className='cart-item-price'>${item.price}</div>
+                    <div className='cart-item-qty'>{item.quantity} in cart</div>
+                  </div>
+                  <div className='cart-item-qty-input'>
+                    <label
+                      htmlFor='quantity'
+                      className='cart-form-label'>
+                      Change quantity{"  "}
+                    </label>
+                    <input
+                      className='cart-form-input'
+                      type='number'
+                      required
+                      min='1'
+                      maxLength={4}
+                      onChange={(e) => {
+                        updateQuantity(item, Number(e.target.value));
+                      }}
+                      value={Number(item.quantity)}
+                      name='quantity'
+                    />
+                  </div>
                 </div>
               </div>
               <button
@@ -202,16 +215,14 @@ const ShoppingCart = () => {
           ))}
         </div>
         <div className='cart-sidebox-container'>
-          <div className='cart-sidebox-container'>
-            <div className='cart-sidebox-header'>Checkout</div>
-            <div className='cart-sidebox-totalitems'>
-              {getTotalQuantity()} items in your cart
-            </div>
-            <div className='cart-sidebox-totalprice'>
-              Item(s) Total Price ${getTotalPrice()}
-            </div>
-            <div cart-conditional-buttons-container>{conditionalButtons}</div>
+          <div className='cart-sidebox-header'></div>
+          <div className='cart-sidebox-totalitems'>
+            {getTotalQuantity()} items in your cart
           </div>
+          <div className='cart-sidebox-totalprice'>
+            Item(s) Total Price ${getTotalPrice()}
+          </div>
+          <div cart-conditional-buttons-container>{conditionalButtons}</div>
         </div>
       </div>
     </>
