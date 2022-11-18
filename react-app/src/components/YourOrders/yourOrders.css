@@ -93,6 +93,7 @@
     font-size: 20px;
     font-weight: 400;
     cursor: pointer;
+    word-wrap: break-word;
 }
 
 .your-orders-item-text-wrapper>h4>span:hover {

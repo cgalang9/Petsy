@@ -132,8 +132,8 @@ const YourReviews = () => {
                                     if (editFocus === review.id) setEditFocus(null)
                                     else setEditFocus(review.id)
                                 }}>
-                                    {editFocus === review.id && 'Cancel'}{editFocus !== review.id && 'Edit review'}</button>
-                                <button onClick={handleDelete(review.id)}>Delete review</button>
+                                    {editFocus === review.id && 'Cancel'}{editFocus !== review.id && 'Edit'}</button>
+                                <button onClick={handleDelete(review.id)}>Delete</button>
                             </div>
                         </div>
                     )

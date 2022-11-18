@@ -9,8 +9,9 @@
     display: flex;
 }
 
-#items-details-page{
+#items-details-page {
     margin-top: 60px;
+    width: 95%;
     max-width: 1400px;
     min-width: 1000px;
     align-self: center;
@@ -49,11 +50,11 @@
 }
 
 #items-details-page-images-container-tiles {
-   padding: 0 10px;
-   height: 500px;
-   min-width: 140px;
-   margin-right: 20px;
-   overflow: scroll;
+    padding: 0 10px;
+    height: 500px;
+    min-width: 140px;
+    margin-right: 20px;
+    overflow: scroll;
 }
 
 .items-details-page-images-container-tiles-images {
@@ -62,6 +63,7 @@
     border-radius: 15%;
     opacity: 0.7;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .items-details-page-images-container-main-images {
@@ -117,6 +119,10 @@
     justify-self: center;
 }
 
+.items-details-page-review-containter-left {
+    width: 100%;
+}
+
 .items-details-page-review-containter-image {
     height: 150px;
     width: 150px;
@@ -125,7 +131,7 @@
     object-fit: cover;
 }
 
-#items-details-page-main-shop-reviews{
+#items-details-page-main-shop-reviews {
     font-size: 25px;
 }
 
@@ -133,22 +139,23 @@
     margin-left: 10px;
 }
 
-#items-details-page-main-item-reviews-total{
+#items-details-page-main-item-reviews-total {
     font-size: 20px;
     margin: 30px 0;
 }
 
-#items-details-page-main-item-reviews-total > span {
+#items-details-page-main-item-reviews-total>span {
     background-color: rgb(219, 219, 219);
     border-radius: 30px;
     font-size: 16px;
-    padding:  5px 10px;
+    padding: 5px 10px;
     margin-left: 5px;
 }
 
 .items-details-page-main-item-reviews-text {
     font-size: 16px;
     margin: 10px 0;
+    word-wrap: break-word;
 }
 
 .items-details-page-main-item-reviews-rating {
@@ -162,10 +169,11 @@
 }
 
 #items-details-page-right {
-    padding: 0 30px;
+    padding-left: 30px;
+    width: 32%;
 }
 
-#items-details-page-right-shopname{
+#items-details-page-right-shopname {
     font-size: 20px;
     margin-bottom: 20px;
 }
@@ -174,7 +182,7 @@
     font-size: 16px;
 }
 
-#items-details-page-right-shop-sales > span {
+#items-details-page-right-shop-sales>span {
     margin: 0 10px;
     color: rgb(210, 210, 210)
 }
@@ -189,6 +197,7 @@
 #items-details-page-right-item-name {
     font-size: 36px;
     margin-top: 20px;
+    word-wrap: break-word;
 }
 
 #items-details-page-right-price {
@@ -206,6 +215,7 @@
 #items-details-page-right-description-text {
     font-size: 18px;
     margin-top: 5px;
+    word-wrap: break-word;
 }
 
 #items-details-page-main-shop-reviews-images-head {
@@ -225,6 +235,7 @@
     width: 200px;
     border-radius: 15px;
     object-fit: cover;
+    cursor: pointer;
 
 }
 
@@ -232,7 +243,7 @@
     max-width: 160px;
 }
 
-#items-details-page-add-to-cart-btn-container > button {
+#items-details-page-add-to-cart-btn-container>button {
     padding: 10px;
 }
 

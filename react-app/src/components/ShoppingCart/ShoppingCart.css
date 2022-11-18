@@ -41,6 +41,10 @@
   gap: 10px;
 }
 
+.cart-item-name {
+  word-wrap: break-word;
+}
+
 .cart-sidebox {
   display: flex;
   flex-direction: column;
