@@ -129,7 +129,7 @@ const ShoppingCart = () => {
       });
     }
     // setCheckoutItemsObj({ checkoutItems });
-    console.log("this is checkout items", checkoutItems);
+    // console.log("this is checkout items", checkoutItems);
 
     postCheckout({ checkoutItems });
   }
@@ -141,7 +141,7 @@ const ShoppingCart = () => {
   // const shoppingCartMap = (
 
   // )
-  console.log("shoppingCart", shoppingCart);
+  // console.log("shoppingCart", shoppingCart);
 
   if (!shoppingCart || shoppingCart.length <= 0) {
     conditionalButtons = <></>;
