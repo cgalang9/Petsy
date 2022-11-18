@@ -11,6 +11,7 @@
   justify-content: center;
   max-width: 1400px;
   padding-bottom: 50px;
+  margin-top: 20px;
 }
 
 .products-container-navlinks {
@@ -48,6 +49,7 @@
   margin: 0 auto;
   color: rgb(241, 100, 30);
   width: fit-content;
+  margin-top: 10px;
 }
 
 
