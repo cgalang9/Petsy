@@ -111,7 +111,7 @@ const ListProductForm = () => {
                     />
                 </div>
                 <div>
-                    <label>Image urls (separated by commas)</label>
+                    <label>Image urls (separated by new line)</label>
                     <textarea
                         onChange={e => setUrls(e.target.value)}
                         value={urls}
