@@ -161,7 +161,7 @@ const ShoppingCart = () => {
         <div className='cart-items-container'>
           {shoppingCart?.map((item, index) => (
             <div
-              className='cart-item-container'
+              className='cart-item-container cart-border-container'
               key={index}>
               <div className='cart-item-img-container'>
                 <img
@@ -174,24 +174,25 @@ const ShoppingCart = () => {
                 <div className='cart-item-name'>{item.name}</div>
                 <div className='cart-item-price'>${item.price}</div>
                 <div className='cart-item-qty'>{item.quantity} in cart</div>
-                <div className='cart-item-qty-input'>
-                  <label
-                    htmlFor='quantity'
-                    className='cart-form-label'>
-                    in cart
-                  </label>
-                  <input
-                    className='cart-form-input  '
-                    type='number'
-                    required
-                    min='0'
-                    onChange={(e) => {
-                      updateQuantity(item, Number(e.target.value));
-                    }}
-                    value={Number(item.quantity)}
-                    name='quantity'
-                  />
-                </div>
+                <div className='cart-item-qty-input'></div>
+
+                <label
+                  htmlFor='quantity'
+                  className='cart-form-label'>
+                  Change quantity{"  "}
+                </label>
+                <input
+                  className='cart-form-input'
+                  type='number'
+                  required
+                  min='1'
+                  max='100'
+                  onChange={(e) => {
+                    updateQuantity(item, Number(e.target.value));
+                  }}
+                  value={Number(item.quantity)}
+                  name='quantity'
+                />
               </div>
               <button
                 className='cart-remove-item-button'
@@ -202,16 +203,14 @@ const ShoppingCart = () => {
           ))}
         </div>
         <div className='cart-sidebox-container'>
-          <div className='cart-sidebox-container'>
-            <div className='cart-sidebox-header'>Checkout</div>
-            <div className='cart-sidebox-totalitems'>
-              {getTotalQuantity()} items in your cart
-            </div>
-            <div className='cart-sidebox-totalprice'>
-              Item(s) Total Price ${getTotalPrice()}
-            </div>
-            <div cart-conditional-buttons-container>{conditionalButtons}</div>
+          <div className='cart-sidebox-header'></div>
+          <div className='cart-sidebox-totalitems'>
+            {getTotalQuantity()} items in your cart
           </div>
+          <div className='cart-sidebox-totalprice'>
+            Item(s) Total Price ${getTotalPrice()}
+          </div>
+          <div cart-conditional-buttons-container>{conditionalButtons}</div>
         </div>
       </div>
     </>
