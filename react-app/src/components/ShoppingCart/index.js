@@ -105,7 +105,7 @@ const ShoppingCart = () => {
     for (let item of shoppingCart) {
       totalPrice += item.price * item.quantity;
     }
-    return totalPrice.toFixed(2);
+    return totalPrice.toString().replace(/\d(?=(\d{3})+\.)/g, "$&,");
   }
 
   function emptyCart() {
@@ -166,7 +166,7 @@ const ShoppingCart = () => {
     <>
       <div className='cart-container-main'>
         <h1 className='cart-header'>Shopping Cart</h1>
-        <div className='cart-items-container '>
+        <div className='cart-items-wrapper '>
           {shoppingCart?.map((item, index) => (
             <div
               className='cart-item-container '
@@ -206,11 +206,13 @@ const ShoppingCart = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className='cart-remove-item-button'
-                onClick={() => removeFromShoppingCart(item)}>
-                Remove Item
-              </button>
+              <div className='remove-item-btn-wrapper'>
+                <button
+                  className='cart-remove-item-button'
+                  onClick={() => removeFromShoppingCart(item)}>
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
         </div>
