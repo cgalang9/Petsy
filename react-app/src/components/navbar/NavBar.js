@@ -50,6 +50,7 @@ const NavBar = () => {
 
 
   return (
+    <>
     <nav className='navbar-wrapper'>
       <NavLink to='/' exact={true} activeClassName='active' className="navbar-home-button">
         Petsy
@@ -86,6 +87,7 @@ const NavBar = () => {
         </NavLink>
       </div>
     </nav >
+    </>
   );
 }
 
