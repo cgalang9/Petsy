@@ -22,27 +22,27 @@ export default function ProductsContainer({ isSearch }) {
     const location = useLocation();
 
     console.log(displayPageNums)
-  useEffect(() => {
-    const pageDisplayInfo = slidingWindowPages(pageNums, page);
-    setDisplayPageNums(pageDisplayInfo.pages)
-    setPrefix(pageDisplayInfo.prefix)
-    setPostfix(pageDisplayInfo.postfix)
-    console.log("WE UPDATIN")
-  }, [page, pageNums])
+    useEffect(() => {
+        const pageDisplayInfo = slidingWindowPages(pageNums, page);
+        setDisplayPageNums(pageDisplayInfo.pages)
+        setPrefix(pageDisplayInfo.prefix)
+        setPostfix(pageDisplayInfo.postfix)
+        console.log("WE UPDATIN")
+    }, [page, pageNums])
 
-  useEffect(() => {
-    const query = {};
-    const acceptedParams = new Set([
-      "q",
-      "minPrice",
-      "maxPrice",
-      "sellerId",
-      "pageSize",
-      "page"
-    ]);
+    useEffect(() => {
+        const query = {};
+        const acceptedParams = new Set([
+            "q",
+            "minPrice",
+            "maxPrice",
+            "sellerId",
+            "pageSize",
+            "page"
+        ]);
 
         if (isSearch) {
-            console.log("WE SEARCHIN" )
+            console.log("WE SEARCHIN")
             const params = new URLSearchParams(location.search)
 
             if (params.get("page")) {
@@ -50,8 +50,8 @@ export default function ProductsContainer({ isSearch }) {
             } else if (page !== 1) {
                 setPage(1);
             }
-            
-            const newPageNums = Array.from({length: Math.ceil(numResults / (params.get("pageSize") || 20))}, (_, i) => i + 1)
+
+            const newPageNums = Array.from({ length: Math.ceil(numResults / (params.get("pageSize") || 20)) }, (_, i) => i + 1)
 
             if (String(newPageNums) !== String(pageNums)) {
                 setPageNums(newPageNums)
@@ -64,7 +64,7 @@ export default function ProductsContainer({ isSearch }) {
                     }
                     else if (key !== 'q') {
                         query[key] = Number(val)
-                        
+
                     } else {
                         query[key] = val
                     }
@@ -74,42 +74,43 @@ export default function ProductsContainer({ isSearch }) {
         }
 
         dispatch(getProducts(query)).then(() => setIsLoaded(true))
-    
+
     }, [location, numResults])
-    
+
 
     return (
         <>
-           { isLoaded && (Object.entries(products).length > 1 &&
-            <ul id="products-container-products-container">
-                {
-                    Object.entries(products).map(([id, product]) => {
-                        if (id !== "numResults") {
-                            return <Product key={id} product={product} id={id}/>
-                        }
-                    })
-                }
-            </ul> || <div className="products-container-no-results"><h1 ><i class="fa-solid fa-bone"></i><span className="products-container-no-results-message">no results</span><i class="fa-solid fa-bone"></i></h1> <img src="https://i.pinimg.com/564x/2d/37/ab/2d37ab595697d54c61094894cdbca161.jpg" /></div>)
+            {isLoaded && (Object.entries(products).length > 1 &&
+                <ul id="products-container-products-container">
+                    {
+                        Object.entries(products).map(([id, product]) => {
+                            if (id !== "numResults") {
+                                return <Product key={id} product={product} id={id} />
+                            }
+                        })
+                    }
+                </ul> || <div className="products-container-no-results"><h1 ><i class="fa-solid fa-bone"></i><span className="products-container-no-results-message">no results</span><i class="fa-solid fa-bone"></i></h1> <img src="https://i.pinimg.com/564x/2d/37/ab/2d37ab595697d54c61094894cdbca161.jpg" /></div>)
             }
-          {
-            isSearch &&
-            <div className="products-container-navlinks">
-                {prefix && <span className="products-container-dots">"..."</span>}
-                {
-                    displayPageNums.map(pageNum => 
-                        <NavLink 
-                            className={`products-container-navlink ${pageNum === page ? "current" : ""}`}
-                            key={pageNum} 
-                            onClick={() => {setPage(pageNum)}} 
-                            to={`/search?${new URLSearchParams({...query, page: pageNum}).toString()}`}
-                        >
-                            {pageNum}
-                        </NavLink>
-                    )
-                }
-                {postfix && <span className="products-container-dots">"..."</span>}
-            </div>
-          }
+            {
+                isSearch &&
+                <div className="products-container-navlinks">
+                    {prefix && <span className="products-container-dots">"..."</span>}
+                    {
+                        displayPageNums.map(pageNum =>
+                            <NavLink
+                                className={`products-container-navlink ${pageNum === page ? "current" : ""}`}
+                                key={pageNum}
+                                onClick={() => { setPage(pageNum) }}
+                                to={`/search?${new URLSearchParams({ ...query, page: pageNum }).toString()}`}
+                            >
+                                {pageNum}
+                            </NavLink>
+                        )
+                    }
+                    {postfix && <span className="products-container-dots">"..."</span>}
+                </div>
+            }
+            {isLoaded && <h6 id="about-links-footer">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></h6>}
         </>
     )
 

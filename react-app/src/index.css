@@ -2,3 +2,17 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+#about-links-footer {
+    margin-right: auto;
+    margin-left: auto;
+    color: gray;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+#about-links-footer>a {
+    color: gray;
+}

@@ -48,6 +48,8 @@ const YourOrders = () => {
                     </div>
                 )
             })}
+            {isLoaded && <h6 id="about-links-footer">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></h6>}
+
         </div>
     )
 }
