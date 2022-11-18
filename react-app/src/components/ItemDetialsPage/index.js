@@ -235,7 +235,7 @@ function ItemDetailsPage() {
                 </div>
                 <div id='items-details-page-main-review-containter'>
                   <div id='items-details-page-main-shop-reviews'>
-                    Store Rating {item.shopReviews}
+                    {item.shopReviews} reviews for this store
                     <span className='items-details-page-stars'>
                       <StarRatings
                         rating={item.avgShopRating}
