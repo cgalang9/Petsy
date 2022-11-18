@@ -33,6 +33,7 @@
     border: none;
     padding: 10px;
     font-size: 18px;
+    cursor: pointer;
 }
 
 .sign-up-forms-wrapper>form>button:hover {
@@ -46,7 +47,7 @@
 }
 
 
-.sign-up-forms-wrapper > form > div > input {
+.sign-up-forms-wrapper>form>div>input {
     border: 1px solid gray;
     border-radius: 5px;
     height: 30px;
@@ -55,7 +56,7 @@
     width: 100%;
 }
 
-.sign-up-forms-wrapper > form > div > label {
+.sign-up-forms-wrapper>form>div>label {
     font-weight: 700;
     margin-bottom: 10px;
 }
