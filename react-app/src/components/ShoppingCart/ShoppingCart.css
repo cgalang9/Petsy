@@ -90,6 +90,11 @@
   margin-top: 10px;
 }
 
+.cart-sidebox-emptyShoppingCart-button:hover {
+  background-color: white;
+  color: black;
+}
+
 .cart-sidebox-checkout-button {
   color: white;
   background-color: black;
@@ -106,6 +111,11 @@
   margin-top: 10px;
 }
 
+.cart-sidebox-checkout-button:hover {
+  background-color: white;
+  color: black;
+}
+
 .cart-remove-item-button {
   color: black;
   background-color: white;
@@ -120,6 +130,11 @@
   cursor: pointer;
   margin: 10px;
 }
+
+.cart-remove-item-button:hover {
+  background-color: rgba(211, 211, 211, 0.2);
+}
+
 .cart-form-input {
   border: 1px solid gray;
   border-radius: 5px;
