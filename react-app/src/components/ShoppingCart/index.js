@@ -69,8 +69,8 @@ const ShoppingCart = () => {
   }
 
   function updateQuantity(productInfo, newQty) {
-    if (newQty >= 9999) {
-      newQty = 9999;
+    if (newQty >= 1000) {
+      newQty = 999;
     }
 
     if (newQty === 0) {
