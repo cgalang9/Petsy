@@ -69,6 +69,14 @@ const ShoppingCart = () => {
   }
 
   function updateQuantity(productInfo, newQty) {
+    if (newQty >= 9999) {
+      newQty = 9999;
+    }
+
+    if (newQty === 0) {
+      newQty = 1;
+    }
+
     let cartArray = [...shoppingCart];
 
     for (let item of cartArray) {
@@ -171,28 +179,30 @@ const ShoppingCart = () => {
                 />
               </div>
               <div className='cart-item-text-container'>
-                <div className='cart-item-name'>{item.name}</div>
-                <div className='cart-item-price'>${item.price}</div>
-                <div className='cart-item-qty'>{item.quantity} in cart</div>
-                <div className='cart-item-qty-input'></div>
-
-                <label
-                  htmlFor='quantity'
-                  className='cart-form-label'>
-                  Change quantity{"  "}
-                </label>
-                <input
-                  className='cart-form-input'
-                  type='number'
-                  required
-                  min='1'
-                  max='100'
-                  onChange={(e) => {
-                    updateQuantity(item, Number(e.target.value));
-                  }}
-                  value={Number(item.quantity)}
-                  name='quantity'
-                />
+                <div className='cart-text-container'>
+                  <div className='cart-item-name'>{item.name}</div>
+                  <div className='cart-item-price'>${item.price}</div>
+                  <div className='cart-item-qty'>{item.quantity} in cart</div>
+                </div>
+                <div className='cart-item-qty-input'>
+                  <label
+                    htmlFor='quantity'
+                    className='cart-form-label'>
+                    Change quantity{"  "}
+                  </label>
+                  <input
+                    className='cart-form-input'
+                    type='number'
+                    required
+                    min='1'
+                    maxLength={4}
+                    onChange={(e) => {
+                      updateQuantity(item, Number(e.target.value));
+                    }}
+                    value={Number(item.quantity)}
+                    name='quantity'
+                  />
+                </div>
               </div>
               <button
                 className='cart-remove-item-button'
