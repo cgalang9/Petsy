@@ -177,6 +177,10 @@ function ItemDetailsPage() {
                             src={url}
                             alt='item picture'
                             id={`img-page-tile-${idx}`}
+                            onError={e => {
+                              e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                              e.onerror = null
+                            }}
                             className={
                               idx == 0
                                 ? "items-details-page-images-container-tiles-images active-tile-image"
@@ -187,18 +191,31 @@ function ItemDetailsPage() {
                       ))}
                   </div>
                   <div id='items-details-page-images-container-main'>
-                    <div
+                    {item.imageURLs.length > 0 && (
+                      <div
                       className='items-details-page-arrow'
                       onClick={handleLeftArrow}>
                       <i className='fa-solid fa-angle-left' />
                     </div>
-                    {item.imageURLs &&
+                    )}
+                    {item.imageURLs.length <= 0 && (
+                      <img
+                      src={"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"}
+                      alt='item picture'
+                      className="items-details-page-images-container-main-images show"
+                      ></img>
+                    )}
+                    {item.imageURLs.length > 0 &&
                       item.imageURLs.map((url, idx) => (
                         <div key={idx}>
                           <img
                             src={url}
                             alt='item picture'
                             id={`img-page-main-${idx}`}
+                            onError={e => {
+                              e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                              e.onerror = null
+                            }}
                             className={
                               idx == 0
                                 ? "items-details-page-images-container-main-images show"
@@ -207,16 +224,18 @@ function ItemDetailsPage() {
                           ></img>
                         </div>
                       ))}
-                    <div
+                    {item.imageURLs.length > 0 && (
+                      <div
                       className='items-details-page-arrow'
                       onClick={handleRightArrow}>
                       <i className='fa-solid fa-angle-right' />
                     </div>
+                    )}
                   </div>
                 </div>
                 <div id='items-details-page-main-review-containter'>
                   <div id='items-details-page-main-shop-reviews'>
-                    {item.shopReviews} reviews for this store
+                    Store Rating
                     <span className='items-details-page-stars'>
                       <StarRatings
                         rating={item.avgShopRating}
@@ -230,11 +249,11 @@ function ItemDetailsPage() {
                   <div id='items-details-page-main-item-reviews-total'>
                     Reviews for this item <span>{itemReviews.length}</span>
                   </div>
-                  <div id='items-details-page-create-review-link'>
-                    <NavLink to={{ pathname: `/items/${itemId}/add-review` }}>
-                      Create Review for this Item
-                    </NavLink>
-                  </div>
+                  <NavLink to={{ pathname: `/items/${itemId}/add-review` }}>
+                    <button id='create-review-button'>
+                        Create Review for this Item
+                    </button>
+                  </NavLink>
                   {itemReviews &&
                     itemReviews
                       .slice(reviewIdx, reviewIdx + 4)
@@ -331,21 +350,20 @@ function ItemDetailsPage() {
                 </div>
                 {sessionUser && sessionUser.id === item.sellerId && (
                   <div id='items-details-page-edit-links'>
-                    <div id='edit-item-link'>
                       <NavLink
                         to={{
                           pathname: `/items/${itemId}/edit-item`,
                           state: { ...item }
                         }}>
-                        {" "}
-                        Edit Item
+                        <button id='edit-item-button'>
+                          Edit Item
+                        </button>
                       </NavLink>
-                    </div>
-                    <div
-                      id='delete-item-link'
+                    <button
+                      id='delete-item-button'
                       onClick={handleDelete}>
                       Delete Item
-                    </div>
+                    </button>
                   </div>
                 )}
                 <div id='items-details-page-right-item-name'>{item.name}</div>

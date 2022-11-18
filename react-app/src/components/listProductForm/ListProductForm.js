@@ -115,6 +115,7 @@ const ListProductForm = () => {
                     <textarea
                         onChange={e => setUrls(e.target.value)}
                         value={urls}
+                        required
                     />
                 </div>
                 <button type='submit'>Post product</button>
