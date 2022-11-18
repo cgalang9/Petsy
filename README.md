@@ -46,7 +46,7 @@ The BnB is inspired by AirBnB, an online marketplace that allows users to list a
      * run npm install in the root folder
      * cd into the app folder and run pipenv install
      * cd into the react-app folder and run npm install
-3. Run pipenv shell in app folder. Run flask run in the newly open shell.
+3. Run pipenv shell in app folder. Run flask run in the newly opened shell.
 4. Run npm start in react-app folder
 
 

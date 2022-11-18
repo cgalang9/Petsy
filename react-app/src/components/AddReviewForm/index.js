@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useHistory, useParams } from 'react-router-dom'
 import { addItemReviewThunk } from '../../store/itemReviews'
 import './AddReviewForm.css'
+import StarRatings from "react-star-ratings";
 
 function AddReviewForm() {
     const { itemId } = useParams()
@@ -47,15 +48,23 @@ function AddReviewForm() {
                     <div key={ind}>{error}</div>
                     )))}
                 </div>
-                <div>
-                    <label>Rating</label>
+                <div className='your-reviews-input-wrapper'>
+                    <StarRatings
+                        rating={rating}
+                        starRatedColor='black'
+                        numberOfStars={5}
+                        starDimension='15px'
+                        starSpacing='1px'
+                    />
                     <input
-                        type="number"
-                        value={rating}
-                        onChange={(e) => setRating(e.target.value)}
-                        required
+                        type="range"
                         min={1}
                         max={5}
+                        step={1}
+                        value={rating}
+                        onChange={(e) => setRating(Number(e.target.value))}
+                        required
+                        className='your-reviews-form-input-slider'
                     />
                 </div>
                 <div>
