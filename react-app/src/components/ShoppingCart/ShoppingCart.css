@@ -178,6 +178,10 @@
   margin-bottom: 10px;
 }
 
+.cart-item-qty-input {
+  margin: 10px;
+}
+
 .cart-text-container {
   margin: 10px;
   width: 100%;
