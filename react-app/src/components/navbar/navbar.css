@@ -107,6 +107,7 @@
     font-size: 18px;
     padding: 10px;
     border-radius: 50%;
+    position: relative;
 }
 
 .navbar-cart-link:hover {
@@ -222,4 +223,24 @@
 
 .navbar-profile-dropdown-item>span {
     margin-left: 4px;
+}
+
+#navbar-current-items-cart {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(248, 170, 142);
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+#navbar-current-items-cart-hide {
+
+    display: none;
 }
