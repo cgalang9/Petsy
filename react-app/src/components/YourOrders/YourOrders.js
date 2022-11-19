@@ -43,7 +43,7 @@ const YourOrders = () => {
                                     )
                                 })}
                             </div>
-                            <h3>Order total: ${Math.round(order.totalPrice * 100) / 100}</h3>
+                            <h3>Order total: ${(Math.round(order.totalPrice * 100) / 100).toFixed(2)}</h3>
                         </div>
                     </div>
                 )

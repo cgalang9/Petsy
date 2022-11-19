@@ -20,15 +20,18 @@ function ItemDetailsPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
 
-  useEffect(async () => {
-    try {
-      const item = await dispatch(getItemDetailsThunk(itemId));
-      await dispatch(getItemReviewsThunk(itemId));
-      await dispatch(getImagesBySellerIdThunk(item.sellerId));
-      setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
-    } catch {
-      history.push("/404");
+  useEffect(() => {
+    async function getData() {
+      try {
+        const item = await dispatch(getItemDetailsThunk(itemId));
+        await dispatch(getItemReviewsThunk(itemId));
+        await dispatch(getImagesBySellerIdThunk(item.sellerId));
+        setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
+      } catch {
+        history.push("/404");
+      }
     }
+    getData()
   }, [dispatch, itemId]);
 
   const item = useSelector((state) => state.itemPage);
@@ -201,7 +204,7 @@ function ItemDetailsPage() {
                     {item.imageURLs.length <= 0 && (
                       <img
                       src={"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"}
-                      alt='item picture'
+                      alt='item'
                       className="items-details-page-images-container-main-images show"
                       ></img>
                     )}
@@ -210,7 +213,7 @@ function ItemDetailsPage() {
                         <div key={idx}>
                           <img
                             src={url}
-                            alt='item picture'
+                            alt='item'
                             id={`img-page-main-${idx}`}
                             onError={e => {
                               e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
