@@ -120,6 +120,7 @@ const ListProductForm = () => {
                 </div>
                 <button type='submit'>Post product</button>
             </form>
+            <button className='cancel-btn' onClick={() => history.push(`/`)}>Cancel</button>
         </div>
     )
 }

@@ -106,6 +106,7 @@ function EditItemForm() {
                 </div>
                 <button  type='submit'>Confirm Changes</button>
             </form>
+            <button className='cancel-btn' onClick={() => history.push(`/items/${itemId}`)}>Cancel</button>
         </div>
     )
 }
