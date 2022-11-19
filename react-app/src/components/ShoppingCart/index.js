@@ -38,6 +38,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    window.dispatchEvent(new Event('storage'))
   }, [shoppingCart]);
 
   const postCheckout = async (checkoutItems) => {
