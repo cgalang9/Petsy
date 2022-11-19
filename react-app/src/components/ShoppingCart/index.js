@@ -129,7 +129,7 @@ const ShoppingCart = () => {
       });
     }
     // setCheckoutItemsObj({ checkoutItems });
-    console.log("this is checkout items", checkoutItems);
+    // console.log("this is checkout items", checkoutItems);
 
     postCheckout({ checkoutItems });
   }
@@ -141,10 +141,10 @@ const ShoppingCart = () => {
   // const shoppingCartMap = (
 
   // )
-  console.log("shoppingCart", shoppingCart);
+  // console.log("shoppingCart", shoppingCart);
 
   if (!shoppingCart || shoppingCart.length <= 0) {
-    conditionalButtons = <></>;
+    conditionalButtons = null;
   } else {
     conditionalButtons = (
       <>
@@ -224,7 +224,9 @@ const ShoppingCart = () => {
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
           </div>
-          <div cart-conditional-buttons-container>{conditionalButtons}</div>
+          <div className='cart-conditional-buttons-container'>
+            {conditionalButtons}
+          </div>
         </div>
       </div>
     </>
