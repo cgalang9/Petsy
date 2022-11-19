@@ -105,7 +105,9 @@ const ShoppingCart = () => {
     for (let item of shoppingCart) {
       totalPrice += item.price * item.quantity;
     }
-    return totalPrice.toFixed(2);
+    return totalPrice.toLocaleString(navigator.language, {
+      minimumFractionDigits: 2
+    });
   }
 
   function emptyCart() {
@@ -182,7 +184,9 @@ const ShoppingCart = () => {
                 <div className='cart-item-text-container'>
                   <div className='cart-text-container'>
                     <h3 className='cart-item-name'>{item.name}</h3>
-                    <div className='cart-item-price'>${item.price.toFixed(2)}</div>
+                    <div className='cart-item-price'>
+                      ${item.price.toFixed(2)}
+                    </div>
                     <div className='cart-item-qty'>{item.quantity} in cart</div>
                   </div>
                   <div className='cart-item-qty-input'>

@@ -5,7 +5,6 @@
   gap: 10px;
   font-family: inherit;
   width: 100%;
-  margin-top: 20px;
 }
 
 .cart-items-wrapper {
@@ -19,6 +18,7 @@
 .cart-header {
   font-weight: 500;
   margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .cart-item-container {
