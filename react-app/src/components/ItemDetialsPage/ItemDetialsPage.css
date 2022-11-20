@@ -261,7 +261,7 @@
 }
 
 #items-details-page-images-container-tiles::-webkit-scrollbar-thumb {
-    color: black;
+    background-color: black;
 }
 
 #items-details-page-main-shop-reviews-images-container::-webkit-scrollbar {
