@@ -24,6 +24,7 @@ const AddToCart = ({ itemId }) => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
+    window.dispatchEvent(new Event('storage'))
     // console.log("useEffect in add item running");
   }, [cart]);
 

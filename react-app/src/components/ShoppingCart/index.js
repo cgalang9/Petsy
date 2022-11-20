@@ -38,6 +38,7 @@ const ShoppingCart = () => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(shoppingCart));
+    window.dispatchEvent(new Event('storage'))
   }, [shoppingCart]);
 
   const postCheckout = async (checkoutItems) => {
@@ -105,7 +106,9 @@ const ShoppingCart = () => {
     for (let item of shoppingCart) {
       totalPrice += item.price * item.quantity;
     }
-    return totalPrice.toFixed(2);
+    return totalPrice.toLocaleString(navigator.language, {
+      minimumFractionDigits: 2
+    });
   }
 
   function emptyCart() {
@@ -129,7 +132,7 @@ const ShoppingCart = () => {
       });
     }
     // setCheckoutItemsObj({ checkoutItems });
-    console.log("this is checkout items", checkoutItems);
+    // console.log("this is checkout items", checkoutItems);
 
     postCheckout({ checkoutItems });
   }
@@ -141,10 +144,10 @@ const ShoppingCart = () => {
   // const shoppingCartMap = (
 
   // )
-  console.log("shoppingCart", shoppingCart);
+  // console.log("shoppingCart", shoppingCart);
 
   if (!shoppingCart || shoppingCart.length <= 0) {
-    conditionalButtons = <></>;
+    conditionalButtons = null;
   } else {
     conditionalButtons = (
       <>
@@ -166,7 +169,7 @@ const ShoppingCart = () => {
     <>
       <div className='cart-container-main'>
         <h1 className='cart-header'>Shopping Cart</h1>
-        <div className='cart-items-container '>
+        <div className='cart-items-wrapper '>
           {shoppingCart?.map((item, index) => (
             <div
               className='cart-item-container '
@@ -182,7 +185,9 @@ const ShoppingCart = () => {
                 <div className='cart-item-text-container'>
                   <div className='cart-text-container'>
                     <h3 className='cart-item-name'>{item.name}</h3>
-                    <div className='cart-item-price'>${item.price}</div>
+                    <div className='cart-item-price'>
+                      ${item.price.toFixed(2)}
+                    </div>
                     <div className='cart-item-qty'>{item.quantity} in cart</div>
                   </div>
                   <div className='cart-item-qty-input'>
@@ -206,11 +211,13 @@ const ShoppingCart = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className='cart-remove-item-button'
-                onClick={() => removeFromShoppingCart(item)}>
-                Remove Item
-              </button>
+              <div className='remove-item-btn-wrapper'>
+                <button
+                  className='cart-remove-item-button'
+                  onClick={() => removeFromShoppingCart(item)}>
+                  Remove
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -222,7 +229,9 @@ const ShoppingCart = () => {
           <div className='cart-sidebox-totalprice'>
             Item(s) Total Price ${getTotalPrice()}
           </div>
-          <div cart-conditional-buttons-container>{conditionalButtons}</div>
+          <div className='cart-conditional-buttons-container'>
+            {conditionalButtons}
+          </div>
         </div>
       </div>
     </>

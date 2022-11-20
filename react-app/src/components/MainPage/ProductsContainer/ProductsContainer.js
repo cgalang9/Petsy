@@ -21,13 +21,11 @@ export default function ProductsContainer({ isSearch }) {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    console.log(displayPageNums)
     useEffect(() => {
         const pageDisplayInfo = slidingWindowPages(pageNums, page);
         setDisplayPageNums(pageDisplayInfo.pages)
         setPrefix(pageDisplayInfo.prefix)
         setPostfix(pageDisplayInfo.postfix)
-        console.log("WE UPDATIN")
     }, [page, pageNums])
 
     useEffect(() => {
@@ -89,7 +87,7 @@ export default function ProductsContainer({ isSearch }) {
                             }
                         })
                     }
-                </ul> || <div className="products-container-no-results"><h1 ><i class="fa-solid fa-bone"></i><span className="products-container-no-results-message">no results</span><i class="fa-solid fa-bone"></i></h1> <img src="https://i.pinimg.com/564x/2d/37/ab/2d37ab595697d54c61094894cdbca161.jpg" /></div>)
+                </ul> || <div className="products-container-no-results"><h1 ><i className="fa-solid fa-bone"></i><span className="products-container-no-results-message">no results</span><i className="fa-solid fa-bone"></i></h1> <img src="https://i.pinimg.com/564x/2d/37/ab/2d37ab595697d54c61094894cdbca161.jpg" /></div>)
             }
             {
                 isSearch &&
@@ -110,7 +108,11 @@ export default function ProductsContainer({ isSearch }) {
                     {postfix && <span className="products-container-dots">"..."</span>}
                 </div>
             }
-            {isLoaded && <h6 id="about-links-footer">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></h6>}
+            {isLoaded && (
+                <h6 className="about-links-footer">
+                  <div className="about-links-github-icon"> <a href="https://github.com/jhpremo/Petsy-group-project"><i className="fa-brands fa-github" /></a></div>
+                  <div className="about-links-creators">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></div>
+                </h6>)}
         </>
     )
 

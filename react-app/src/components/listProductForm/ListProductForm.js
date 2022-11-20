@@ -111,14 +111,16 @@ const ListProductForm = () => {
                     />
                 </div>
                 <div>
-                    <label>Image urls (separated by commas)</label>
+                    <label>Image urls (separated by new line)</label>
                     <textarea
                         onChange={e => setUrls(e.target.value)}
                         value={urls}
+                        required
                     />
                 </div>
                 <button type='submit'>Post product</button>
             </form>
+            <button className='cancel-btn' onClick={() => history.push(`/`)}>Cancel</button>
         </div>
     )
 }
