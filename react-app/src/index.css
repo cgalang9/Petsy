@@ -5,6 +5,7 @@ body {
 
 .about-links-footer {
     display: flex;
+    justify-content: center;
     gap: 30px;
     margin-right: auto;
     margin-left: auto;
