@@ -66,3 +66,7 @@
     font-weight: 700;
     margin-bottom: 10px;
 }
+
+.list-product-form-errors {
+    color: red;
+}
