@@ -145,7 +145,7 @@ function ItemDetailsPage() {
   const handleScrollRight = () => {
     scrollElem.current.scrollLeft += 200;
   }
-  
+
   //Modal functions and styling
   const customStyles = {
     content: {
@@ -329,8 +329,8 @@ function ItemDetailsPage() {
                   <div id='items-details-page-main-shop-reviews-images-container-wrapper'>
                       {sellerReviewImages.length > 0 &&
                       <>
-                        <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}>{"<"}</div>
-                        <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}>{">"}</div>
+                        <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}><i className='fa-solid fa-angle-left' /></div>
+                        <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}><i className='fa-solid fa-angle-right' /></div>
                       </>
                       }
                     <div id='items-details-page-main-shop-reviews-images-container' ref={scrollElem}>

@@ -1059,7 +1059,7 @@ def seed_users():
             'name': 'Le Catnip',
             'price': 13.95,
             'description': "Le Catnip Premium and Organically Grown Catnip. The highest quality organically grown catnip, hand-harvested at the peak of the season for freshness, and a brilliant design you and your cats will love! Our catnip is non-GMO, pesticide-free, and all-natural. We make sure we only harvest the best quality catnip possible because we believe your pets are our family and only sell our catnip within a year of harvest for maximum potency and donate the previous year's supply to animal non-profits cat shelters.",
-            'product_images': ["https://i.etsystatic.com/18600926/r/il/254158/2958057819/il_1588xN.2958057819_bdvl.jpg"],
+            'product_images': ["https://img.estadao.com.br/thumbs/640/resources/jpg/3/4/1529591672143.jpg"],
             "reviews": [
                 {
                     "rating": 2,
