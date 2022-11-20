@@ -144,7 +144,7 @@ def create_item():
 
         # Adds item images if provided
         if form.data['images_urls']:
-            url_lst = form.data['images_urls'].split(', ')
+            url_lst = form.data['images_urls'].split(',')
             for url in url_lst:
                 new_image = ProductImage(
                     product_id = new_product.id,
