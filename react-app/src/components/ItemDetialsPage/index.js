@@ -17,6 +17,8 @@ function ItemDetailsPage() {
   const history = useHistory();
   const modalStr = useRef(""); //will use this to pass info to modal, avoids unnecessary renders
 
+  const scrollElem = useRef(null);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
 
@@ -136,6 +138,14 @@ function ItemDetailsPage() {
     }
   };
 
+  const handleScrollLeft = () => {
+    scrollElem.current.scrollLeft -= 200;
+  }
+
+  const handleScrollRight = () => {
+    scrollElem.current.scrollLeft += 200;
+  }
+  
   //Modal functions and styling
   const customStyles = {
     content: {
@@ -316,17 +326,22 @@ function ItemDetailsPage() {
                       Photos from reviews
                     </div>
                   )}
-                  <div id='items-details-page-main-shop-reviews-images-container'>
-                    {sellerReviewImages.length > 0 &&
-                      sellerReviewImages.map((img) => (
-                        <div key={img.id}>
-                          <img
-                            src={img.url}
-                            alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
-                            className='items-details-page-main-shop-reviews-images'
-                            onClick={openModal}></img>
-                        </div>
-                      ))}
+                  <div id='items-details-page-main-shop-reviews-images-container-wrapper'>
+                      <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}>{"<"}</div>
+                      <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}>{">"}</div>
+                    <div id='items-details-page-main-shop-reviews-images-container' ref={scrollElem}>
+                      {sellerReviewImages.length > 0 &&
+                          sellerReviewImages.map((img) => (
+                            <div key={img.id}>
+                              <img
+                                src={img.url}
+                                alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
+                                className='items-details-page-main-shop-reviews-images'
+                                onClick={openModal}></img>
+                            </div>
+                          ))
+                      }
+                    </div>
                   </div>
                   <Modal
                     isOpen={modalIsOpen}
