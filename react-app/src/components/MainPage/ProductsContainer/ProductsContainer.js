@@ -92,7 +92,7 @@ export default function ProductsContainer({ isSearch }) {
             {
                 isSearch &&
                 <div className="products-container-navlinks">
-                    {prefix && <span className="products-container-dots">"..."</span>}
+                    {prefix && <span className="products-container-dots-before">...</span>}
                     {
                         displayPageNums.map(pageNum =>
                             <NavLink
@@ -105,7 +105,7 @@ export default function ProductsContainer({ isSearch }) {
                             </NavLink>
                         )
                     }
-                    {postfix && <span className="products-container-dots">"..."</span>}
+                    {postfix && <span className="products-container-dots-after">...</span>}
                 </div>
             }
             {isLoaded && (

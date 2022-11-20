@@ -28,9 +28,20 @@
   color: black;
   font-size: 25px;
   line-height: 30px;
+  height: 30px;
+  width: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
+}
+
+.products-container-navlink:first-of-type {
+  margin-left: 5px;
+}
+
+.products-container-navlink:last-of-type {
+  margin-right: 5px;
 }
 
 .products-container-navlink.current {
@@ -39,14 +50,20 @@
   /* background-color: gray; */
   border: 1px solid gray;
   border-radius: 10px;
-  height: 30px;
-  width: 30px;
+  width: 40px;
   text-align: center;
   line-height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.products-container-dots-before, 
+.products-container-dots-after {
+  align-self: flex-end;
+  user-select: none
+}
+
 
 .products-container-no-results {
   display: flex;
