@@ -327,8 +327,12 @@ function ItemDetailsPage() {
                     </div>
                   )}
                   <div id='items-details-page-main-shop-reviews-images-container-wrapper'>
-                      <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}>{"<"}</div>
-                      <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}>{">"}</div>
+                      {sellerReviewImages.length > 0 &&
+                      <>
+                        <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}>{"<"}</div>
+                        <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}>{">"}</div>
+                      </>
+                      }
                     <div id='items-details-page-main-shop-reviews-images-container' ref={scrollElem}>
                       {sellerReviewImages.length > 0 &&
                           sellerReviewImages.map((img) => (
