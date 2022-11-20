@@ -16,3 +16,7 @@ body {
 #about-links-footer>a {
     color: gray;
 }
+
+.ReactModal__Overlay {
+    z-index: 3;
+}

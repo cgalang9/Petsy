@@ -55,6 +55,7 @@
     min-width: 140px;
     margin-right: 20px;
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 .items-details-page-images-container-tiles-images {
@@ -224,8 +225,10 @@
 }
 
 #items-details-page-main-shop-reviews-images-container {
+    position: relative;
     display: flex;
     overflow: scroll;
+    overflow-y: hidden;
     gap: 20px;
     padding: 30px 0;
 }
@@ -249,4 +252,45 @@
 
 #items-details-page-create-review-link {
     margin-bottom: 30px;
+}
+
+/* scrolling */
+#items-details-page-images-container-tiles::-webkit-scrollbar {
+    width: 5px;
+    background-color: lightgray;
+}
+
+#items-details-page-images-container-tiles::-webkit-scrollbar-thumb {
+    color: black;
+}
+
+#items-details-page-main-shop-reviews-images-container::-webkit-scrollbar {
+    height: 0px;
+}
+
+#items-details-page-main-shop-reviews-images-container-wrapper {
+    position: relative;
+}
+
+#item-details-page-main-shop-reviews-images-container-right, 
+#item-details-page-main-shop-reviews-images-container-left {
+    position: absolute;
+    top: 30px;
+    background-color: rgba(0, 0, 0, 0.377);
+    height: 200px;
+    width: 40px;
+    color: white;
+    text-align: center;
+    line-height: 200px;
+    z-index: 1;
+    user-select: none;
+}
+
+#item-details-page-main-shop-reviews-images-container-right {
+    right: 0px;
+}
+#item-details-page-main-shop-reviews-images-container-right:hover, 
+#item-details-page-main-shop-reviews-images-container-left:hover {
+    cursor: pointer;
+    background-color: black;
 }
