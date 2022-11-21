@@ -39,7 +39,7 @@ const ListProductForm = () => {
         if (name && name.length > 75) errorsArr.push("Product name must be less than 50 characters")
         if (description && description.length > 2000) errorsArr.push("Product description must be less than 255 characters")
         if (price && (!parsedPrice || !Number(price) || parsedPrice <= 0)) errorsArr.push('Price must be a positive number')
-        if (urls && !validateUrl(urlArr)) errorsArr.push('Each image must have a valid url seperated by a new line')
+        if (urls && !validateUrl(urlArr)) errorsArr.push('Each image must have a valid url seperated by a comma')
 
         setErrors(errorsArr)
     }, [name, description, price, urls])
@@ -111,7 +111,7 @@ const ListProductForm = () => {
                     />
                 </div>
                 <div>
-                    <label>Image urls (separated by new line)</label>
+                    <label>Image urls (separated by comma)</label>
                     <textarea
                         onChange={e => setUrls(e.target.value)}
                         value={urls}
@@ -120,6 +120,7 @@ const ListProductForm = () => {
                 </div>
                 <button type='submit'>Post product</button>
             </form>
+            <button className='cancel-btn' onClick={() => history.push(`/`)}>Cancel</button>
         </div>
     )
 }

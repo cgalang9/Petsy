@@ -36,6 +36,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      <hr />
       <Switch>
         <Route
           path='/sign-in'

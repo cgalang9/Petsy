@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import ProfileButton from './profileButton';
 import './navbar.css'
@@ -13,6 +13,23 @@ const NavBar = () => {
   const [pageSize, setPageSize] = useState('')
   const [minPrice, setMinPrice] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
+
+  //the cart quanity count
+  const [cartQuantity, setcartQuantity] = useState(0);
+  const updateCartQuantity = () => {
+    const cart = JSON.parse(localStorage.getItem('cart'))
+      if (!cart) {
+        setcartQuantity(0)
+      } else {
+        setcartQuantity(cart.length)
+      }
+  }
+
+  useEffect(() => {
+    updateCartQuantity()
+    window.addEventListener('storage', updateCartQuantity)
+  },[])
+
   const history = useHistory()
 
   const submitSearch = () => {
@@ -50,6 +67,7 @@ const NavBar = () => {
 
 
   return (
+    <>
     <nav className='navbar-wrapper'>
       <NavLink to='/' exact={true} activeClassName='active' className="navbar-home-button">
         Petsy
@@ -83,9 +101,11 @@ const NavBar = () => {
         <ProfileButton />
         <NavLink to='/cart' exact={true} className="navbar-cart-link">
           <i className="fa-solid fa-cart-shopping" />
+          <div id={cartQuantity == 0 ? 'navbar-current-items-cart-hide' : 'navbar-current-items-cart'}><span>{cartQuantity > 999 ? 999 : cartQuantity}</span></div>
         </NavLink>
       </div>
     </nav >
+    </>
   );
 }
 

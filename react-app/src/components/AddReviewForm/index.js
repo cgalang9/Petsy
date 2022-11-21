@@ -77,8 +77,9 @@ function AddReviewForm() {
                         maxLength={255}
                     />
                 </div>
-                <button type='submit'>Add Review</button>
+                <button type='submit' id='add-review-btn'>Add Review</button>
             </form>
+            <button className='cancel-btn' onClick={() => history.push(`/items/${itemId}`)}>Cancel</button>
         </div>
     )
 }

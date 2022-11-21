@@ -17,18 +17,23 @@ function ItemDetailsPage() {
   const history = useHistory();
   const modalStr = useRef(""); //will use this to pass info to modal, avoids unnecessary renders
 
+  const scrollElem = useRef(null);
+
   const [isLoaded, setIsLoaded] = useState(false);
   const [reviewIdx, setReviewIdx] = useState(0);
 
-  useEffect(async () => {
-    try {
-      const item = await dispatch(getItemDetailsThunk(itemId));
-      await dispatch(getItemReviewsThunk(itemId));
-      await dispatch(getImagesBySellerIdThunk(item.sellerId));
-      setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
-    } catch {
-      history.push("/404");
+  useEffect(() => {
+    async function getData() {
+      try {
+        const item = await dispatch(getItemDetailsThunk(itemId));
+        await dispatch(getItemReviewsThunk(itemId));
+        await dispatch(getImagesBySellerIdThunk(item.sellerId));
+        setIsLoaded(true); //only loads item details after item has been recieved from dispatch asychronously (avoids show old item saved in store initially while waiting for dispatch)
+      } catch {
+        history.push("/404");
+      }
     }
+    getData()
   }, [dispatch, itemId]);
 
   const item = useSelector((state) => state.itemPage);
@@ -133,6 +138,14 @@ function ItemDetailsPage() {
     }
   };
 
+  const handleScrollLeft = () => {
+    scrollElem.current.scrollLeft -= 200;
+  }
+
+  const handleScrollRight = () => {
+    scrollElem.current.scrollLeft += 200;
+  }
+
   //Modal functions and styling
   const customStyles = {
     content: {
@@ -201,7 +214,7 @@ function ItemDetailsPage() {
                     {item.imageURLs.length <= 0 && (
                       <img
                       src={"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"}
-                      alt='item picture'
+                      alt='item'
                       className="items-details-page-images-container-main-images show"
                       ></img>
                     )}
@@ -210,7 +223,7 @@ function ItemDetailsPage() {
                         <div key={idx}>
                           <img
                             src={url}
-                            alt='item picture'
+                            alt='item'
                             id={`img-page-main-${idx}`}
                             onError={e => {
                               e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
@@ -313,17 +326,26 @@ function ItemDetailsPage() {
                       Photos from reviews
                     </div>
                   )}
-                  <div id='items-details-page-main-shop-reviews-images-container'>
-                    {sellerReviewImages.length > 0 &&
-                      sellerReviewImages.map((img) => (
-                        <div key={img.id}>
-                          <img
-                            src={img.url}
-                            alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
-                            className='items-details-page-main-shop-reviews-images'
-                            onClick={openModal}></img>
-                        </div>
-                      ))}
+                  <div id='items-details-page-main-shop-reviews-images-container-wrapper'>
+                      {sellerReviewImages.length > 0 &&
+                      <>
+                        <div id="item-details-page-main-shop-reviews-images-container-left" onClick={handleScrollLeft}><i className='fa-solid fa-angle-left' /></div>
+                        <div id="item-details-page-main-shop-reviews-images-container-right" onClick={handleScrollRight}><i className='fa-solid fa-angle-right' /></div>
+                      </>
+                      }
+                    <div id='items-details-page-main-shop-reviews-images-container' ref={scrollElem}>
+                      {sellerReviewImages.length > 0 &&
+                          sellerReviewImages.map((img) => (
+                            <div key={img.id}>
+                              <img
+                                src={img.url}
+                                alt={`Image: Review ${img.reviewId}`} //to pass review id to modal if img clicked
+                                className='items-details-page-main-shop-reviews-images'
+                                onClick={openModal}></img>
+                            </div>
+                          ))
+                      }
+                    </div>
                   </div>
                   <Modal
                     isOpen={modalIsOpen}
@@ -386,7 +408,13 @@ function ItemDetailsPage() {
           )}
         </div>
       )}
-      {isLoaded && <h6 id="about-links-footer">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></h6>}    </div>
+
+      {isLoaded && (
+        <h6 className="about-links-footer">
+          <div className="about-links-github-icon"> <a href="https://github.com/jhpremo/Petsy-group-project"><i className="fa-brands fa-github" /></a></div>
+          <div className="about-links-creators">Website clone created by <a href="https://github.com/cgalang9">Carmelino Galang</a>, <a href="https://github.com/jhpremo">Jason Premo</a>, <a href="https://github.com/jwad96">Jwad Aziz</a>, and <a href="https://github.com/DevSPK">Sean Kennedy</a></div>
+        </h6>)}
+    </div>
   );
 }
 
