@@ -21,13 +21,13 @@ export default function ProductsContainer({ isSearch }) {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    console.log(displayPageNums)
+    // console.log(displayPageNums)
     useEffect(() => {
         const pageDisplayInfo = slidingWindowPages(pageNums, page);
         setDisplayPageNums(pageDisplayInfo.pages)
         setPrefix(pageDisplayInfo.prefix)
         setPostfix(pageDisplayInfo.postfix)
-        console.log("WE UPDATIN")
+        // console.log("WE UPDATIN")
     }, [page, pageNums])
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export default function ProductsContainer({ isSearch }) {
         ]);
 
         if (isSearch) {
-            console.log("WE SEARCHIN")
+            // console.log("WE SEARCHIN")
             const params = new URLSearchParams(location.search)
 
             if (params.get("page")) {

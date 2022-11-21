@@ -33,9 +33,9 @@ const YourOrders = () => {
                                 {order.items?.map((item) => {
                                     return (
                                         <div className="your-orders-item-wrapper" key={item.id}>
-                                            <div className="your-orders-item-image" onClick={() => history.push(`/items/${item.id}`)} style={{ backgroundImage: `url(${item.previewImageURL})` }}></div>
+                                            <div className="your-orders-item-image" onClick={() => history.push(`/items/${item.product_id}`)} style={{ backgroundImage: `url(${item.previewImageURL})` }}></div>
                                             <div className="your-orders-item-text-wrapper">
-                                                <h4 >Purchased {item.quantity} x <span onClick={() => history.push(`/items/${item.id}`)}>{item.name}</span></h4>
+                                                <h4 >Purchased {item.quantity} x <span onClick={() => history.push(`/items/${item.product_id}`)}>{item.name}</span></h4>
                                                 <h5 >Sold by {item.shopName} </h5>
                                                 <h6>${item.purchasePrice} x {item.quantity} = ${(item.purchasePrice * item.quantity).toFixed(2)}</h6>
                                             </div>

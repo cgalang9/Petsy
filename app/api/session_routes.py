@@ -86,6 +86,7 @@ def get_orders():
             preview_image_url=ProductImage.query.filter(ProductImage.product_id==item.product_id).filter(ProductImage.preview_image==True).all()[0].url
             item_dict = {
                 "id": item.id,
+                "product_id": item.product_id,
                 "previewImageURL": preview_image_url,
                 "name": item.product.name,
                 "purchasePrice": item.item_price,

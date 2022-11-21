@@ -58,7 +58,7 @@ export const itemReviewsReducer = (state = null, action) => {
             const stateGetItemReviews = [...action.reviews['itemReviews']]
             return stateGetItemReviews
         case ADD_REVIEW:
-            console.log('state', state)
+            // console.log('state', state)
             const stateAddItemReview = state
             return stateAddItemReview
         default:
