@@ -2,11 +2,16 @@
 
 Petsy is an e-commerce platform that is inspired by Esty. Petsy makes it easier for venders, creators and small e-commerce businesses to connect with buyers to sell a variety of pet related handcrafted or vintage products related.
 
-[Live Site](https://aa-petsy-project.onrender.com/)
+Petsy was forked from a group project that I contributed to. After submission of our project, our group decided that each member would fork the project to their own github. We did this so each member could individually update and make improvments to the project as to their own specification.
+
+[Live Site](https://petsy-aa.onrender.com/)
+
+
+[Original Group Project Repo](https://github.com/jhpremo/Petsy-group-project)
 
 
 ## Wiki Link
-[Link to Wiki](https://github.com/jhpremo/Petsy-group-project/wiki)
+[Link to Wiki](https://github.com/cgalang9/Petsy)
 * Wiki Contains
    * Feature List
    * User Stories
