@@ -42,10 +42,9 @@ Petsy is an e-commerce platform that is inspired by Esty. Petsy makes it easier 
 ##  How to Launch the Application Locally
 1. Clone or download the repo
 2. Install dependancies:
-     * run npm install in the root folder
-     * cd into the app folder and run pipenv install
+     * run pipenv install in the root folder
      * cd into the react-app folder and run npm install
-3. Run pipenv shell in app folder. Run flask run in the newly opened shell.
+3. Run pipenv shell in root folder. Run flask run in the newly opened shell.
 4. Run npm start in react-app folder
 
 
