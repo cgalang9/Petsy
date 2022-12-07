@@ -96,6 +96,7 @@
     text-decoration: none;
     font-family: unset;
     text-align: center;
+    cursor: pointer;
 }
 
 .navbar-demo-user-button:hover {

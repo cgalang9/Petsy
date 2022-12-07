@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, useHistory } from "react-router-dom";
 import { getProducts } from "../../../store/items";
 import Product from "../Product/Product";
 import slidingWindowPages from "./utils/slidingWindowPages"
@@ -8,7 +8,10 @@ import slidingWindowPages from "./utils/slidingWindowPages"
 import "./ProductsContainer.css";
 
 export default function ProductsContainer({ isSearch }) {
+    const history = useHistory()
+
     const [numResults, products] = useSelector(state => [state.items.numResults, state.items])
+    const user = useSelector(state => state.session.user)
 
     const [page, setPage] = useState(1);
     const [pageNums, setPageNums] = useState([])
@@ -40,7 +43,6 @@ export default function ProductsContainer({ isSearch }) {
         ]);
 
         if (isSearch) {
-            // console.log("WE SEARCHIN")
             const params = new URLSearchParams(location.search)
 
             if (params.get("page")) {
@@ -75,9 +77,209 @@ export default function ProductsContainer({ isSearch }) {
 
     }, [location, numResults])
 
+    const searchTopic = (topic) => {
+        const formattedTopic = topic.replaceAll(' ', '+')
+        history.push(`/search?q=${formattedTopic}`)
+    }
+
+
 
     return (
         <>
+            {
+                !isSearch && (
+                    <div className="main-header-container">
+                        <div className="main-header">
+                            <div className="main-header-title">
+                                {user ? `Welcome back, ${user.username}!` : `Find gifts that your pet will love.`}
+                            </div>
+                            <div className="main-header-background" />
+                            <div className="main-header-bottom">
+                                <div className="main-header-img-container" onClick={() => searchTopic('cat')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/14003811/pexels-photo-14003811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Gifts for Cats</div>
+                                </div>
+                                <div className="main-header-img-container" onClick={() => searchTopic('dog')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Gifts for Dogs</div>
+                                </div>
+                                <div className="main-header-img-container" onClick={() => searchTopic('birds')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/1418241/pexels-photo-1418241.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Gifts for Birds</div>
+                                </div>
+                                <div className="main-header-img-container" onClick={() => searchTopic('toys')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/6864016/pexels-photo-6864016.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Pet Toys</div>
+                                </div>
+                                <div className="main-header-img-container" onClick={() => searchTopic('bed')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/7282664/pexels-photo-7282664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Pet Beds</div>
+                                </div>
+                                <div className="main-header-img-container" onClick={() => searchTopic('treat')}>
+                                    <img
+                                        src='https://images.pexels.com/photos/978947/pexels-photo-978947.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+                                        alt='item'
+                                        className="main-header-img"
+                                        onError={e => {
+                                          e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                          e.onerror = null
+                                        }}
+                                    />
+                                    <div>Treats for Pets</div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* {Object.values(products).length > 0 && (
+                            <div className="main-spotlight-tiles">
+                                <div className="main-spotlight-tiles-col">
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 1).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-big"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 1).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 2).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-small"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 2).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                                <div className="main-spotlight-tiles-col">
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 3).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-small"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 3).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 4).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-big"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 4).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                                <div className="main-spotlight-tiles-col">
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 5).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-big"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 5).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 6).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-small"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 6).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                                <div className="main-spotlight-tiles-col">
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 7).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-small"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 7).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                    <div className="main-spotlight-tiles-container">
+                                        <img
+                                            src={products[(Object.values(products).length - 8).toString()].previewImageURL}
+                                            alt='item'
+                                            className="main-spotlight-img-big"
+                                            onError={e => {
+                                            e.target.src = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+                                            e.onerror = null
+                                            }}
+                                        />
+                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 8).toString()].price.toFixed(2)}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        )} */}
+                    </div>
+                )
+            }
             {isLoaded && (Object.entries(products).length > 1 &&
                 <ul id="products-container-products-container">
                     {

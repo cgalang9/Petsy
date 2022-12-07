@@ -58,7 +58,7 @@
   align-items: center;
 }
 
-.products-container-dots-before, 
+.products-container-dots-before,
 .products-container-dots-after {
   align-self: flex-end;
   user-select: none
@@ -78,4 +78,114 @@
 
 .products-container-no-results > h1 > * {
   vertical-align: middle;
+}
+
+/* header */
+.main-header-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-header,
+.main-header-img-container  {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-header {
+  position: relative;
+  width: 100%;
+}
+
+.main-header-background {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 100%;
+  background-color: rgba(255, 221, 169, 0.674);
+  height: 190px;
+
+}
+
+.main-header-title {
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 35px;
+  font-size: 32px;
+  font-family: 'Lora', serif;
+}
+
+.main-header-bottom {
+  display: flex;
+  gap: 55px;
+}
+
+.main-header-img-container {
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+
+}
+
+.main-header-img-container:hover {
+  border-bottom: 2px solid black;
+}
+
+.main-spotlight-tiles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 50px 0 100px 0;
+}
+
+.main-header-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.main-header-img-container > div {
+  font-size: 16px;
+  padding: 20px 0 5px 0;
+}
+
+.main-spotlight-img-small {
+  height: 200px;
+  width: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.main-spotlight-img-big {
+  height: 300px;
+  width: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+.main-spotlight-tiles-col {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.main-spotlight-tiles-container {
+  position: relative;
+}
+
+.main-spotlight-price {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  background-color: white;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 30px;
+  border: 1px solid gray;
 }

@@ -56,12 +56,10 @@ const ShoppingCart = () => {
       // setCheckoutRes(
       //   "Your order has been placed, thanks for shopping at Petsy!"
       // );
-      // console.log("res", res);
-      // console.log("it worked");
       await emptyCart();
       history.push("/your-orders");
     } else {
-      // console.log(res);
+      console.log(res);
     }
   };
 
