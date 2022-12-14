@@ -101,7 +101,7 @@ export default function ProductsContainer({ isSearch }) {
     return (
         <>
             {
-                !isSearch && (
+                !isSearch && isLoaded && (
                     <div className="main-header-container">
                         <div className="main-header">
                             <div className="main-header-title">
@@ -301,6 +301,9 @@ export default function ProductsContainer({ isSearch }) {
                         )}
                     </div>
                 )
+            }
+            {
+                !isSearch && isLoaded && <div className="all_prods_h1"><h1>All Products</h1></div>
             }
             {isLoaded && (Object.entries(products).length > 1 &&
                 <ul id="products-container-products-container">

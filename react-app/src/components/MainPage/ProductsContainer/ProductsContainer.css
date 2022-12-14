@@ -81,7 +81,8 @@
 }
 
 /* header */
-.main-header-container {
+.main-header-container,
+.all_prods_h1 {
   width: 100%;
   display: flex;
   flex-direction: column;
