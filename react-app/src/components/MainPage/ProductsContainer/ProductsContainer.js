@@ -82,6 +82,20 @@ export default function ProductsContainer({ isSearch }) {
         history.push(`/search?q=${formattedTopic}`)
     }
 
+    const [randKeys, setRandKeys] = useState([])
+
+    useEffect(() => {
+        if(Object.keys(products).length >= 8) {
+            const randomNums = new Set()
+            while(randomNums.size < 8) {
+                let num = Math.floor(Math.random() * Object.keys(products).length)
+                if (num === 0) num = 1
+                randomNums.add(num)
+            }
+            setRandKeys(Array.from(randomNums))
+        }
+
+    },[products])
 
 
     return (
@@ -169,12 +183,12 @@ export default function ProductsContainer({ isSearch }) {
                                 </div>
                             </div>
                         </div>
-                        {/* {Object.values(products).length > 0 && (
+                        {randKeys.length >= 8 && (
                             <div className="main-spotlight-tiles">
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 1).toString()].previewImageURL}
+                                            src={products[randKeys[0].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -182,11 +196,11 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 1).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[0].toString()].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 2).toString()].previewImageURL}
+                                            src={products[randKeys[1].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -194,13 +208,13 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 2).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[1].toString()].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 3).toString()].previewImageURL}
+                                            src={products[randKeys[2].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -208,11 +222,11 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 3).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[2]].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 4).toString()].previewImageURL}
+                                            src={products[randKeys[3].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -220,13 +234,13 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 4).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[3].toString()].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 5).toString()].previewImageURL}
+                                            src={products[randKeys[4].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -234,11 +248,11 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 5).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[4].toString()].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 6).toString()].previewImageURL}
+                                            src={products[randKeys[5].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -246,13 +260,13 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 6).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[5].toString()].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 7).toString()].previewImageURL}
+                                            src={products[randKeys[6].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -260,11 +274,11 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 7).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[6].toString()].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[(Object.values(products).length - 8).toString()].previewImageURL}
+                                            src={products[randKeys[7].toString()].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -272,11 +286,11 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[(Object.values(products).length - 8).toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[7].toString()].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                             </div>
-                        )} */}
+                        )}
                     </div>
                 )
             }
