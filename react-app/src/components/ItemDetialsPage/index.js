@@ -174,6 +174,10 @@ function ItemDetailsPage() {
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  },[item])
+
   return (
     <div id='items-details-page-oustside-container'>
       {isLoaded && (
@@ -351,7 +355,7 @@ function ItemDetailsPage() {
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
                     style={customStyles}>
-                    <ReviewImageModal modalStr={modalStr.current} />
+                    <ReviewImageModal modalStr={modalStr.current} closeModal={() => setIsOpen(false)}/>
                   </Modal>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getOneReviewThunk } from '../../store/modalReview'
 import { useHistory } from 'react-router-dom';
 
-function ReviewImageModal({ modalStr }) {
+function ReviewImageModal({ modalStr, closeModal }) {
     const dispatch = useDispatch();
     const history = useHistory()
 
@@ -23,7 +23,7 @@ function ReviewImageModal({ modalStr }) {
 
     const redirect = () => {
         history.push(`/items/${review.product_id}`)
-        history.go(0) //refreshes page, modal will stay open otherwise
+        closeModal()
     }
 
     return (
