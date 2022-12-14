@@ -90,7 +90,7 @@ export default function ProductsContainer({ isSearch }) {
             while(randomNums.size < 8) {
                 let num = Math.floor(Math.random() * Object.keys(products).length)
                 if (num === 0) num = 1
-                randomNums.add(num)
+                randomNums.add(num.toString())
             }
             setRandKeys(Array.from(randomNums))
         }
@@ -186,9 +186,10 @@ export default function ProductsContainer({ isSearch }) {
                         {randKeys.length >= 8 && (
                             <div className="main-spotlight-tiles">
                                 <div className="main-spotlight-tiles-col">
-                                    <div className="main-spotlight-tiles-container">
+                                    <div className="main-spotlight-tiles-container" >
                                         <img
-                                            src={products[randKeys[0].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[0]}`)}
+                                            src={products[randKeys[0]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -196,11 +197,12 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[0].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[0]].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[1].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[1]}`)}
+                                            src={products[randKeys[1]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -208,13 +210,14 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[1].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[1]].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[2].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[2]}`)}
+                                            src={products[randKeys[2]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -226,7 +229,8 @@ export default function ProductsContainer({ isSearch }) {
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[3].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[3]}`)}
+                                            src={products[randKeys[3]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -234,13 +238,14 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[3].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[3]].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[4].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[4]}`)}
+                                            src={products[randKeys[4]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -248,11 +253,12 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[4].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[4]].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[5].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[5]}`)}
+                                            src={products[randKeys[5]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -260,13 +266,14 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[5].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[5]].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                                 <div className="main-spotlight-tiles-col">
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[6].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[6]}`)}
+                                            src={products[randKeys[6]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-small"
                                             onError={e => {
@@ -274,11 +281,12 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[6].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[6]].price.toFixed(2)}</div>
                                     </div>
                                     <div className="main-spotlight-tiles-container">
                                         <img
-                                            src={products[randKeys[7].toString()].previewImageURL}
+                                            onClick={() => history.push(`/items/${randKeys[7]}`)}
+                                            src={products[randKeys[7]].previewImageURL}
                                             alt='item'
                                             className="main-spotlight-img-big"
                                             onError={e => {
@@ -286,7 +294,7 @@ export default function ProductsContainer({ isSearch }) {
                                             e.onerror = null
                                             }}
                                         />
-                                        <div className="main-spotlight-price">${products[randKeys[7].toString()].price.toFixed(2)}</div>
+                                        <div className="main-spotlight-price">${products[randKeys[7]].price.toFixed(2)}</div>
                                     </div>
                                 </div>
                             </div>
