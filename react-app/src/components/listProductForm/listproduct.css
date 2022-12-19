@@ -33,6 +33,24 @@
   cursor: pointer;
 }
 
+.upload_img {
+  width: 100%;
+  background-color: black;
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.upload_prog {
+  align-self: center;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
 .list-product-form-wrapper > form > button:hover {
   opacity: 0.8;
 }

@@ -91,7 +91,6 @@ const ListProductForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!urls) return alert("Image required. Please upload an image");
     if (imgsUploaded === "Error")
       return alert(
         "There was an error uploading your image. Please upload again."
@@ -101,6 +100,7 @@ const ListProductForm = () => {
         "Please wait for images to finish uploading before submitting"
       );
 
+    if (!urls) return alert("Image required. Please upload an image");
     if (errors.length) {
       setSubmitted(true);
       return;
@@ -161,7 +161,7 @@ const ListProductForm = () => {
             maxLength={2000}
           />
         </div>
-        <div>
+        <div style={{ display: "flex" }}>
           <label>Upload Images</label>
           <input
             id="input_file"
