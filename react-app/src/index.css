@@ -1,7 +1,8 @@
 /* TODO Add site wide styles */
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Work Sans', sans-serif;
 }
+
 
 .about-links-footer {
     display: flex;
@@ -11,7 +12,7 @@ body {
     margin-left: auto;
     text-align: center;
     font-size: 10px;
-    background-color: rgba(250, 176, 65, 0.822);
+    background-color: rgba(230, 163, 61, 0.822);
     width: 100%;
     padding: 30px;
     margin-bottom: -100px; /* removes empty gap on bottom of footer */
@@ -20,20 +21,29 @@ body {
     bottom: 0;
 }
 
-.about-links-footer>div>a,
 .about-links-github-icon {
     color: white;
+    font-size: 30px;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 5px;
 }
 
-.about-links-github-icon>a {
-    font-size: 35px;
-    margin-left: auto;
+.about-links-creator-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-left: 1px solid white;
+    padding: 10px 15px;
+    font-weight: 700;
 }
+
 
 .about-links-creators {
     display: flex;
     align-items: center;
-    font-size: 12px;
+    font-size: 19px;
     background-color: rgb(230, 160, 55);
     padding-left: 20px;
     padding-right: 20px;
