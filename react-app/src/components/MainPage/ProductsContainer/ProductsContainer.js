@@ -24,7 +24,6 @@ export default function ProductsContainer({ isSearch }) {
   const [postfix, setPostfix] = useState(false);
   const [query, setQuery] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
-  const [randKeys, setRandKeys] = useState([]);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -78,37 +77,22 @@ export default function ProductsContainer({ isSearch }) {
         }
       }
       setQuery(query);
-      setRandKeys([])
     }
 
     dispatch(getProducts(query)).then(() => {
-        setIsLoaded(true)
+      setIsLoaded(true);
     });
   }, [location, numResults]);
 
   const searchTopic = (topic) => {
-    setIsLoaded(false)
+    setIsLoaded(false);
     const formattedTopic = topic.replaceAll(" ", "+");
     history.push(`/search?q=${formattedTopic}`);
   };
 
-
-  useEffect(() => {
-    if (Object.keys(products).length >= 8) {
-      const randomNums = new Set();
-      while (randomNums.size < 8) {
-        let num = Math.floor(Math.random() * Object.keys(products).length);
-        if (Object.keys(products)[num] !== 'numResults') randomNums.add(Object.keys(products)[num])
-      }
-      setRandKeys(Array.from(randomNums));
-    }
-  }, [products]);
-
-  console.log(randKeys);
-
   return (
     <>
-      {!isSearch && isLoaded && randKeys.length>0 && (
+      {!isSearch && isLoaded && (
         <div className="main-header-container">
           <div className="main-header">
             <div className="main-header-title">
@@ -216,151 +200,6 @@ export default function ProductsContainer({ isSearch }) {
               </div>
             </div>
           </div>
-          {randKeys.length >= 8 && (
-            <div className="main-spotlight-tiles">
-              <div className="main-spotlight-tiles-col">
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[0]}`)}
-                    src={products[randKeys[0]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-big"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[0]].price.toFixed(2)}
-                  </div>
-                </div>
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[1]}`)}
-                    src={products[randKeys[1]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-small"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[1]].price.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-              <div className="main-spotlight-tiles-col">
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[2]}`)}
-                    src={products[randKeys[2]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-small"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[2]].price.toFixed(2)}
-                  </div>
-                </div>
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[3]}`)}
-                    src={products[randKeys[3]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-big"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[3]].price.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-              <div className="main-spotlight-tiles-col">
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[4]}`)}
-                    src={products[randKeys[4]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-big"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[4]].price.toFixed(2)}
-                  </div>
-                </div>
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[5]}`)}
-                    src={products[randKeys[5]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-small"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[5]].price.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-              <div className="main-spotlight-tiles-col">
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[6]}`)}
-                    src={products[randKeys[6]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-small"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[6]].price.toFixed(2)}
-                  </div>
-                </div>
-                <div className="main-spotlight-tiles-container">
-                  <img
-                    onClick={() => history.push(`/items/${randKeys[7]}`)}
-                    src={products[randKeys[7]].previewImageURL}
-                    alt="item"
-                    className="main-spotlight-img-big"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930";
-                      e.onerror = null;
-                    }}
-                  />
-                  <div className="main-spotlight-price">
-                    ${products[randKeys[7]].price.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-      {!isSearch && isLoaded && (
-        <div className="all_prods_h1">
-          <h1>All Products</h1>
         </div>
       )}
       {isLoaded &&
@@ -417,53 +256,82 @@ export default function ProductsContainer({ isSearch }) {
             <div style={{ marginRight: 10 }}>Created by </div>
             <div className="about-links-creator-container">
               <span>Carmelino Galang</span>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/cgalang9">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/cgalang9"
+              >
                 <div className="about-links-github-icon">
-                <i className="fa-brands fa-github" />
+                  <i className="fa-brands fa-github" />
                 </div>
               </a>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/carmelino-galang-53369a205/">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.linkedin.com/in/carmelino-galang-53369a205/"
+              >
                 <div className="about-links-github-icon">
-                <i class="fab fa-linkedin-in" />
+                  <i class="fab fa-linkedin-in" />
                 </div>
               </a>
             </div>
             <div className="about-links-creator-container">
               <span>Jason Premo</span>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/jhpremo">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/jhpremo"
+              >
                 <div className="about-links-github-icon">
-                <i className="fa-brands fa-github" />
+                  <i className="fa-brands fa-github" />
                 </div>
               </a>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/jhpremo/">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.linkedin.com/in/jhpremo/"
+              >
                 <div className="about-links-github-icon">
-                <i class="fab fa-linkedin-in" />
+                  <i class="fab fa-linkedin-in" />
                 </div>
               </a>
             </div>
             <div className="about-links-creator-container">
               <span>Jwad Aziz</span>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/jwad96">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/jwad96"
+              >
                 <div className="about-links-github-icon">
-                <i className="fa-brands fa-github" />
+                  <i className="fa-brands fa-github" />
                 </div>
               </a>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/jwad-aziz/">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.linkedin.com/in/jwad-aziz/"
+              >
                 <div className="about-links-github-icon">
-                <i class="fab fa-linkedin-in" />
+                  <i class="fab fa-linkedin-in" />
                 </div>
               </a>
             </div>
             <div className="about-links-creator-container">
               <span>Sean Kennedy</span>
-              <a target="_blank" rel="noopener noreferrer" href="https://github.com/DevSPK">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/DevSPK"
+              >
                 <div className="about-links-github-icon">
-                <i className="fa-brands fa-github" />
+                  <i className="fa-brands fa-github" />
                 </div>
               </a>
             </div>
           </div>
-        </h6>)}
+        </h6>
+      )}
     </>
   );
 }
