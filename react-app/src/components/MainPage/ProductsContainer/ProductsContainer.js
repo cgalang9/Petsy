@@ -23,7 +23,7 @@ export default function ProductsContainer({ isSearch }) {
   const [prefix, setPrefix] = useState(false);
   const [postfix, setPostfix] = useState(false);
   const [query, setQuery] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
   const [showNoRes, setShowNoRes] = useState(false);
 
   const dispatch = useDispatch();
@@ -37,7 +37,8 @@ export default function ProductsContainer({ isSearch }) {
   }, [page, pageNums]);
 
   useEffect(() => {
-    setIsLoaded(false);
+    setIsLoaded(true);
+    setShowNoRes(false);
     const query = {};
     const acceptedParams = new Set([
       "q",
@@ -83,13 +84,13 @@ export default function ProductsContainer({ isSearch }) {
     dispatch(getProducts(query)).then(() => {
       setShowNoRes(true);
     });
-    setIsLoaded(true);
   }, [location, numResults]);
 
   useEffect(() => {
     const noRes = document.querySelector(".products-container-no-results");
-    if (noRes && !showNoRes) noRes.classList.remove("hide");
-    if (noRes && showNoRes) noRes.classList.add("hide");
+    if (noRes && !showNoRes) noRes.classList.add("hide");
+    if (noRes && showNoRes) noRes.classList.remove("hide");
+    console.log(noRes);
   }, [showNoRes]);
 
   const searchTopic = (topic) => {
