@@ -90,7 +90,6 @@ export default function ProductsContainer({ isSearch }) {
     const noRes = document.querySelector(".products-container-no-results");
     if (noRes && !showNoRes) noRes.classList.add("hide");
     if (noRes && showNoRes) noRes.classList.remove("hide");
-    console.log(noRes);
   }, [showNoRes]);
 
   const searchTopic = (topic) => {
