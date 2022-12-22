@@ -24,6 +24,7 @@ export default function ProductsContainer({ isSearch }) {
   const [postfix, setPostfix] = useState(false);
   const [query, setQuery] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showNoRes, setShowNoRes] = useState(false);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -80,9 +81,16 @@ export default function ProductsContainer({ isSearch }) {
     }
 
     dispatch(getProducts(query)).then(() => {
-      setIsLoaded(true);
+      setShowNoRes(true);
     });
+    setIsLoaded(true);
   }, [location, numResults]);
+
+  useEffect(() => {
+    const noRes = document.querySelector(".products-container-no-results");
+    if (noRes && !showNoRes) noRes.classList.remove("hide");
+    if (noRes && showNoRes) noRes.classList.add("hide");
+  }, [showNoRes]);
 
   const searchTopic = (topic) => {
     setIsLoaded(false);
@@ -92,7 +100,7 @@ export default function ProductsContainer({ isSearch }) {
 
   return (
     <>
-      {!isSearch && isLoaded && (
+      {!isSearch && (
         <div className="main-header-container">
           <div className="main-header">
             <div className="main-header-title">
@@ -212,7 +220,7 @@ export default function ProductsContainer({ isSearch }) {
             })}
           </ul>
         )) || (
-          <div className="products-container-no-results">
+          <div className="products-container-no-results hide">
             <h1>
               <i className="fa-solid fa-bone"></i>
               <span className="products-container-no-results-message">
