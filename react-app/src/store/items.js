@@ -1,46 +1,53 @@
-const GET_PRODUCTS = "items/GET_PRODUCTS"
+const GET_PRODUCTS = "items/GET_PRODUCTS";
 
 const initialState = {};
 
-const populateProducts = (products) => (
-    {
-        type: GET_PRODUCTS,
-        products
-    }
-)
+const populateProducts = (products) => ({
+  type: GET_PRODUCTS,
+  products,
+});
 
 export const getProducts = (queryParams) => async (dispatch) => {
-    let query = []
-    let queryString = ''
+  let query = [];
+  let queryString = "";
 
-    for (let [key, val] of Object.entries(queryParams)) {
-        query.push(`${key}=${val}`)
-    }
+  for (let [key, val] of Object.entries(queryParams)) {
+    query.push(`${key}=${val}`);
+  }
 
-    if (query.length > 0) {
-        queryString += '?' + query.join('&')
-    }
+  if (query.length > 0) {
+    queryString += "?" + query.join("&");
+  }
 
+  const responseBody = await fetch(`/api/items${queryString}`).then((res) =>
+    res.json()
+  );
+  const products = responseBody.items;
+  const numResults = responseBody.numResults;
 
-    const responseBody = await fetch(`/api/items${queryString}`).then(res => res.json())
-    const products = responseBody.items;
-    const numResults = responseBody.numResults;
+  const normalizedProducts = products.reduce((acc, product) => {
+    acc[product.id] = { ...(delete product.id && product) };
+    return acc;
+  }, {});
 
+  normalizedProducts.numResults = numResults;
 
-    const normalizedProducts = products.reduce((acc, product) => {
-        acc[product.id] = {...(delete product.id && product)}
-        return acc
-    }, {})
+  dispatch(populateProducts(normalizedProducts));
+};
 
-    normalizedProducts.numResults = numResults
+const CLEAR_PRODUCTS = "items/CLEAR_PRODUCTS";
 
-    dispatch(populateProducts(normalizedProducts))
-}
+export const clearProducts = (products) => ({
+  type: CLEAR_PRODUCTS,
+});
 
-export default function reducer(state=initialState, action) {
-    if (action.type === GET_PRODUCTS) {
-        return action.products
-    }
+export default function reducer(state = initialState, action) {
+  if (action.type === GET_PRODUCTS) {
+    return action.products;
+  }
+  if (action.type === CLEAR_PRODUCTS) {
+    return {};
+  }
 
-    return state
+  return state;
 }

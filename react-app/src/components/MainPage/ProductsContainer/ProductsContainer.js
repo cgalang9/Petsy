@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, NavLink, useHistory } from "react-router-dom";
-import { getProducts } from "../../../store/items";
+import { getProducts, clearProducts } from "../../../store/items";
 import Product from "../Product/Product";
 import slidingWindowPages from "./utils/slidingWindowPages";
 
@@ -35,6 +35,10 @@ export default function ProductsContainer({ isSearch }) {
     setPrefix(pageDisplayInfo.prefix);
     setPostfix(pageDisplayInfo.postfix);
   }, [page, pageNums]);
+
+  useEffect(() => {
+    dispatch(clearProducts());
+  }, [isSearch]);
 
   useEffect(() => {
     setIsLoaded(true);
