@@ -37,11 +37,7 @@ export default function ProductsContainer({ isSearch }) {
   }, [page, pageNums]);
 
   useEffect(() => {
-    dispatch(clearProducts());
-  }, [isSearch]);
-
-  useEffect(() => {
-    setIsLoaded(true);
+    setIsLoaded(false);
     setShowNoRes(false);
     const query = {};
     const acceptedParams = new Set([
@@ -87,6 +83,7 @@ export default function ProductsContainer({ isSearch }) {
 
     dispatch(getProducts(query)).then(() => {
       setShowNoRes(true);
+      setIsLoaded(true);
     });
   }, [location, numResults]);
 
