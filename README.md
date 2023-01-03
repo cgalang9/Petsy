@@ -2,7 +2,7 @@
 
 Petsy is an e-commerce platform that is inspired by Esty. Petsy makes it easier for venders, creators and small e-commerce businesses to connect with buyers to sell a variety of pet related handcrafted or vintage products related.
 
-[Live Site](https://petsy.onrender.com/)
+[Live Site](https://petsy-aa.onrender.com/)
 
 ## Wiki Link
 
