@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, NavLink, useHistory } from "react-router-dom";
 import { getProducts, clearProducts } from "../../../store/items";
@@ -36,7 +36,7 @@ export default function ProductsContainer({ isSearch }) {
     setPostfix(pageDisplayInfo.postfix);
   }, [page, pageNums]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsLoaded(false);
     setShowNoRes(false);
     const query = {};
